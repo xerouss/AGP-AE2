@@ -18,6 +18,15 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game Files\Game\GameManager.cpp" />
+    <ClCompile Include="Game Files\main.cpp" />
+    <ClCompile Include="Game Files\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game Files\Game\GameManager.h" />
+    <ClInclude Include="Game Files\Window.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4BECED06-4F1E-4A57-A8BA-D128C47BA653}</ProjectGuid>
@@ -123,9 +132,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Source Files\main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
