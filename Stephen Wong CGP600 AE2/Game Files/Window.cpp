@@ -33,7 +33,7 @@ Window::Window(LONG screenWidth, LONG screenHeight, char projectName[100])
 //####################################################################################
 HRESULT Window::InitialiseWindow(HINSTANCE hInstance, int nCmdShow)
 {
-	// Give your app window your own name
+	// Application window name
 	char Name[100] = "Stephen Wong\0";
 
 	// Register class
@@ -46,6 +46,7 @@ HRESULT Window::InitialiseWindow(HINSTANCE hInstance, int nCmdShow)
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszClassName = Name;
 
+	// Check if failed
 	if (!RegisterClassEx(&wcex)) return E_FAIL;
 
 	// Create window
@@ -62,6 +63,7 @@ HRESULT Window::InitialiseWindow(HINSTANCE hInstance, int nCmdShow)
 	if (!m_hWindow)
 		return E_FAIL;
 
+	// Show window
 	ShowWindow(m_hWindow, nCmdShow);
 
 	return S_OK;

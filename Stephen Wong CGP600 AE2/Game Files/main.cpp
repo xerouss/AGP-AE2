@@ -93,13 +93,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//// Main message loop
 	MSG msg = { 0 };
-	int colourChoice = 0;
+
 	while (msg.message != WM_QUIT)
 	{
+		// Check the message
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+			TranslateMessage(&msg); // Translate message
+			DispatchMessage(&msg); // Send to the application window
 		}
 		else
 		{
