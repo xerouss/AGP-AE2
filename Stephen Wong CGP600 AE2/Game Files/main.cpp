@@ -21,6 +21,7 @@ int (WINAPIV * __vsnprintf_s)(char *, size_t, const char*, va_list) = _vsnprintf
 
 #include "Window.h"
 #include "Direct3D.h"
+#include "Game\GameManager.h"
 #pragma endregion
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -64,6 +65,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Create the window
 	Window* pWindow = new Window(startingScreenWidth, startingScreenHeight, "Stephen Wong AE2\0");
 	Direct3D* pDirect3D = new Direct3D;
+	GameManager* pGameManager = new GameManager;
 
 	// Start up the window
 	if (FAILED(pWindow->InitialiseWindow(hInstance, nCmdShow)))
@@ -107,12 +109,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		else
 		{
 			// Render graphics
-			//RenderFrame();
+			// TODO: SAVE THESE FIRST
+			pGameManager->Render(pDirect3D->GetBackBuffer(), pDirect3D->GetSwapChain(),
+				pDirect3D->GetImmediateContext());
 		}
 	}
 
 	// Delete all objects before exiting the game
 	ShutdownD3D();
+
+	delete pGameManager;
+	pGameManager = NULL;
 
 	delete pDirect3D;
 	pDirect3D = NULL;

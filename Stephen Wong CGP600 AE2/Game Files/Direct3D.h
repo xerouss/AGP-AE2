@@ -21,10 +21,19 @@ private:
 	ID3D11Device* m_pD3DDevice = NULL;
 	ID3D11DeviceContext* m_pImmediateContext = NULL;
 	IDXGISwapChain* m_pSwapChain = NULL;
+	ID3D11RenderTargetView* m_pBackBufferRenderTargetView = NULL;
 
 public:
 	//Direct3D();
 	~Direct3D();
 
 	HRESULT InitialiseD3D(HWND hWindow);
+
+#pragma region Get Methods
+
+	ID3D11RenderTargetView* GetBackBuffer(void);
+	IDXGISwapChain* GetSwapChain(void);
+	ID3D11DeviceContext* GetImmediateContext(void);
+
+#pragma endregion
 };

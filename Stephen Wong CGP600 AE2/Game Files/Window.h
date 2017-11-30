@@ -29,5 +29,10 @@ public:
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	//~Window();
 
+#pragma region Get Methods
+
 	HWND GetWindow(void);
+
+#pragma endregion
+
 };

@@ -19,6 +19,7 @@
 //####################################################################################
 Direct3D::~Direct3D()
 {
+	if (m_pBackBufferRenderTargetView) m_pBackBufferRenderTargetView->Release();
 	if (m_pSwapChain) m_pSwapChain->Release();
 	if (m_pImmediateContext) m_pImmediateContext->Release();
 	if (m_pD3DDevice) m_pD3DDevice->Release();
@@ -85,14 +86,12 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 			createDeviceFlags, featureLevels, numFeatureLevels,
 			D3D11_SDK_VERSION, &sd, &m_pSwapChain,
 			&m_pD3DDevice, &m_featureLevel, &m_pImmediateContext);
-		
+
 		if (SUCCEEDED(hr)) break;
 	}
 
 	if (FAILED(hr)) return hr;
 
-	// BACK BUFFER
-	/*
 	// Get pointer to back buffer texture
 	ID3D11Texture2D *pBackBufferTexture;
 	hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
@@ -100,21 +99,24 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 
 	if (FAILED(hr)) return hr;
 
-	
+
 	// Use the back buffer texture pointer to create the render target view
 	hr = m_pD3DDevice->CreateRenderTargetView(pBackBufferTexture, NULL,
-		&g_pBackBufferRTView);
+		&m_pBackBufferRenderTargetView);
 	pBackBufferTexture->Release();
 
 	if (FAILED(hr)) return hr;
 
+	// ZBUFFER
+	/*
 	g_descCount = sd.SampleDesc.Count;
-	hr = CreateZBuffer(g_descCount, (UINT)width, (UINT)height, hr);
+	hr = CreateZBuffer(g_descCount, (UINT)width, (UINT)height, hr);*/
 
 	if (FAILED(hr)) return hr;
 
 	// Set the render target view
-	g_pImmediateContext->OMSetRenderTargets(1, &g_pBackBufferRTView, g_pZBuffer);
+	// ADD ZBUFFER THING TO LAST PARAMATER
+	m_pImmediateContext->OMSetRenderTargets(1, &m_pBackBufferRenderTargetView, NULL); //g_pZBuffer);
 
 	// Set the viewport
 	D3D11_VIEWPORT viewport;
@@ -127,7 +129,7 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 
-	g_pImmediateContext->RSSetViewports(1, &viewport);*/
+	m_pImmediateContext->RSSetViewports(1, &viewport);
 
 	// FOR TEXT
 	/*
@@ -152,3 +154,25 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 
 	return S_OK;
 }
+
+//####################################################################################
+// Methods to get private variables
+//####################################################################################
+#pragma region Get Methods
+
+ID3D11RenderTargetView* Direct3D::GetBackBuffer(void)
+{
+	return m_pBackBufferRenderTargetView;
+}
+
+IDXGISwapChain* Direct3D::GetSwapChain(void)
+{
+	return m_pSwapChain;
+}
+
+ID3D11DeviceContext* Direct3D::GetImmediateContext(void)
+{
+	return m_pImmediateContext;
+}
+
+#pragma endregion
