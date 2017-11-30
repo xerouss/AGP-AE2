@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game Files\Direct3D.cpp" />
     <ClCompile Include="Game Files\Game\GameManager.cpp" />
     <ClCompile Include="Game Files\main.cpp" />
     <ClCompile Include="Game Files\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game Files\Direct3D.h" />
     <ClInclude Include="Game Files\Game\GameManager.h" />
     <ClInclude Include="Game Files\Window.h" />
   </ItemGroup>

@@ -20,6 +20,7 @@
 int (WINAPIV * __vsnprintf_s)(char *, size_t, const char*, va_list) = _vsnprintf;
 
 #include "Window.h"
+#include "Direct3D.h"
 #pragma endregion
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -61,10 +62,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	// Create the window
-	Window* window = new Window(startingScreenWidth, startingScreenHeight, "Stephen Wong AE2\0");
+	Window* pWindow = new Window(startingScreenWidth, startingScreenHeight, "Stephen Wong AE2\0");
+	Direct3D* pDirect3D = new Direct3D;
 
 	// Start up the window
-	if (FAILED(window->InitialiseWindow(hInstance, nCmdShow)))
+	if (FAILED(pWindow->InitialiseWindow(hInstance, nCmdShow)))
 	{
 		DXTRACE_MSG("Failed to create Window");
 		return 0;
@@ -78,11 +80,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}*/
 
 	// Start up D3D
-	//if (FAILED(InitialiseD3D()))
-	//{
-	//	DXTRACE_MSG("Failed to create Device");
-	//	return 0;
-	//}
+	if (FAILED(pDirect3D->InitialiseD3D(pWindow->GetWindow())))
+	{
+		DXTRACE_MSG("Failed to create Device");
+		return 0;
+	}
 
 	//// Start up the graphics
 	//if (FAILED(InitialiseGraphics()))
@@ -112,9 +114,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Delete all objects before exiting the game
 	ShutdownD3D();
 
+	delete pDirect3D;
+	pDirect3D = NULL;
+
 	// Delete the pointer before exiting
-	delete window;
-	window = NULL;
+	delete pWindow;
+	pWindow = NULL;
 
 	return (int)msg.wParam;
 }

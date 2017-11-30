@@ -28,4 +28,6 @@ public:
 	// Got the solution from here: http://www.rastertek.com/dx11s2tut02.html (rastertek, n.d.) Last viewed: 30/11/2017
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	//~Window();
+
+	HWND GetWindow(void);
 };

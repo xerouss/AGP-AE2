@@ -43,7 +43,7 @@ HRESULT Window::InitialiseWindow(HINSTANCE hInstance, int nCmdShow)
 	wcex.lpfnWndProc = WndProc;
 	wcex.hInstance = hInstance;
 	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	//wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszClassName = Name;
 
 	// Check if failed
@@ -93,4 +93,9 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	}
 
 	return 0;
+}
+
+HWND Window::GetWindow(void)
+{
+	return m_hWindow;
 }
