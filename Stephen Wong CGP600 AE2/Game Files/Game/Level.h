@@ -6,3 +6,23 @@
 // *********************************************************
 
 #pragma once
+
+class Level
+{
+private:
+	// TODO: ADD THESE:
+	// Lights
+	// GameObjects
+	// Camera
+	// Particles
+	// Scene Nodes
+
+public:
+	//Level();
+	//~Level();
+
+	void SetUpLevel(void);
+	void Update(void);
+	void Render(void);
+	void PlayerInput(unsigned char pressedKeys[]);
+};

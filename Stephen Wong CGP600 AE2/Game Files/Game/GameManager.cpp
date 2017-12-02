@@ -24,6 +24,19 @@ GameManager::GameManager(ID3D11RenderTargetView* backBuffer, IDXGISwapChain* swa
 	m_pBackBuffer = backBuffer;
 	m_pSwapChain = swapChain;
 	m_pImmediateContext = immediateContext;
+	m_pLevel = new Level; // TODO: MOVE THIS?
+}
+
+//####################################################################################
+// Destructor
+//####################################################################################
+GameManager::~GameManager()
+{
+	if (m_pLevel)
+	{
+		delete m_pLevel;
+		m_pLevel = NULL;
+	}
 }
 
 //####################################################################################

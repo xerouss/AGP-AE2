@@ -10,6 +10,7 @@
 #pragma region Includes
 
 #include <d3d11.h>
+#include "Level.h"
 
 #pragma endregion
 
@@ -20,11 +21,12 @@ private:
 	ID3D11RenderTargetView* m_pBackBuffer;
 	IDXGISwapChain* m_pSwapChain;
 	ID3D11DeviceContext* m_pImmediateContext;
+	Level* m_pLevel;
 
 public:
 	GameManager(ID3D11RenderTargetView* backBuffer, 
 	IDXGISwapChain* swapChain, ID3D11DeviceContext* immediateContext);
-	//~GameManager();
+	~GameManager();
 
 	void InitialiseGraphics(void);
 	void Update(void);
