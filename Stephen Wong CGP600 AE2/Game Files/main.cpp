@@ -28,8 +28,8 @@ int (WINAPIV * __vsnprintf_s)(char *, size_t, const char*, va_list) = _vsnprintf
 // Constants
 //////////////////////////////////////////////////////////////////////////////////////
 #pragma region Constants
-LONG startingScreenWidth = 640;
-LONG startingScreenHeight = 480;
+const LONG startingScreenWidth = 640;
+const LONG startingScreenHeight = 480;
 
 #pragma endregion
 
@@ -126,7 +126,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	delete pDirect3D;
 	pDirect3D = NULL;
 
-	// Delete the pointer before exiting
 	delete pWindow;
 	pWindow = NULL;
 

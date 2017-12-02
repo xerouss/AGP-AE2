@@ -14,10 +14,36 @@
 
 #pragma endregion
 
+
+//####################################################################################
+// Constructor
+//####################################################################################
+GameManager::GameManager(ID3D11RenderTargetView* backBuffer, IDXGISwapChain* swapChain,
+	ID3D11DeviceContext* immediateContext)
+{
+	m_pBackBuffer = backBuffer;
+	m_pSwapChain = swapChain;
+	m_pImmediateContext = immediateContext;
+}
+
+//####################################################################################
+// Set up the graphics
+//####################################################################################
+void GameManager::InitialiseGraphics(void)
+{
+}
+
+//####################################################################################
+// Update any logic
+//####################################################################################
+void GameManager::Update(void)
+{
+}
+
 //####################################################################################
 // Render game objects
 //####################################################################################
-void GameManager::Render()
+void GameManager::Render(void)
 {
 	// TESTING STUFF
 	// Clear the back buffer - choose a colour you like
@@ -28,12 +54,5 @@ void GameManager::Render()
 
 	// Display what has just been rendered
 	m_pSwapChain->Present(0, 0);
-	}
-
-GameManager::GameManager(ID3D11RenderTargetView* backBuffer, IDXGISwapChain* swapChain,
-	ID3D11DeviceContext* immediateContext)
-{
-	m_pBackBuffer = backBuffer;
-	m_pSwapChain = swapChain;
-	m_pImmediateContext = immediateContext;
 }
+

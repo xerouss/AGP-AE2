@@ -26,6 +26,8 @@ public:
 	IDXGISwapChain* swapChain, ID3D11DeviceContext* immediateContext);
 	//~GameManager();
 
-	void Render();
+	void InitialiseGraphics(void);
+	void Update(void);
+	void Render(void);
 };
 
