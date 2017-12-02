@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			main.cpp
-//	Last Updated:	30/11/2017
+//	Last Updated:	02/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -65,7 +65,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Create the window
 	Window* pWindow = new Window(startingScreenWidth, startingScreenHeight, "Stephen Wong AE2\0");
 	Direct3D* pDirect3D = new Direct3D;
-	GameManager* pGameManager = new GameManager;
 
 	// Start up the window
 	if (FAILED(pWindow->InitialiseWindow(hInstance, nCmdShow)))
@@ -95,6 +94,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//	return 0;
 	//}
 
+	// Game Manager initiated here because Direct3D needs to be initialised first
+	GameManager* pGameManager = new GameManager(pDirect3D->GetBackBuffer(),
+		pDirect3D->GetSwapChain(),
+		pDirect3D->GetImmediateContext());
+
 	//// Main message loop
 	MSG msg = { 0 };
 
@@ -109,9 +113,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		else
 		{
 			// Render graphics
-			// TODO: SAVE THESE FIRST
-			pGameManager->Render(pDirect3D->GetBackBuffer(), pDirect3D->GetSwapChain(),
-				pDirect3D->GetImmediateContext());
+			pGameManager->Render();
 		}
 	}
 

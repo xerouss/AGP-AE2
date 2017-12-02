@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			GameManager.h
-//	Last Updated:	30/11/2017
+//	Last Updated:	02/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -16,14 +16,16 @@
 class GameManager
 {
 private:
-	
+	// Don't delete these since they are passed from another class
+	ID3D11RenderTargetView* m_pBackBuffer;
+	IDXGISwapChain* m_pSwapChain;
+	ID3D11DeviceContext* m_pImmediateContext;
 
 public:
-	//GameManager();
+	GameManager(ID3D11RenderTargetView* backBuffer, 
+	IDXGISwapChain* swapChain, ID3D11DeviceContext* immediateContext);
 	//~GameManager();
 
-	// TODO: MAKE THESE ATTRIBUTES
-	void Render(ID3D11RenderTargetView* backBuffer, 
-		IDXGISwapChain* swapChain, ID3D11DeviceContext* immediateContext);
+	void Render();
 };
 
