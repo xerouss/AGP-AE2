@@ -36,6 +36,9 @@
     <ClCompile Include="Game Files\Game\Game Objects\ObjectFileModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game Files\Game\Game Objects\StaticGameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game Files\Game\GameManager.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game Files\Game\Game Objects\ObjectFileModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Files\Game\Game Objects\StaticGameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
