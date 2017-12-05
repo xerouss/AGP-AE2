@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			main.cpp
-//	Last Updated:	02/12/2017
+//	Last Updated:	05/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -95,9 +95,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//}
 
 	// Game Manager initiated here because Direct3D needs to be initialised first
-	GameManager* pGameManager = new GameManager(pDirect3D->GetBackBuffer(),
+	GameManager* pGameManager = new GameManager(pDirect3D->GetD3DDevice(),
+		pDirect3D->GetBackBuffer(),
 		pDirect3D->GetSwapChain(),
 		pDirect3D->GetImmediateContext());
+
+	// Set up the level
+	if (FAILED(pGameManager->InitialiseLevel()))
+	{
+		DXTRACE_MSG("Failed to initialise level");
+		return 0;
+	}
 
 	//// Main message loop
 	MSG msg = { 0 };

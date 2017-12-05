@@ -38,6 +38,7 @@ StaticGameObject::StaticGameObject()
 StaticGameObject::~StaticGameObject()
 {
 	// Delete all pointers in the array
+	// TODO: CHANGE THIS?
 	for (size_t i = 0; i < m_pChildren.size(); i++)
 	{
 		if (m_pChildren[i])
@@ -110,6 +111,7 @@ void StaticGameObject::Update(XMMATRIX *world, XMMATRIX* view, XMMATRIX* project
 	localWorld *= *world;
 
 	// Draw if model is attached
+	// TODO MOVE THIS TO A RENDER METHOD?
 	if (m_pModel) m_pModel->Draw(&localWorld, view, projection);
 
 	// Go through all the child nodes and pass the world matrix

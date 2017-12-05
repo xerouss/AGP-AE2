@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Direct3D.h
-//	Last Updated:	30/11/2017
+//	Last Updated:	05/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -31,6 +31,7 @@ public:
 
 #pragma region Get Methods
 
+	ID3D11Device* GetD3DDevice(void);
 	ID3D11RenderTargetView* GetBackBuffer(void);
 	IDXGISwapChain* GetSwapChain(void);
 	ID3D11DeviceContext* GetImmediateContext(void);

@@ -25,6 +25,8 @@ struct MODEL_CONSTANT_BUFFER
 	XMVECTOR directionalLightColour; // 16
 	XMVECTOR pointLightVector; // 16
 	XMVECTOR pointLightColour; // 16
+
+	// TOTAL: 144 bytes
 };
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +142,7 @@ Model::~Model()
 //####################################################################################
 // Load up the model from a file and start bounding sphere calculations
 //####################################################################################
-int Model::LoadObjModel(char* filename)
+int Model::LoadObjectModel(char* filename)
 {
 	// Load up the object
 	m_pObject = new ObjectFileModel(filename, m_pD3DDevice, m_pImmediateContext);

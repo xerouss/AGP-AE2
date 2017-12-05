@@ -160,6 +160,11 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 //####################################################################################
 #pragma region Get Methods
 
+ID3D11Device* Direct3D::GetD3DDevice(void)
+{
+	return m_pD3DDevice;
+}
+
 ID3D11RenderTargetView* Direct3D::GetBackBuffer(void)
 {
 	return m_pBackBufferRenderTargetView;

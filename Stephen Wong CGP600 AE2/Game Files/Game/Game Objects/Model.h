@@ -50,7 +50,7 @@ private:
 public:
 	Model(ID3D11Device* device, ID3D11DeviceContext* immediateContext);
 	~Model();
-	int LoadObjModel(char* filename);
+	int LoadObjectModel(char* filename);
 	HRESULT CreateVertexShader(char* shaderFileName, char* vertexShaderFunctionName);
 	HRESULT CreatePixelShader(char* shaderFileName, char* pixelShaderFunctionName);
 	HRESULT CreateInputLayout(ID3DBlob *vertexShader);

@@ -7,6 +7,14 @@
 
 #pragma once
 
+#pragma region Includes
+
+#include "Game Objects\Model.h"
+#include "Game Objects\StaticGameObject.h"
+
+#pragma endregion
+
+
 class Level
 {
 private:
@@ -17,11 +25,20 @@ private:
 	// Particles
 	// Scene Nodes
 
-public:
-	//Level();
-	//~Level();
+	// Need the device and context for the models
+	ID3D11Device* m_pD3DDevice;
+	ID3D11DeviceContext* m_pImmediateContext;
 
-	void SetUpLevel(void);
+
+	Model* m_pWallModel;
+	StaticGameObject* m_pRootWallGameObject;
+	StaticGameObject* m_pWall1GameObject;
+
+public:
+	Level(ID3D11Device* device, ID3D11DeviceContext* immediateContext);
+	~Level();
+
+	HRESULT SetUpLevel(void);
 	void Update(void);
 	void Render(void);
 	void PlayerInput(unsigned char pressedKeys[]);
