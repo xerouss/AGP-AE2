@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game Files\Direct3D.cpp" />
+    <ClCompile Include="Game Files\Game\Game Objects\Model.cpp" />
+    <ClCompile Include="Game Files\Game\Game Objects\ObjectFileModel.cpp" />
     <ClCompile Include="Game Files\Game\GameManager.cpp" />
     <ClCompile Include="Game Files\Game\Level.cpp" />
     <ClCompile Include="Game Files\main.cpp" />
@@ -27,6 +29,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game Files\Direct3D.h" />
+    <ClInclude Include="Game Files\Game\Game Objects\Model.h" />
+    <ClInclude Include="Game Files\Game\Game Objects\ObjectFileModel.h" />
     <ClInclude Include="Game Files\Game\GameManager.h" />
     <ClInclude Include="Game Files\Game\Level.h" />
     <ClInclude Include="Game Files\Window.h" />
