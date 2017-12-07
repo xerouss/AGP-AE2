@@ -39,6 +39,9 @@
     <ClCompile Include="Game Files\Game\Game Objects\StaticGameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game Files\Game\Game Objects\DynamicGameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game Files\Game\GameManager.h">
@@ -62,5 +65,13 @@
     <ClInclude Include="Game Files\Game\Game Objects\StaticGameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game Files\Game\Game Objects\DynamicGameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Game Files\Game\Shaders\ModelShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

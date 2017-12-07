@@ -27,6 +27,7 @@ private:
 	Model* m_pModel;
 	vector<StaticGameObject*> m_pChildren;
 
+protected:
 #pragma region Position attributes
 
 	float m_xPos;

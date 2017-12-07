@@ -120,6 +120,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		else
 		{
+			// Update objects
+			pGameManager->Update();
+
 			// Render graphics
 			pGameManager->Render();
 		}

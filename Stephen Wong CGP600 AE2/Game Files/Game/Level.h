@@ -11,6 +11,7 @@
 
 #include "Game Objects\Model.h"
 #include "Game Objects\StaticGameObject.h"
+#include "Game Objects\DynamicGameObject.h"
 
 #pragma endregion
 
@@ -32,7 +33,7 @@ private:
 
 	Model* m_pWallModel;
 	StaticGameObject* m_pRootWallGameObject;
-	StaticGameObject* m_pWall1GameObject;
+	DynamicGameObject* m_pWall1GameObject;
 
 public:
 	Level(ID3D11Device* device, ID3D11DeviceContext* immediateContext);

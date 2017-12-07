@@ -34,6 +34,7 @@ Level::~Level()
 		m_pWallModel = NULL;
 	}
 
+	// Only delete the root node since the nodes attached to it will be deleted
 	if (m_pRootWallGameObject)
 	{
 		delete m_pRootWallGameObject;
@@ -81,7 +82,7 @@ HRESULT Level::SetUpLevel(void)
 
 	// Create the game objects
 	m_pRootWallGameObject = new StaticGameObject();
-	m_pWall1GameObject = new StaticGameObject();
+	m_pWall1GameObject = new DynamicGameObject();
 
 	// Set the children, models and positions
 	m_pRootWallGameObject->AddChildNode(m_pWall1GameObject);
@@ -96,6 +97,8 @@ HRESULT Level::SetUpLevel(void)
 //####################################################################################
 void Level::Update(void)
 {
+
+	m_pWall1GameObject->IncrementZPos(0.001f, m_pRootWallGameObject);
 }
 
 //####################################################################################

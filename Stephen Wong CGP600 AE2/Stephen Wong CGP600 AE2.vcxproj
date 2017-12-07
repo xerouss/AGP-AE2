@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game Files\Direct3D.cpp" />
+    <ClCompile Include="Game Files\Game\Game Objects\DynamicGameObject.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\Model.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\ObjectFileModel.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\StaticGameObject.cpp" />
@@ -30,12 +31,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game Files\Direct3D.h" />
+    <ClInclude Include="Game Files\Game\Game Objects\DynamicGameObject.h" />
     <ClInclude Include="Game Files\Game\Game Objects\Model.h" />
     <ClInclude Include="Game Files\Game\Game Objects\ObjectFileModel.h" />
     <ClInclude Include="Game Files\Game\Game Objects\StaticGameObject.h" />
     <ClInclude Include="Game Files\Game\GameManager.h" />
     <ClInclude Include="Game Files\Game\Level.h" />
     <ClInclude Include="Game Files\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Game Files\Game\Shaders\ModelShader.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
