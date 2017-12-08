@@ -15,7 +15,7 @@
 #pragma endregion
 
 const float defaultDeltaPos = 0;
-const float radianToDegrees = 0.01745329251f;
+//const float radianToDegrees = 0.01745329251f;
 
 //####################################################################################
 // Constructors
@@ -49,9 +49,9 @@ Camera::Camera(float xPos, float yPos, float zPos, float xAngle, float yAngle, f
 
 void Camera::SetDefaultProperties()
 {
-	m_deltaXPos = (float)sin(0 * radianToDegrees);
-	m_deltaYPos = (float)tan(0 * radianToDegrees);
-	m_deltaZPos = (float)cos(0 * radianToDegrees);
+	m_deltaXPos = (float)sin(0);
+	m_deltaYPos = (float)tan(0);
+	m_deltaZPos = (float)cos(0);
 }
 
 void Camera::MoveForward(float distance)
@@ -72,7 +72,7 @@ bool Camera::IncrementXAngle(float increaseAmount, StaticGameObject * rootNode)
 
 	if (collision) return true;
 
-	m_deltaXPos = (float)sin(m_xAngle * radianToDegrees);
+	m_deltaXPos = (float)sin(m_xAngle);
 	return false;
 }
 
@@ -82,7 +82,7 @@ bool Camera::IncrementYAngle(float increaseAmount, StaticGameObject * rootNode)
 
 	if (collision) return true;
 
-	m_deltaYPos = (float)sin(m_xAngle * radianToDegrees);
+	m_deltaYPos = (float)sin(m_yAngle);
 	return false;
 }
 
@@ -92,7 +92,7 @@ bool Camera::IncrementZAngle(float increaseAmount, StaticGameObject * rootNode)
 
 	if (collision) return true;
 
-	m_deltaZPos = (float)sin(m_xAngle * radianToDegrees);
+	m_deltaZPos = (float)sin(m_zAngle);
 	return false;
 }
 

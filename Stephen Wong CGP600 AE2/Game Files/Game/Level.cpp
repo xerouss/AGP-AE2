@@ -90,7 +90,7 @@ HRESULT Level::SetUpLevel(void)
 
 	// Create the game objects
 	m_pRootWallGameObject = new StaticGameObject();
-	m_pWall1GameObject = new DynamicGameObject(0, 0, 10);
+	m_pWall1GameObject = new DynamicGameObject(0, 0, 1);
 
 	// Set the children, models and positions
 	m_pRootWallGameObject->AddChildNode(m_pWall1GameObject);
