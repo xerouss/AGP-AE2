@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			StaticGameObject.h
-//	Last Updated:	05/12/2017
+//	Last Updated:	07/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -13,12 +13,22 @@
 
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include <DirectXPackedVector.h>
 #include "Model.h"
 
 using namespace DirectX;
+using namespace DirectX::PackedVector;
 
 
 #pragma endregion
+
+#pragma region Constants
+const float defaultScale = 1.0f;
+const float defaultAxisPos = 0.0f;
+const float defaultAxisRotation = 0.0f;
+#pragma endregion
+
+
 
 
 class StaticGameObject
@@ -56,7 +66,11 @@ protected:
 	
 public:
 	StaticGameObject();
-	~StaticGameObject();
+	StaticGameObject(float xPos, float yPos, float zPos);
+	StaticGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
+	StaticGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
+	void SetDefaultProperties(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
+	virtual ~StaticGameObject();
 
 	void AddChildNode(StaticGameObject *node);
 	bool DetachNode(StaticGameObject *node);

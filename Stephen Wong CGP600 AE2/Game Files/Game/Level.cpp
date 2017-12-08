@@ -28,6 +28,12 @@ Level::Level(ID3D11Device *device, ID3D11DeviceContext *immediateContext)
 //####################################################################################
 Level::~Level()
 {
+	if (m_pCamera)
+	{
+		delete m_pCamera;
+		m_pCamera = NULL;
+	}
+
 	if (m_pWallModel)
 	{
 		delete m_pWallModel;
@@ -48,6 +54,8 @@ Level::~Level()
 HRESULT Level::SetUpLevel(void)
 {
 	HRESULT hr = S_OK;
+
+	m_pCamera = new Camera(0.0f, 0.0f, -0.5f);
 
 	// Create the model and load it from the assets folder
 	m_pWallModel = new Model(m_pD3DDevice, m_pImmediateContext);
@@ -82,12 +90,13 @@ HRESULT Level::SetUpLevel(void)
 
 	// Create the game objects
 	m_pRootWallGameObject = new StaticGameObject();
-	m_pWall1GameObject = new DynamicGameObject();
+	m_pWall1GameObject = new DynamicGameObject(0, 0, 10);
 
 	// Set the children, models and positions
 	m_pRootWallGameObject->AddChildNode(m_pWall1GameObject);
 	m_pWall1GameObject->SetModel(m_pWallModel);
-	m_pWall1GameObject->SetZPos(10);
+	//m_pRootWallGameObject->AddChildNode(m_pCamera);
+	//m_pWall1GameObject->SetZPos(10);
 
 	return hr; // Should return S_OK if nothing fails
 }
@@ -97,7 +106,7 @@ HRESULT Level::SetUpLevel(void)
 //####################################################################################
 void Level::Update(void)
 {
-
+	//m_pCamera->IncrementYAngle(0.001f, m_pRootWallGameObject);
 	m_pWall1GameObject->IncrementZPos(0.001f, m_pRootWallGameObject);
 }
 
@@ -114,9 +123,11 @@ void Level::Render(void)
 	// Depending on the z position it will either move it closer or further away
 	world = XMMatrixRotationRollPitchYaw(0, 0, 0);
 	world *= XMMatrixTranslation(0, 0, 0); // World transformation
+	
+	// TODO: CHANGE THIS
 	// Change the width and height so its dynamic
 	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0), 640 / 480, 1.0, 100.0); // Projection transformation
-	view = XMMatrixIdentity(); // Change this to camera 
+	view = m_pCamera->GetViewMatrix(); // Change this to camera 
 
 	m_pRootWallGameObject->Update(&world, &projection, &view);
 }

@@ -71,6 +71,7 @@ void GameManager::Render(void)
 	// Clear the back buffer - choose a colour you like
 	float rgba_clear_colour[4] = { 0.1f, 1.0f, 0.1f, 1.0f };
 	m_pImmediateContext->ClearRenderTargetView(m_pBackBuffer, rgba_clear_colour);
+
 	m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// RENDER HERE

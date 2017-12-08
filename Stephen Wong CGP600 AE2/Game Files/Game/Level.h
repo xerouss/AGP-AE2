@@ -12,6 +12,7 @@
 #include "Game Objects\Model.h"
 #include "Game Objects\StaticGameObject.h"
 #include "Game Objects\DynamicGameObject.h"
+#include "Game Objects\Camera.h"
 
 #pragma endregion
 
@@ -30,7 +31,7 @@ private:
 	ID3D11Device* m_pD3DDevice;
 	ID3D11DeviceContext* m_pImmediateContext;
 
-
+	Camera* m_pCamera;
 	Model* m_pWallModel;
 	StaticGameObject* m_pRootWallGameObject;
 	DynamicGameObject* m_pWall1GameObject;

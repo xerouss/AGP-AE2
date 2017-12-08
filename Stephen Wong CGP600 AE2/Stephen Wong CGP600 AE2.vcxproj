@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game Files\Direct3D.cpp" />
+    <ClCompile Include="Game Files\Game\Game Objects\Camera.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\DynamicGameObject.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\Model.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\ObjectFileModel.cpp" />
@@ -31,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game Files\Direct3D.h" />
+    <ClInclude Include="Game Files\Game\Game Objects\Camera.h" />
     <ClInclude Include="Game Files\Game\Game Objects\DynamicGameObject.h" />
     <ClInclude Include="Game Files\Game\Game Objects\Model.h" />
     <ClInclude Include="Game Files\Game\Game Objects\ObjectFileModel.h" />

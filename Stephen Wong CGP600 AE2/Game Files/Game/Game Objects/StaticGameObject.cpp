@@ -15,21 +15,46 @@
 #pragma endregion
 
 //####################################################################################
-// Constructor
+// Constructors
 //####################################################################################
 StaticGameObject::StaticGameObject()
 {
+	SetDefaultProperties(defaultAxisPos, defaultAxisPos, defaultAxisPos,
+		defaultAxisRotation, defaultAxisRotation, defaultAxisRotation, defaultScale);
+}
+
+StaticGameObject::StaticGameObject(float xPos, float yPos, float zPos)
+{
+	SetDefaultProperties(xPos, yPos, zPos,
+		defaultAxisRotation, defaultAxisRotation, defaultAxisRotation, defaultScale);
+}
+
+StaticGameObject::StaticGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle)
+{
+	SetDefaultProperties(xPos, yPos, zPos, xAngle, yAngle, zAngle, defaultScale);
+}
+
+StaticGameObject::StaticGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale)
+{
+	SetDefaultProperties(xPos, yPos, zPos, xAngle, yAngle, zAngle, scale);
+}
+
+//####################################################################################
+// Set the values for the object when the object is created
+//####################################################################################
+void StaticGameObject::SetDefaultProperties(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale)
+{
 	m_pModel = NULL;
 
-	m_xPos = 0.0f;
-	m_yPos = 0.0f;
-	m_zPos = 0.0f;
+	m_xPos = xPos;
+	m_yPos = yPos;
+	m_zPos = zPos;
 
-	m_xAngle = 0.0f;
-	m_yAngle = 0.0f;
-	m_zAngle = 0.0f;
+	m_xAngle = xAngle;
+	m_yAngle = yAngle;
+	m_zAngle = zAngle;
 
-	m_scale = 1.0f;
+	m_scale = scale;
 }
 
 //####################################################################################
@@ -239,12 +264,13 @@ bool StaticGameObject::CheckCollision(StaticGameObject* compareTree, StaticGameO
 //####################################################################################
 // Check collision and carry out the collision effect if there is one
 //####################################################################################
+// TODO: Move to dynamic game object
 bool StaticGameObject::UpdateTransformAndCheckCollision(float oldValue, float &valueChanged, StaticGameObject* rootNode)
 {
 	XMMATRIX identity = XMMatrixIdentity();
 
 	// Update collision tree since the state has been changed
-	rootNode->UpdateCollisionTree(&identity, 1.0f);
+	rootNode->UpdateCollisionTree(&identity, m_scale);
 
 	if (CheckCollision(rootNode) == true)
 	{
