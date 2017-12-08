@@ -15,6 +15,7 @@
 #pragma endregion
 
 const float defaultDeltaPos = 0;
+const float radianToDegrees = 0.01745329251f;
 
 //####################################################################################
 // Constructors
@@ -48,33 +49,52 @@ Camera::Camera(float xPos, float yPos, float zPos, float xAngle, float yAngle, f
 
 void Camera::SetDefaultProperties()
 {
-	m_deltaXPos = (float)sin(0 * (XM_PI / 180));
-	m_deltaYPos = (float)tan(0 * (XM_PI / 180));
-	m_deltaZPos = (float)cos(0 * (XM_PI / 180));
+	m_deltaXPos = (float)sin(0 * radianToDegrees);
+	m_deltaYPos = (float)tan(0 * radianToDegrees);
+	m_deltaZPos = (float)cos(0 * radianToDegrees);
 }
 
-//void Camera::MoveForward(float distance)
-//{
-//}
-//
+void Camera::MoveForward(float distance)
+{
+	m_xPos += distance * m_deltaZPos;
+	m_zPos += distance * m_deltaZPos;
+}
+
 //void Camera::MoveForwardIncludingY(float distance)
 //{
 //}
 //
-//bool Camera::IncrementXAngle(float increaseAmount, StaticGameObject * rootNode)
-//{
-//	return false;
-//}
-//
-//bool Camera::IncrementYAngle(float increaseAmount, StaticGameObject * rootNode)
-//{
-//	return false;
-//}
-//
-//bool Camera::IncrementZAngle(float increaseAmount, StaticGameObject * rootNode)
-//{
-//	return false;
-//}
+
+// TODO: Make these into one method?
+bool Camera::IncrementXAngle(float increaseAmount, StaticGameObject * rootNode)
+{
+	bool collision = DynamicGameObject::IncrementXAngle(increaseAmount, rootNode);
+
+	if (collision) return true;
+
+	m_deltaXPos = (float)sin(m_xAngle * radianToDegrees);
+	return false;
+}
+
+bool Camera::IncrementYAngle(float increaseAmount, StaticGameObject * rootNode)
+{
+	bool collision = DynamicGameObject::IncrementYAngle(increaseAmount, rootNode);
+
+	if (collision) return true;
+
+	m_deltaYPos = (float)sin(m_xAngle * radianToDegrees);
+	return false;
+}
+
+bool Camera::IncrementZAngle(float increaseAmount, StaticGameObject * rootNode)
+{
+	bool collision = DynamicGameObject::IncrementZAngle(increaseAmount, rootNode);
+
+	if (collision) return true;
+
+	m_deltaZPos = (float)sin(m_xAngle * radianToDegrees);
+	return false;
+}
 
 XMMATRIX Camera::GetViewMatrix(void)
 {

@@ -34,12 +34,12 @@ public:
 
 	void SetDefaultProperties(void);
 
-	//void MoveForward(float distance);
+	void MoveForward(float distance);
 	//void MoveForwardIncludingY(float distance);
 
-	//bool IncrementXAngle(float increaseAmount, StaticGameObject* rootNode);
-	//bool IncrementYAngle(float increaseAmount, StaticGameObject* rootNode);
-	//bool IncrementZAngle(float increaseAmount, StaticGameObject* rootNode);
+	bool IncrementXAngle(float increaseAmount, StaticGameObject* rootNode);
+	bool IncrementYAngle(float increaseAmount, StaticGameObject* rootNode);
+	bool IncrementZAngle(float increaseAmount, StaticGameObject* rootNode);
 
 	XMMATRIX GetViewMatrix(void);
 };
