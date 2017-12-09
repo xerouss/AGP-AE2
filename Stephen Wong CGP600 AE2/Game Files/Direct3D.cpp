@@ -97,7 +97,6 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 	ID3D11Texture2D *pBackBufferTexture;
 	hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
 		(LPVOID*)&pBackBufferTexture);
-
 	if (FAILED(hr)) return hr;
 
 
@@ -105,13 +104,11 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 	hr = m_pD3DDevice->CreateRenderTargetView(pBackBufferTexture, NULL,
 		&m_pBackBufferRenderTargetView);
 	pBackBufferTexture->Release();
-
 	if (FAILED(hr)) return hr;
 
 	// ZBUFFER
 	m_descCount = sd.SampleDesc.Count;
 	hr = CreateZBuffer(m_descCount, (UINT)width, (UINT)height, hr);
-
 	if (FAILED(hr)) return hr;
 
 	// Set the render target view
@@ -151,7 +148,7 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 	g_pText2D0 = new Text2D("Assets/font1.bmp", g_pD3DDevice, g_pImmediateContext);
 	g_pText2D1 = new Text2D("Assets/fontTrans.png", g_pD3DDevice, g_pImmediateContext);*/
 
-	return S_OK;
+	return hr;
 }
 
 //####################################################################################
@@ -174,7 +171,6 @@ HRESULT Direct3D::CreateZBuffer(UINT descCount, UINT width, UINT height, HRESULT
 
 	ID3D11Texture2D *pZBufferTexture;
 	hr = m_pD3DDevice->CreateTexture2D(&texture2dDesc, NULL, &pZBufferTexture);
-
 	if (FAILED(hr)) return hr;
 
 	// Create Z buffer

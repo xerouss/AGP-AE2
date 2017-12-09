@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Window.h
-//	Last Updated:	30/11/2017
+//	Last Updated:	09/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -32,6 +32,7 @@ public:
 #pragma region Get Methods
 
 	HWND GetWindow(void);
+	HINSTANCE GetHInstance(void);
 
 #pragma endregion
 

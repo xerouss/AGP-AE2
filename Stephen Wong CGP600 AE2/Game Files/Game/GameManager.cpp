@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			GameManager.cpp
-//	Last Updated:	05/12/2017
+//	Last Updated:	09/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -18,10 +18,9 @@
 //####################################################################################
 // Constructor
 //####################################################################################
-GameManager::GameManager(ID3D11Device* device, ID3D11RenderTargetView* backBuffer, IDXGISwapChain* swapChain,
+GameManager::GameManager(ID3D11RenderTargetView* backBuffer, IDXGISwapChain* swapChain,
 	ID3D11DeviceContext* immediateContext, ID3D11DepthStencilView* ZBuffer)
 {
-	m_pD3DDevice = device;
 	m_pBackBuffer = backBuffer;
 	m_pSwapChain = swapChain;
 	m_pImmediateContext = immediateContext;
@@ -33,6 +32,12 @@ GameManager::GameManager(ID3D11Device* device, ID3D11RenderTargetView* backBuffe
 //####################################################################################
 GameManager::~GameManager()
 {
+	if (m_pInput)
+	{
+		delete m_pInput;
+		m_pInput = NULL;
+	}
+
 	if (m_pLevel)
 	{
 		delete m_pLevel;
@@ -41,13 +46,36 @@ GameManager::~GameManager()
 }
 
 //####################################################################################
-// Set up the Level
+// Set up input
 //####################################################################################
-HRESULT GameManager::InitialiseLevel(void)
+HRESULT GameManager::InitialiseInput(HINSTANCE hInstance, HWND hWND)
 {
 	HRESULT hr = S_OK;
 
-	m_pLevel = new Level(m_pD3DDevice, m_pImmediateContext);
+	m_pInput = new Input();
+
+	// Set up the direct input first
+	// Without setting up direct input first we can't set up the keyboard or mouse
+	hr = m_pInput->InitialiseDirectInput(hInstance);
+	if (FAILED(hr)) return hr;
+
+	// Set up keyboard input
+	hr = m_pInput->InitialiseKeyboardInput(hWND);
+	if (FAILED(hr)) return hr;
+
+	// Set up mouse input
+	hr = m_pInput->InitialiseMouse(hWND);
+	return hr; // Will return failed if mouse failed
+}
+
+//####################################################################################
+// Set up the Level
+//####################################################################################
+HRESULT GameManager::InitialiseLevel(ID3D11Device* device)
+{
+	HRESULT hr = S_OK;
+
+	m_pLevel = new Level(device, m_pImmediateContext);
 
 	hr = m_pLevel->SetUpLevel();
 

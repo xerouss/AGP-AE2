@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.cpp
-//	Last Updated:	02/12/2017
+//	Last Updated:	09/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -60,32 +60,26 @@ HRESULT Level::SetUpLevel(void)
 	// Create the model and load it from the assets folder
 	m_pWallModel = new Model(m_pD3DDevice, m_pImmediateContext);
 	hr = m_pWallModel->LoadObjectModel("Assets/Models/cube.obj");
-
 	if (FAILED(hr)) return hr;
 
 	// Create constant buffer for models
 	hr = m_pWallModel->CreateConstantBuffer();
-
 	if (FAILED(hr)) return hr;
 
 	// Add texture to the models
 	hr = m_pWallModel->AddTexture("Assets/Textures/crate0_diffuse.png");
-
 	if (FAILED(hr)) return hr;
 
 	// Create filter for the texture
 	hr = m_pWallModel->CreateSampler();
-
 	if (FAILED(hr)) return hr;
 
 	// Create vertex shader
 	hr = m_pWallModel->CreateVertexShader("Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader");
-
 	if (FAILED(hr)) return hr;
 
 	// Create pixel shader
 	hr = m_pWallModel->CreatePixelShader("Game Files/Game/Shaders/ModelShader.hlsl", "ModelPixelShader");
-
 	if (FAILED(hr)) return hr;
 
 	// Create the game objects

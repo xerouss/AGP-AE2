@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			main.cpp
-//	Last Updated:	05/12/2017
+//	Last Updated:	09/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -73,13 +73,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 	}
 
-	// Start up the input
-	/*if (FAILED(g_pInput->InitialiseInput(hInstance, g_hWnd)))
-	{
-	DXTRACE_MSG("Failed to initialise input");
-	return 0;
-	}*/
-
 	// Start up D3D
 	if (FAILED(pDirect3D->InitialiseD3D(pWindow->GetWindow())))
 	{
@@ -87,22 +80,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 	}
 
-	//// Start up the graphics
-	//if (FAILED(InitialiseGraphics()))
-	//{
-	//	DXTRACE_MSG("Failed to initialise graphics");
-	//	return 0;
-	//}
-
 	// Game Manager initiated here because Direct3D needs to be initialised first
-	GameManager* pGameManager = new GameManager(pDirect3D->GetD3DDevice(),
-		pDirect3D->GetBackBuffer(),
+	GameManager* pGameManager = new GameManager(pDirect3D->GetBackBuffer(),
 		pDirect3D->GetSwapChain(),
 		pDirect3D->GetImmediateContext(),
 		pDirect3D->GetZBuffer());
 
+	// Set up input
+	if (FAILED(pGameManager->InitialiseInput(pWindow->GetHInstance(),
+		pWindow->GetWindow())))
+	{
+		DXTRACE_MSG("Failed to initialise input");
+		return 0;
+	}
+
 	// Set up the level
-	if (FAILED(pGameManager->InitialiseLevel()))
+	if (FAILED(pGameManager->InitialiseLevel(pDirect3D->GetD3DDevice())))
 	{
 		DXTRACE_MSG("Failed to initialise level");
 		return 0;

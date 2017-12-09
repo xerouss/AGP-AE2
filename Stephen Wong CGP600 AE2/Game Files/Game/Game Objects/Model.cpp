@@ -180,19 +180,17 @@ HRESULT Model::CreateVertexShader(char* shaderFileName, char* vertexShaderFuncti
 
 	// Create the vertex shader
 	hr = m_pD3DDevice->CreateVertexShader(p_vertexShader->GetBufferPointer(), p_vertexShader->GetBufferSize(), NULL, &m_pVertexShader);
-
 	if (FAILED(hr)) return hr;
 
 	// Create the input layout for the shader
 	hr = CreateInputLayout(p_vertexShader);
-
 	if (FAILED(hr)) return hr;
 
 	// Release the memory for the pointers
 	if(p_vertexShader) p_vertexShader->Release();
 	if(p_error) p_error->Release();
 
-	return S_OK;
+	return hr;
 }
 
 //####################################################################################
@@ -218,14 +216,13 @@ HRESULT Model::CreatePixelShader(char* shaderFileName, char* pixerlShaderFunctio
 
 	// Create the pixel shader
 	hr = m_pD3DDevice->CreatePixelShader(p_pixelShader->GetBufferPointer(), p_pixelShader->GetBufferSize(), NULL, &m_pPixelShader);
-
 	if (FAILED(hr)) return hr;
 
 	// Release the memory for the pointers
 	if (p_pixelShader) p_pixelShader->Release();
 	if (p_error) p_error->Release();
 
-	return S_OK;
+	return hr;
 }
 
 //####################################################################################
@@ -246,11 +243,8 @@ HRESULT Model::CreateInputLayout(ID3DBlob* vertexShader)
 	// Create the input layer
 	hr = m_pD3DDevice->CreateInputLayout(inputElementDesc, ARRAYSIZE(inputElementDesc),
 		vertexShader->GetBufferPointer(), vertexShader->GetBufferSize(), &m_pInputLayer);
-
-	// Check if completed
-	if (FAILED(hr)) return hr;
-
-	return S_OK;
+	
+	return hr; // Will return failed if creation failed
 }
 
 //####################################################################################
@@ -268,10 +262,7 @@ HRESULT Model::CreateConstantBuffer()
 
 														   // Create Buffer
 	hr = m_pD3DDevice->CreateBuffer(&constantBuffer, NULL, &m_pConstantBuffer);
-
-	if (FAILED(hr)) return hr;
-
-	return S_OK;
+	return hr; // Will return failed if creation failed
 }
 
 //####################################################################################
@@ -283,10 +274,7 @@ HRESULT Model::AddTexture(char* textureFileName)
 
 	// Load texture from file
 	hr = D3DX11CreateShaderResourceViewFromFile(m_pD3DDevice, textureFileName, NULL, NULL, &m_pTexture0, NULL);
-
-	if (FAILED(hr)) return hr;
-
-	return S_OK;
+	return hr; // Will return failed if loading failed
 }
 
 //####################################################################################
@@ -309,10 +297,7 @@ HRESULT Model::CreateSampler(void)
 
 	// Create the sample state
 	hr = m_pD3DDevice->CreateSamplerState(&samplerDesc, &m_pSamplerState0);
-
-	if (FAILED(hr)) return hr;
-
-	return S_OK;
+	return hr; // Will return failed if creation failed
 }
 
 //####################################################################################
