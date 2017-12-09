@@ -22,11 +22,14 @@ private:
 	ID3D11RenderTargetView* m_pBackBuffer;
 	IDXGISwapChain* m_pSwapChain;
 	ID3D11DeviceContext* m_pImmediateContext;
+	ID3D11DepthStencilView* m_pZBuffer;
+
 	Level* m_pLevel;
 
 public:
 	GameManager(ID3D11Device* device, ID3D11RenderTargetView* backBuffer,
-	IDXGISwapChain* swapChain, ID3D11DeviceContext* immediateContext);
+	IDXGISwapChain* swapChain, ID3D11DeviceContext* immediateContext,
+		ID3D11DepthStencilView* ZBuffer);
 	~GameManager();
 
 	HRESULT InitialiseLevel(void);

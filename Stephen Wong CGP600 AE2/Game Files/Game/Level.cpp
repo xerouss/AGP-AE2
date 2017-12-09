@@ -55,7 +55,7 @@ HRESULT Level::SetUpLevel(void)
 {
 	HRESULT hr = S_OK;
 
-	m_pCamera = new Camera(0.0f, 0.0f, -0.5f);
+	m_pCamera = new Camera(0.0f, 0.0f, 0.0f);
 
 	// Create the model and load it from the assets folder
 	m_pWallModel = new Model(m_pD3DDevice, m_pImmediateContext);
@@ -91,10 +91,13 @@ HRESULT Level::SetUpLevel(void)
 	// Create the game objects
 	m_pRootWallGameObject = new StaticGameObject();
 	m_pWall1GameObject = new DynamicGameObject(0, 0, 1);
+	m_pWall2GameObject = new DynamicGameObject(0, 0, 20);
 
 	// Set the children, models and positions
 	m_pRootWallGameObject->AddChildNode(m_pWall1GameObject);
+	m_pRootWallGameObject->AddChildNode(m_pWall2GameObject);
 	m_pWall1GameObject->SetModel(m_pWallModel);
+	m_pWall2GameObject->SetModel(m_pWallModel);
 	//m_pRootWallGameObject->AddChildNode(m_pCamera);
 	//m_pWall1GameObject->SetZPos(10);
 

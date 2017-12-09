@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Direct3D.cpp
-//	Last Updated:	30/11/2017
+//	Last Updated:	09/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -19,6 +19,7 @@
 //####################################################################################
 Direct3D::~Direct3D()
 {
+	if (m_pZBuffer) m_pZBuffer->Release();
 	if (m_pBackBufferRenderTargetView) m_pBackBufferRenderTargetView->Release();
 	if (m_pSwapChain) m_pSwapChain->Release();
 	if (m_pImmediateContext) m_pImmediateContext->Release();
@@ -108,15 +109,13 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 	if (FAILED(hr)) return hr;
 
 	// ZBUFFER
-	/*
-	g_descCount = sd.SampleDesc.Count;
-	hr = CreateZBuffer(g_descCount, (UINT)width, (UINT)height, hr);*/
+	m_descCount = sd.SampleDesc.Count;
+	hr = CreateZBuffer(m_descCount, (UINT)width, (UINT)height, hr);
 
 	if (FAILED(hr)) return hr;
 
 	// Set the render target view
-	// ADD ZBUFFER THING TO LAST PARAMATER
-	m_pImmediateContext->OMSetRenderTargets(1, &m_pBackBufferRenderTargetView, NULL); //g_pZBuffer);
+	m_pImmediateContext->OMSetRenderTargets(1, &m_pBackBufferRenderTargetView, m_pZBuffer);
 
 	// Set the viewport
 	D3D11_VIEWPORT viewport;
@@ -156,6 +155,45 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 }
 
 //####################################################################################
+// Create Z Buffer
+//####################################################################################
+HRESULT Direct3D::CreateZBuffer(UINT descCount, UINT width, UINT height, HRESULT hr)
+{
+	// Create Z buffer texture
+	D3D11_TEXTURE2D_DESC texture2dDesc;
+	ZeroMemory(&texture2dDesc, sizeof(texture2dDesc));
+
+	texture2dDesc.Width = width;
+	texture2dDesc.Height = height;
+	texture2dDesc.ArraySize = 1; // For textures
+	texture2dDesc.MipLevels = 1; // For textures
+	texture2dDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	texture2dDesc.SampleDesc.Count = descCount;
+	texture2dDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL; // For masking
+	texture2dDesc.Usage = D3D11_USAGE_DEFAULT;
+
+	ID3D11Texture2D *pZBufferTexture;
+	hr = m_pD3DDevice->CreateTexture2D(&texture2dDesc, NULL, &pZBufferTexture);
+
+	if (FAILED(hr)) return hr;
+
+	// Create Z buffer
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	ZeroMemory(&dsvDesc, sizeof(dsvDesc));
+
+	// Tell direct3D its a texture 2D
+	dsvDesc.Format = texture2dDesc.Format;
+	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+	m_pD3DDevice->CreateDepthStencilView(pZBufferTexture, &dsvDesc, &m_pZBuffer);
+
+	// Release texture since its no longer needed
+	if(pZBufferTexture) pZBufferTexture->Release();
+
+	return hr;
+}
+
+//####################################################################################
 // Methods to get private variables
 //####################################################################################
 #pragma region Get Methods
@@ -178,6 +216,11 @@ IDXGISwapChain* Direct3D::GetSwapChain(void)
 ID3D11DeviceContext* Direct3D::GetImmediateContext(void)
 {
 	return m_pImmediateContext;
+}
+
+ID3D11DepthStencilView * Direct3D::GetZBuffer(void)
+{
+	return m_pZBuffer;
 }
 
 #pragma endregion

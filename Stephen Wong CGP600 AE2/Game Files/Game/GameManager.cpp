@@ -19,12 +19,13 @@
 // Constructor
 //####################################################################################
 GameManager::GameManager(ID3D11Device* device, ID3D11RenderTargetView* backBuffer, IDXGISwapChain* swapChain,
-	ID3D11DeviceContext* immediateContext)
+	ID3D11DeviceContext* immediateContext, ID3D11DepthStencilView* ZBuffer)
 {
 	m_pD3DDevice = device;
 	m_pBackBuffer = backBuffer;
 	m_pSwapChain = swapChain;
 	m_pImmediateContext = immediateContext;
+	m_pZBuffer = ZBuffer;
 }
 
 //####################################################################################
@@ -67,11 +68,14 @@ void GameManager::Update(void)
 //####################################################################################
 void GameManager::Render(void)
 {
-	// TESTING STUFF
-	// Clear the back buffer - choose a colour you like
+	// Clear the back buffer
 	float rgba_clear_colour[4] = { 0.1f, 1.0f, 0.1f, 1.0f };
 	m_pImmediateContext->ClearRenderTargetView(m_pBackBuffer, rgba_clear_colour);
 
+	// Clear zbuffer
+	m_pImmediateContext->ClearDepthStencilView(m_pZBuffer, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+	// Set the topology, triangle list is chosen since all objects will be made out of triangles
 	m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// RENDER HERE

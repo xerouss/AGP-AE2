@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Direct3D.h
-//	Last Updated:	05/12/2017
+//	Last Updated:	09/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -22,12 +22,15 @@ private:
 	ID3D11DeviceContext* m_pImmediateContext = NULL;
 	IDXGISwapChain* m_pSwapChain = NULL;
 	ID3D11RenderTargetView* m_pBackBufferRenderTargetView = NULL;
+	ID3D11DepthStencilView* m_pZBuffer;
+	UINT m_descCount; // Store the swap chain desc count
 
 public:
 	//Direct3D();
 	~Direct3D();
 
 	HRESULT InitialiseD3D(HWND hWindow);
+	HRESULT CreateZBuffer(UINT descCount, UINT width, UINT height, HRESULT hr);
 
 #pragma region Get Methods
 
@@ -35,6 +38,7 @@ public:
 	ID3D11RenderTargetView* GetBackBuffer(void);
 	IDXGISwapChain* GetSwapChain(void);
 	ID3D11DeviceContext* GetImmediateContext(void);
+	ID3D11DepthStencilView* GetZBuffer(void);
 
 #pragma endregion
 };

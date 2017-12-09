@@ -35,6 +35,7 @@ private:
 	Model* m_pWallModel;
 	StaticGameObject* m_pRootWallGameObject;
 	DynamicGameObject* m_pWall1GameObject;
+	DynamicGameObject* m_pWall2GameObject;
 
 public:
 	Level(ID3D11Device* device, ID3D11DeviceContext* immediateContext);

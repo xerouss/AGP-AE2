@@ -98,7 +98,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	GameManager* pGameManager = new GameManager(pDirect3D->GetD3DDevice(),
 		pDirect3D->GetBackBuffer(),
 		pDirect3D->GetSwapChain(),
-		pDirect3D->GetImmediateContext());
+		pDirect3D->GetImmediateContext(),
+		pDirect3D->GetZBuffer());
 
 	// Set up the level
 	if (FAILED(pGameManager->InitialiseLevel()))
