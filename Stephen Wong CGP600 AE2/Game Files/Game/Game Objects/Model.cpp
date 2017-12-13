@@ -260,7 +260,7 @@ HRESULT Model::CreateConstantBuffer()
 	constantBuffer.ByteWidth = sizeof(MODEL_CONSTANT_BUFFER); // MUST BE MULTIPLE OF 16. Work out amount from the buffer struct
 	constantBuffer.BindFlags = D3D11_BIND_CONSTANT_BUFFER; // Use as a constant buffer
 
-														   // Create Buffer
+	// Create Buffer
 	hr = m_pD3DDevice->CreateBuffer(&constantBuffer, NULL, &m_pConstantBuffer);
 	return hr; // Will return failed if creation failed
 }

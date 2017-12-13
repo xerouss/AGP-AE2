@@ -44,5 +44,9 @@ public:
 	HRESULT SetUpLevel(void);
 	void Update(void);
 	void Render(void);
-	void PlayerInput(unsigned char pressedKeys[]);
+	
+	void MoveCameraForward(float distance);
+	void MoveCameraLeft(float distance);
+	void MoveCameraRight(float distance);
+	void ChangeCameraDirection(float amount);
 };

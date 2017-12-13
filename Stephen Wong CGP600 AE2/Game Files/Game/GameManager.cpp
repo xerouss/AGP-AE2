@@ -88,6 +88,19 @@ HRESULT GameManager::InitialiseLevel(ID3D11Device* device)
 //####################################################################################
 void GameManager::Update(void)
 {
+	// Get inputs
+	m_pInput->ReadInputStates();
+
+
+	// Exit game if escape pressed
+	// Need to make update return bool and true if escape pressed to exit
+	// if(m_pInput->IsKeyPressed(DIK_ESCAPE))  
+
+	if (m_pInput->IsKeyPressed(DIK_W)) m_pLevel->MoveCameraForward(0.3f);
+
+	float mouseChangeAmount = (float)m_pInput->GetMousePositionChange(true);
+	if (mouseChangeAmount != 0) m_pLevel->ChangeCameraDirection(mouseChangeAmount / 100);
+
 	m_pLevel->Update();
 }
 

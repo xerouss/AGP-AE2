@@ -60,8 +60,7 @@ HRESULT Window::InitialiseWindow(HINSTANCE hInstance, int nCmdShow)
 		rc.bottom - rc.top, NULL, NULL, hInstance, NULL);
 
 	// Check if failed
-	if (!m_hWindow)
-		return E_FAIL;
+	if (!m_hWindow) return E_FAIL;
 
 	// Show window
 	ShowWindow(m_hWindow, nCmdShow);

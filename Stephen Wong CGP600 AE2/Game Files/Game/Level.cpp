@@ -55,8 +55,6 @@ HRESULT Level::SetUpLevel(void)
 {
 	HRESULT hr = S_OK;
 
-	m_pCamera = new Camera(0.0f, 0.0f, 0.0f);
-
 	// Create the model and load it from the assets folder
 	m_pWallModel = new Model(m_pD3DDevice, m_pImmediateContext);
 	hr = m_pWallModel->LoadObjectModel("Assets/Models/cube.obj");
@@ -84,8 +82,8 @@ HRESULT Level::SetUpLevel(void)
 
 	// Create the game objects
 	m_pRootWallGameObject = new StaticGameObject();
-	m_pWall1GameObject = new DynamicGameObject(0, 0, 1);
-	m_pWall2GameObject = new DynamicGameObject(0, 0, 20);
+	m_pWall1GameObject = new DynamicGameObject();
+	m_pWall2GameObject = new DynamicGameObject();
 
 	// Set the children, models and positions
 	m_pRootWallGameObject->AddChildNode(m_pWall1GameObject);
@@ -93,7 +91,10 @@ HRESULT Level::SetUpLevel(void)
 	m_pWall1GameObject->SetModel(m_pWallModel);
 	m_pWall2GameObject->SetModel(m_pWallModel);
 	//m_pRootWallGameObject->AddChildNode(m_pCamera);
-	//m_pWall1GameObject->SetZPos(10);
+	m_pWall1GameObject->SetZPos(10);
+
+
+	m_pCamera = new Camera(0.0f, 0.0f, 0.0f);
 
 	return hr; // Should return S_OK if nothing fails
 }
@@ -104,7 +105,7 @@ HRESULT Level::SetUpLevel(void)
 void Level::Update(void)
 {
 	//m_pCamera->IncrementYAngle(0.001f, m_pRootWallGameObject);
-	m_pWall1GameObject->IncrementZPos(0.001f, m_pRootWallGameObject);
+	//m_pWall1GameObject->IncrementZPos(0.001f, m_pRootWallGameObject);
 }
 
 //####################################################################################
@@ -115,23 +116,34 @@ void Level::Render(void)
 	// TODO MOVE THIS?
 	// Could move this to game manager, pass down the value including the screen width/height
 	// Or keep it here and just pass the with/height
-	XMMATRIX projection, view, world;
+	XMMATRIX world, projection, view;
 
 	// Depending on the z position it will either move it closer or further away
 	world = XMMatrixRotationRollPitchYaw(0, 0, 0);
-	world *= XMMatrixTranslation(0, 0, 0); // World transformation
+	world *= XMMatrixTranslation(0, 0, 15.0f); // World transformation
 	
 	// TODO: CHANGE THIS
 	// Change the width and height so its dynamic
-	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0), 640 / 480, 1.0, 100.0); // Projection transformation
+	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), 640 / 480, 1.0f, 100.0f); // Projection transformation
 	view = m_pCamera->GetViewMatrix(); // Change this to camera 
 
 	m_pRootWallGameObject->Update(&world, &projection, &view);
 }
 
-//####################################################################################
-// Input from the player
-//####################################################################################
-void Level::PlayerInput(unsigned char pressedKeys[])
+void Level::MoveCameraForward(float distance)
 {
+	m_pCamera->MoveForward(distance);
+}
+
+void Level::MoveCameraLeft(float distance)
+{
+}
+
+void Level::MoveCameraRight(float distance)
+{
+}
+
+void Level::ChangeCameraDirection(float amount)
+{
+	//m_pCamera->IncrementXAngle(amount, m_pRootWallGameObject);
 }
