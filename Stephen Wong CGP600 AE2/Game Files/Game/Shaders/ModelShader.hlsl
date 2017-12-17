@@ -1,6 +1,6 @@
 // *********************************************************
 //	Name:			Stephen Wong
-//	File:			ModelShader.cpp
+//	File:			ModelShader.hlsl
 //	Last Updated:	05/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
@@ -23,7 +23,7 @@ cbuffer cbuffer0
 Texture2D texture0;
 SamplerState sampler0;
 
-// Output structure
+// Vertex output structure
 struct VertexOut
 {
     float4 position : SV_POSITION;

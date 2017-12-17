@@ -83,18 +83,21 @@ HRESULT Level::SetUpLevel(void)
 	// Create the game objects
 	m_pRootWallGameObject = new StaticGameObject();
 	m_pWall1GameObject = new DynamicGameObject();
-	m_pWall2GameObject = new DynamicGameObject();
+	m_pWall2GameObject = new DynamicGameObject(2, 0, 5);
+	m_pWall3GameObject = new DynamicGameObject(2, 0, -5);
 
 	// Set the children, models and positions
 	m_pRootWallGameObject->AddChildNode(m_pWall1GameObject);
 	m_pRootWallGameObject->AddChildNode(m_pWall2GameObject);
+	m_pRootWallGameObject->AddChildNode(m_pWall3GameObject);
+
 	m_pWall1GameObject->SetModel(m_pWallModel);
 	m_pWall2GameObject->SetModel(m_pWallModel);
+	m_pWall3GameObject->SetModel(m_pWallModel);
 	//m_pRootWallGameObject->AddChildNode(m_pCamera);
-	m_pWall1GameObject->SetZPos(10);
 
 
-	m_pCamera = new Camera(0.0f, 0.0f, 0.0f);
+	m_pCamera = new Camera(0.0f, 0.0f, -0.5f);
 
 	return hr; // Should return S_OK if nothing fails
 }
@@ -105,7 +108,7 @@ HRESULT Level::SetUpLevel(void)
 void Level::Update(void)
 {
 	//m_pCamera->IncrementYAngle(0.001f, m_pRootWallGameObject);
-	//m_pWall1GameObject->IncrementZPos(0.001f, m_pRootWallGameObject);
+	m_pWall3GameObject->IncrementZPos(0.001f, m_pRootWallGameObject);
 }
 
 //####################################################################################
@@ -116,18 +119,19 @@ void Level::Render(void)
 	// TODO MOVE THIS?
 	// Could move this to game manager, pass down the value including the screen width/height
 	// Or keep it here and just pass the with/height
-	XMMATRIX world, projection, view;
+	XMMATRIX world, view, projection;
 
 	// Depending on the z position it will either move it closer or further away
 	world = XMMatrixRotationRollPitchYaw(0, 0, 0);
-	world *= XMMatrixTranslation(0, 0, 15.0f); // World transformation
-	
-	// TODO: CHANGE THIS
-	// Change the width and height so its dynamic
-	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), 640 / 480, 1.0f, 100.0f); // Projection transformation
-	view = m_pCamera->GetViewMatrix(); // Change this to camera 
+	world *= XMMatrixTranslation(0, 0, 10); // World transformation
 
-	m_pRootWallGameObject->Update(&world, &projection, &view);
+	view = m_pCamera->GetViewMatrix(); // Change this to camera 
+// TODO: CHANGE THIS
+// Change the width and height so its dynamic
+	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), 640 / 480, 1.0f, 100.0f); // Projection transformation
+
+
+	m_pRootWallGameObject->Update(&world, &view, &projection);
 }
 
 void Level::MoveCameraForward(float distance)
@@ -135,15 +139,12 @@ void Level::MoveCameraForward(float distance)
 	m_pCamera->MoveForward(distance);
 }
 
-void Level::MoveCameraLeft(float distance)
+void Level::StrafeCamera(float distance)
 {
-}
-
-void Level::MoveCameraRight(float distance)
-{
+	m_pCamera->Strafe(distance);
 }
 
 void Level::ChangeCameraDirection(float amount)
 {
-	//m_pCamera->IncrementXAngle(amount, m_pRootWallGameObject);
+	m_pCamera->IncrementXAngle(amount, m_pRootWallGameObject);
 }

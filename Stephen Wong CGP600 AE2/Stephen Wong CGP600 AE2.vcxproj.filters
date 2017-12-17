@@ -48,6 +48,9 @@
     <ClCompile Include="Game Files\Game\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game Files\Game\Text2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game Files\Game\GameManager.h">
@@ -80,9 +83,15 @@
     <ClInclude Include="Game Files\Game\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game Files\Game\Text2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Game Files\Game\Shaders\ModelShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </FxCompile>
+    <FxCompile Include="Game Files\Game\Shaders\Text2DShader.hlsl">
       <Filter>Resource Files</Filter>
     </FxCompile>
   </ItemGroup>

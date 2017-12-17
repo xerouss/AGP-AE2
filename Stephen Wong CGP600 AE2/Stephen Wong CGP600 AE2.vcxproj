@@ -28,6 +28,7 @@
     <ClCompile Include="Game Files\Game\GameManager.cpp" />
     <ClCompile Include="Game Files\Game\Input.cpp" />
     <ClCompile Include="Game Files\Game\Level.cpp" />
+    <ClCompile Include="Game Files\Game\Text2D.cpp" />
     <ClCompile Include="Game Files\main.cpp" />
     <ClCompile Include="Game Files\Window.cpp" />
   </ItemGroup>
@@ -41,10 +42,21 @@
     <ClInclude Include="Game Files\Game\GameManager.h" />
     <ClInclude Include="Game Files\Game\Input.h" />
     <ClInclude Include="Game Files\Game\Level.h" />
+    <ClInclude Include="Game Files\Game\Text2D.h" />
     <ClInclude Include="Game Files\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Game Files\Game\Shaders\ModelShader.hlsl" />
+    <FxCompile Include="Game Files\Game\Shaders\Text2DShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -254,14 +254,14 @@ HRESULT Model::CreateConstantBuffer()
 {
 	HRESULT hr = S_OK;
 
-	D3D11_BUFFER_DESC constantBuffer; // Properties for constant buffer
-	ZeroMemory(&constantBuffer, sizeof(constantBuffer));
-	constantBuffer.Usage = D3D11_USAGE_DEFAULT; // Allow updateSubResource() to be used
-	constantBuffer.ByteWidth = sizeof(MODEL_CONSTANT_BUFFER); // MUST BE MULTIPLE OF 16. Work out amount from the buffer struct
-	constantBuffer.BindFlags = D3D11_BIND_CONSTANT_BUFFER; // Use as a constant buffer
+	D3D11_BUFFER_DESC constantBufferDesc; // Properties for constant buffer
+	ZeroMemory(&constantBufferDesc, sizeof(constantBufferDesc));
+	constantBufferDesc.Usage = D3D11_USAGE_DEFAULT; // Allow updateSubResource() to be used
+	constantBufferDesc.ByteWidth = sizeof(MODEL_CONSTANT_BUFFER); // MUST BE MULTIPLE OF 16. Work out amount from the buffer struct
+	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER; // Use as a constant buffer
 
 	// Create Buffer
-	hr = m_pD3DDevice->CreateBuffer(&constantBuffer, NULL, &m_pConstantBuffer);
+	hr = m_pD3DDevice->CreateBuffer(&constantBufferDesc, NULL, &m_pConstantBuffer);
 	return hr; // Will return failed if creation failed
 }
 

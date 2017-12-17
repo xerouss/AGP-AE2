@@ -36,6 +36,7 @@ private:
 	StaticGameObject* m_pRootWallGameObject;
 	DynamicGameObject* m_pWall1GameObject;
 	DynamicGameObject* m_pWall2GameObject;
+	DynamicGameObject* m_pWall3GameObject;
 
 public:
 	Level(ID3D11Device* device, ID3D11DeviceContext* immediateContext);
@@ -46,7 +47,6 @@ public:
 	void Render(void);
 	
 	void MoveCameraForward(float distance);
-	void MoveCameraLeft(float distance);
-	void MoveCameraRight(float distance);
+	void StrafeCamera(float distance);
 	void ChangeCameraDirection(float amount);
 };

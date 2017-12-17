@@ -35,6 +35,7 @@ public:
 	void SetDefaultProperties(void);
 
 	void MoveForward(float distance);
+	void Strafe(float distance);
 	//void MoveForwardIncludingY(float distance);
 
 	bool IncrementXAngle(float increaseAmount, StaticGameObject* rootNode);

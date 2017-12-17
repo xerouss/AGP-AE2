@@ -60,6 +60,12 @@ void Camera::MoveForward(float distance)
 	m_zPos += distance * m_deltaZPos;
 }
 
+void Camera::Strafe(float distance)
+{
+	m_xPos += distance * m_deltaZPos;
+	m_zPos += distance * m_deltaXPos;
+}
+
 //void Camera::MoveForwardIncludingY(float distance)
 //{
 //}
