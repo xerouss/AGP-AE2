@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			GameManager.cpp
-//	Last Updated:	09/12/2017
+//	Last Updated:	18/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -69,6 +69,14 @@ HRESULT GameManager::InitialiseInput(HINSTANCE hInstance, HWND hWND)
 }
 
 //####################################################################################
+// Set up HUD
+//####################################################################################
+void GameManager::InitialiseHUD(ID3D11Device* device)
+{
+	m_HUD = new HUD(device, m_pImmediateContext);
+}
+
+//####################################################################################
 // Set up the Level
 //####################################################################################
 HRESULT GameManager::InitialiseLevel(ID3D11Device* device)
@@ -124,6 +132,10 @@ void GameManager::Render(void)
 
 	// RENDER HERE
 	m_pLevel->Render();
+
+	// Show the score in the HUD
+	m_HUD->SetScoreText("1", -1, 1, 0.2f);
+	m_HUD->Render();
 
 	// Display what has just been rendered
 	m_pSwapChain->Present(0, 0);

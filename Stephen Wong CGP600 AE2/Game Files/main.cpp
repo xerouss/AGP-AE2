@@ -101,6 +101,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 	}
 
+	// Set up the HUD for the game
+	pGameManager->InitialiseHUD(pDirect3D->GetD3DDevice());
+
 	//// Main message loop
 	MSG msg = { 0 };
 

@@ -35,7 +35,7 @@ Text2D::Text2D(string filename, ID3D11Device* device, ID3D11DeviceContext* conte
 
 	// Load and compile pixel and vertex shaders - use vs_5_0 to target DX11 hardware only
 	ID3DBlob *VS, *PS, *error;
-	hr = D3DX11CompileFromFile("Text2DShader.hlsl", 0, 0, "TextVS", "vs_4_0", 0, 0, 0, &VS, &error, 0);
+	hr = D3DX11CompileFromFile("Game Files/Game/Shaders/Text2DShader.hlsl", 0, 0, "TextVS", "vs_4_0", 0, 0, 0, &VS, &error, 0);
 
 	if (error != 0)
 	{
@@ -44,7 +44,7 @@ Text2D::Text2D(string filename, ID3D11Device* device, ID3D11DeviceContext* conte
 		if (FAILED(hr))exit(0);
 	}
 
-	hr = D3DX11CompileFromFile("Text2DShader.hlsl", 0, 0, "TextPS", "ps_4_0", 0, 0, 0, &PS, &error, 0);
+	hr = D3DX11CompileFromFile("Game Files/Game/Shaders/Text2DShader.hlsl", 0, 0, "TextPS", "ps_4_0", 0, 0, 0, &PS, &error, 0);
 
 	if (error != 0)
 	{
