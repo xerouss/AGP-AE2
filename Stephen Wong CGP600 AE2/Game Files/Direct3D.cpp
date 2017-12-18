@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Direct3D.cpp
-//	Last Updated:	09/12/2017
+//	Last Updated:	18/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -126,27 +126,6 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 	viewport.MaxDepth = 1.0f;
 
 	m_pImmediateContext->RSSetViewports(1, &viewport);
-
-	// FOR TEXT
-	/*
-	// Set up blend for transparency
-	D3D11_BLEND_DESC blendDesc;
-	blendDesc.RenderTarget[0].BlendEnable = true;
-	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-	blendDesc.IndependentBlendEnable = false;
-	blendDesc.AlphaToCoverageEnable = false;
-
-	g_pD3DDevice->CreateBlendState(&blendDesc, &g_pAlphaBlendEnable);
-
-	// Create the 2D text
-	g_pText2D0 = new Text2D("Assets/font1.bmp", g_pD3DDevice, g_pImmediateContext);
-	g_pText2D1 = new Text2D("Assets/fontTrans.png", g_pD3DDevice, g_pImmediateContext);*/
 
 	return hr;
 }

@@ -23,6 +23,7 @@ HUD::HUD(ID3D11Device* device, ID3D11DeviceContext* immediateContext)
 	m_pD3DDevice = device;
 	m_pImmediateContext = immediateContext;
 
+	InitialiseTransparency();
 
 	m_scoreText = new Text2D("Assets/Font/fontTransparent.png", m_pD3DDevice, m_pImmediateContext);
 }
@@ -37,6 +38,9 @@ HUD::~HUD()
 		delete m_scoreText;
 		m_scoreText = NULL;
 	}
+
+	if (m_pAlphaBlendEnable) m_pAlphaBlendEnable->Release();
+	if (m_pAlphaBlendDisable) m_pAlphaBlendDisable->Release();
 }
 
 //####################################################################################
@@ -44,12 +48,40 @@ HUD::~HUD()
 //####################################################################################
 void HUD::Render(void)
 {
+	// Enable transparency
+	m_pImmediateContext->OMSetBlendState(m_pAlphaBlendEnable, 0, blendStateSampleMask);
+
+	// Render the text
 	m_scoreText->RenderText();
+
+	// Disable transparency
+	// Need to disable it so it doesn't effect non-text objects
+	m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, blendStateSampleMask);
 }
 
 void HUD::SetScoreText(string score, float x, float y, float size)
 {
 	m_scoreText->AddText(score, x, y, size);
+}
+
+void HUD::InitialiseTransparency(void)
+{
+	// Set up blend for transparency
+	// Used mainly for text
+	D3D11_BLEND_DESC blendDesc;
+	blendDesc.RenderTarget[0].BlendEnable = true;
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	blendDesc.IndependentBlendEnable = false;
+	blendDesc.AlphaToCoverageEnable = false;
+
+	// Create the blend state and save it
+	m_pD3DDevice->CreateBlendState(&blendDesc, &m_pAlphaBlendEnable);
 }
 
 
