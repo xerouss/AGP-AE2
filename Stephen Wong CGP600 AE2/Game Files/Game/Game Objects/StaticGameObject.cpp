@@ -199,7 +199,7 @@ void StaticGameObject::UpdateCollisionTree(XMMATRIX * world, float scale)
 //####################################################################################
 // Check collision with another object
 //####################################################################################
-bool StaticGameObject::CheckCollision(StaticGameObject* compareTree)
+StaticGameObject* StaticGameObject::CheckCollision(StaticGameObject* compareTree)
 {
 	return CheckCollision(compareTree, this);
 }
@@ -207,7 +207,7 @@ bool StaticGameObject::CheckCollision(StaticGameObject* compareTree)
 //####################################################################################
 // Check collision with another object 
 //####################################################################################
-bool StaticGameObject::CheckCollision(StaticGameObject* compareTree, StaticGameObject* objectTreeRoot)
+StaticGameObject* StaticGameObject::CheckCollision(StaticGameObject* compareTree, StaticGameObject* objectTreeRoot)
 {
 	// Check if both roots are the same
 	if (objectTreeRoot == compareTree) return false;
@@ -238,7 +238,7 @@ bool StaticGameObject::CheckCollision(StaticGameObject* compareTree, StaticGameO
 			(compareTree->m_pModel->GetBoundingSphereRadius() * compareTree->m_worldScale) +
 			(this->m_pModel->GetBoundingSphereRadius() * m_worldScale))
 		{
-			return true;
+			return compareTree; // Collision
 		}
 	}
 
@@ -246,42 +246,28 @@ bool StaticGameObject::CheckCollision(StaticGameObject* compareTree, StaticGameO
 	for (size_t i = 0; i < compareTree->m_pChildren.size(); i++)
 	{
 		// Check for collision against child nodes
-		if (CheckCollision(compareTree->m_pChildren[i], objectTreeRoot) == true)
-			return true;
+		if (CheckCollision(compareTree->m_pChildren[i], objectTreeRoot) != NULL)
+			return compareTree->m_pChildren[i];
 	}
 
 	// Go through own tree child nodes
 	for (size_t i = 0; i < m_pChildren.size(); i++)
 	{
 		// Check for collision against child nodes
-		if (m_pChildren[i]->CheckCollision(compareTree, objectTreeRoot) == true)
-			return true;
+		if (m_pChildren[i]->CheckCollision(compareTree, objectTreeRoot) != NULL)
+			return m_pChildren[i];
 	}
 
 	return false;
 }
 
 //####################################################################################
-// Check collision and carry out the collision effect if there is one
+// What happens when an object collides with this
 //####################################################################################
-// TODO: Move to dynamic game object
-bool StaticGameObject::UpdateTransformAndCheckCollision(float oldValue, float &valueChanged, StaticGameObject* rootNode)
+void StaticGameObject::CollisionEffect(float oldValue, float &valueThatWasChanged)
 {
-	XMMATRIX identity = XMMatrixIdentity();
-
-	// Update collision tree since the state has been changed
-	rootNode->UpdateCollisionTree(&identity, m_scale);
-
-	if (CheckCollision(rootNode) == true)
-	{
-		// Collision
-		// Set the value changed to the old value since it would hit another object
-		valueChanged = oldValue;
-		return true;
-	}
-
-	// No Collision
-	return false;
+	// Move the object back to it's original position
+	valueThatWasChanged = oldValue;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

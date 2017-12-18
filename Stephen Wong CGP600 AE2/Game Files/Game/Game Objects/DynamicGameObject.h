@@ -31,6 +31,7 @@ public:
 	void LookAtXYZ(float worldX, float worldY, float worldZ);
 	virtual void MoveForward(float distance);
 	virtual void MoveForwardIncludingY(float distance);
+	bool UpdateTransformAndCheckCollision(float oldValue, float &valueThatWasChanged, StaticGameObject* rootNode);
 
 #pragma region Increment Methods
 

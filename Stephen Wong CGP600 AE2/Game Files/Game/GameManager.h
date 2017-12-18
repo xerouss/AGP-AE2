@@ -16,6 +16,14 @@
 
 #pragma endregion
 
+#pragma region Constants
+
+const int scoreHUDXPos = -1;
+const int scoreHUDYPos = 1;
+const float scoreHUDTextSize = 0.2f;
+
+#pragma endregion
+
 class GameManager
 {
 private:
@@ -23,6 +31,7 @@ private:
 	Level* m_pLevel;
 	Input* m_pInput;
 	HUD* m_HUD;
+	int m_score = 0;
 
 	// Don't delete these since they are passed from another class
 	//ID3D11Device* m_pD3DDevice; // Made this a parameter for initialise level since its only used there
@@ -32,7 +41,7 @@ private:
 	ID3D11DepthStencilView* m_pZBuffer;
 public:
 	GameManager(ID3D11RenderTargetView* backBuffer,
-	IDXGISwapChain* swapChain, ID3D11DeviceContext* immediateContext,
+		IDXGISwapChain* swapChain, ID3D11DeviceContext* immediateContext,
 		ID3D11DepthStencilView* ZBuffer);
 	~GameManager();
 

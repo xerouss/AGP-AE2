@@ -13,6 +13,7 @@
 #include "Game Objects\StaticGameObject.h"
 #include "Game Objects\DynamicGameObject.h"
 #include "Game Objects\Camera.h"
+#include "Game Objects\Collectible.h"
 
 #pragma endregion
 
@@ -37,12 +38,13 @@ private:
 	DynamicGameObject* m_pWall1GameObject;
 	DynamicGameObject* m_pWall2GameObject;
 	DynamicGameObject* m_pWall3GameObject;
+	Collectible* m_pCollectible1;
 
 public:
 	Level(ID3D11Device* device, ID3D11DeviceContext* immediateContext);
 	~Level();
 
-	HRESULT SetUpLevel(void);
+	HRESULT SetUpLevel(int* m_scoreSaveLocation);
 	void Update(void);
 	void Render(void);
 	

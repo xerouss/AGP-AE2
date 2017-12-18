@@ -76,9 +76,10 @@ public:
 	bool DetachNode(StaticGameObject *node);
 	void Update(XMMATRIX *world, XMMATRIX* view, XMMATRIX* projection);
 	void UpdateCollisionTree(XMMATRIX* world, float scale);
-	bool CheckCollision(StaticGameObject* compareTree);
-	bool CheckCollision(StaticGameObject* compareTree, StaticGameObject* objectTreeRoot);
-	bool UpdateTransformAndCheckCollision(float oldValue, float &valueChanged, StaticGameObject* rootNode);
+	// These returns what it collides with
+	StaticGameObject* CheckCollision(StaticGameObject* compareTree);
+	StaticGameObject* CheckCollision(StaticGameObject* compareTree, StaticGameObject* objectTreeRoot);
+	virtual void CollisionEffect(float oldValue, float &valueThatWasChanged);
 
 #pragma region Set Methods
 	void SetModel(Model* model);

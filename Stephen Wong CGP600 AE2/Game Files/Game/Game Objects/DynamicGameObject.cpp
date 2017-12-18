@@ -98,6 +98,31 @@ void DynamicGameObject::MoveForwardIncludingY(float distance)
 	m_zPos += cos(m_yAngle) * distance * cosXAngle;
 }
 
+//####################################################################################
+// Check collision and carry out the collision effect if there is one
+//####################################################################################
+bool DynamicGameObject::UpdateTransformAndCheckCollision(float oldValue, float &valueChanged, StaticGameObject* rootNode)
+{
+	XMMATRIX identity = XMMatrixIdentity();
+
+	// Update collision tree since the state has been changed
+	rootNode->UpdateCollisionTree(&identity, m_scale);
+
+	// Get the object collided with
+	StaticGameObject* collidedObject = CheckCollision(rootNode);
+
+	if (collidedObject != NULL)
+	{
+		// Collision
+		// Carry out the collided object's collision effect
+		collidedObject->CollisionEffect(oldValue, valueChanged);
+		return true;
+	}
+
+	// No Collision
+	return false;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 // Increment Methods
 //////////////////////////////////////////////////////////////////////////////////////

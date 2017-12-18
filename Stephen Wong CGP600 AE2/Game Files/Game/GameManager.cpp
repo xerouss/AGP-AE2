@@ -85,7 +85,7 @@ HRESULT GameManager::InitialiseLevel(ID3D11Device* device)
 
 	m_pLevel = new Level(device, m_pImmediateContext);
 
-	hr = m_pLevel->SetUpLevel();
+	hr = m_pLevel->SetUpLevel(&m_score);
 
 	// If failed will return fail else it would have been set up
 	return hr;
@@ -134,7 +134,7 @@ void GameManager::Render(void)
 	m_pLevel->Render();
 
 	// Show the score in the HUD
-	m_HUD->SetScoreText("1", -1, 1, 0.2f);
+	m_HUD->SetScoreText(to_string(m_score), scoreHUDXPos, scoreHUDYPos, scoreHUDTextSize);
 	m_HUD->Render();
 
 	// Display what has just been rendered
