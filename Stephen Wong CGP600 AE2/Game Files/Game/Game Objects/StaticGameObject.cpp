@@ -314,6 +314,10 @@ void StaticGameObject::SetScale(float scale)
 {
 	m_scale = scale;
 }
+void StaticGameObject::SetDeleteAfterCollision(bool shouldDelete)
+{
+	m_deleteAfterCollision = shouldDelete;
+}
 #pragma endregion
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -360,6 +364,11 @@ XMVECTOR StaticGameObject::GetWorldCentrePosition()
 {
 	return XMVectorSet(m_worldCentreX, m_worldCentreY,
 		m_worldCentreZ, 0.0f);
+}
+
+bool StaticGameObject::GetDeleteAfterCollision(void)
+{
+	return m_deleteAfterCollision;
 }
 
 #pragma endregion

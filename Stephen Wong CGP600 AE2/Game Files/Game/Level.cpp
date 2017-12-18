@@ -82,7 +82,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 
 	// Create the game objects
 	m_pRootWallGameObject = new StaticGameObject();
-	m_pWall1GameObject = new DynamicGameObject();
+	m_pWall1GameObject = new DynamicGameObject(-3, 0, 0);
 	m_pWall2GameObject = new DynamicGameObject(-3, 0, 5);
 	m_pWall3GameObject = new DynamicGameObject(3, 0, -10);
 	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 3, 0, 0);

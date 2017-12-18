@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			DynamicGameObject.cpp
-//	Last Updated:	07/12/2017
+//	Last Updated:	18/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -116,6 +116,16 @@ bool DynamicGameObject::UpdateTransformAndCheckCollision(float oldValue, float &
 		// Collision
 		// Carry out the collided object's collision effect
 		collidedObject->CollisionEffect(oldValue, valueChanged);
+
+		// If the object needs to be deleted after collision, delete it
+		if (collidedObject->GetDeleteAfterCollision())
+		{
+			// Detach the collided object to prevent errors
+			rootNode->DetachNode(collidedObject); 
+
+			delete collidedObject;
+			collidedObject = NULL;
+		}
 		return true;
 	}
 

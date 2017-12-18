@@ -23,6 +23,6 @@ public:
 	Collectible(int* score, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
 	Collectible(int* score, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 
-	void SetScorePointer(int* score);
+	void InitialiseCollectible(int* score);
 	virtual void CollisionEffect(float oldValue, float &valueThatWasChanged);
 };

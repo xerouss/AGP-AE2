@@ -38,6 +38,8 @@ private:
 	vector<StaticGameObject*> m_pChildren;
 
 protected:
+	bool m_deleteAfterCollision = false;
+
 #pragma region Position attributes
 
 	float m_xPos;
@@ -93,6 +95,8 @@ public:
 	void SetZRotation(float zRot);
 
 	void SetScale(float scale);
+
+	void SetDeleteAfterCollision(bool shouldDelete);
 #pragma endregion
 
 #pragma region Get Methods
@@ -108,6 +112,8 @@ public:
 	float GetScale(void);
 
 	XMVECTOR GetWorldCentrePosition();
+
+	bool GetDeleteAfterCollision(void);
 #pragma endregion
 
 };
