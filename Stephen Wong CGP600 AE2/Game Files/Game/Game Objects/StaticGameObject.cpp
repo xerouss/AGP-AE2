@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			StaticGameObject.cpp
-//	Last Updated:	05/12/2017
+//	Last Updated:	19/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -264,7 +264,7 @@ StaticGameObject* StaticGameObject::CheckCollision(StaticGameObject* compareTree
 //####################################################################################
 // What happens when an object collides with this
 //####################################################################################
-void StaticGameObject::CollisionEffect(float oldValue, float &valueThatWasChanged)
+void StaticGameObject::CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object)
 {
 	// Move the object back to it's original position
 	valueThatWasChanged = oldValue;
@@ -314,9 +314,15 @@ void StaticGameObject::SetScale(float scale)
 {
 	m_scale = scale;
 }
+
 void StaticGameObject::SetDeleteAfterCollision(bool shouldDelete)
 {
 	m_deleteAfterCollision = shouldDelete;
+}
+
+void StaticGameObject::SetGameObjectType(GameObjectTypes type)
+{
+	m_gameObjectType = type;
 }
 #pragma endregion
 
@@ -369,6 +375,11 @@ XMVECTOR StaticGameObject::GetWorldCentrePosition()
 bool StaticGameObject::GetDeleteAfterCollision(void)
 {
 	return m_deleteAfterCollision;
+}
+
+GameObjectTypes StaticGameObject::GetGameObjectType(void)
+{
+	return m_gameObjectType;
 }
 
 #pragma endregion

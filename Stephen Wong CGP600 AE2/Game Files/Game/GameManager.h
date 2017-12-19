@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			GameManager.h
-//	Last Updated:	18/12/2017
+//	Last Updated:	19/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -18,8 +18,8 @@
 
 #pragma region Constants
 
-const int scoreHUDXPos = -1;
-const int scoreHUDYPos = 1;
+const float scoreHUDXPos = -1;
+const float scoreHUDYPos = 1;
 const float scoreHUDTextSize = 0.2f;
 
 #pragma endregion

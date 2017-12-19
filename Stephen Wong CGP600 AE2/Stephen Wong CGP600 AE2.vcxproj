@@ -25,6 +25,7 @@
     <ClCompile Include="Game Files\Game\Game Objects\DynamicGameObject.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\Model.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\ObjectFileModel.cpp" />
+    <ClCompile Include="Game Files\Game\Game Objects\PushableGameObject.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\StaticGameObject.cpp" />
     <ClCompile Include="Game Files\Game\GameManager.cpp" />
     <ClCompile Include="Game Files\Game\HUD.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="Game Files\Game\Game Objects\DynamicGameObject.h" />
     <ClInclude Include="Game Files\Game\Game Objects\Model.h" />
     <ClInclude Include="Game Files\Game\Game Objects\ObjectFileModel.h" />
+    <ClInclude Include="Game Files\Game\Game Objects\PushableGameObject.h" />
     <ClInclude Include="Game Files\Game\Game Objects\StaticGameObject.h" />
     <ClInclude Include="Game Files\Game\GameManager.h" />
     <ClInclude Include="Game Files\Game\HUD.h" />

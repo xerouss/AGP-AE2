@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			DynamicGameObject.cpp
-//	Last Updated:	18/12/2017
+//	Last Updated:	19/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -20,24 +20,28 @@
 DynamicGameObject::DynamicGameObject() : StaticGameObject()
 {
 	// Call static game object's constructor
+	SetGameObjectType(DYNAMIC);
 }
 
 DynamicGameObject::DynamicGameObject(float xPos, float yPos, float zPos):
 	StaticGameObject(xPos, yPos, zPos)
 {
 	// Call static game object's constructor
+	SetGameObjectType(DYNAMIC);
 }
 
 DynamicGameObject::DynamicGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
 	StaticGameObject(xPos, yPos, zPos, xAngle, yAngle, zAngle)
 {
 	// Call static game object's constructor
+	SetGameObjectType(DYNAMIC);
 }
 
 DynamicGameObject::DynamicGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
 	StaticGameObject(xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
 {
 	// Call static game object's constructor
+	SetGameObjectType(DYNAMIC);
 }
 
 //####################################################################################
@@ -113,9 +117,13 @@ bool DynamicGameObject::UpdateTransformAndCheckCollision(float oldValue, float &
 
 	if (collidedObject != NULL)
 	{
+		// Unless the object is the camera and the collided object is a collectible, return false
+		// This stops other objects than the camera/player picking up the collectible and destroying it
+		if (m_gameObjectType != CAMERA && collidedObject->GetGameObjectType() == COLLECTIBLE) return false;
+
 		// Collision
 		// Carry out the collided object's collision effect
-		collidedObject->CollisionEffect(oldValue, valueChanged);
+		collidedObject->CollisionEffect(oldValue, valueChanged, this);
 
 		// If the object needs to be deleted after collision, delete it
 		if (collidedObject->GetDeleteAfterCollision())

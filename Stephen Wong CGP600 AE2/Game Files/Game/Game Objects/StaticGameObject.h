@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			StaticGameObject.h
-//	Last Updated:	07/12/2017
+//	Last Updated:	19/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -28,7 +28,10 @@ const float defaultAxisPos = 0.0f;
 const float defaultAxisRotation = 0.0f;
 #pragma endregion
 
-
+enum GameObjectTypes
+{
+	STATIC, DYNAMIC, COLLECTIBLE, PUSHABLE, CAMERA, NUMOFOBJECTTYPES
+};
 
 
 class StaticGameObject
@@ -39,6 +42,8 @@ private:
 
 protected:
 	bool m_deleteAfterCollision = false;
+	// This allows different collision effects to happen based of the object type
+	GameObjectTypes m_gameObjectType = STATIC;
 
 #pragma region Position attributes
 
@@ -81,7 +86,7 @@ public:
 	// These returns what it collides with
 	StaticGameObject* CheckCollision(StaticGameObject* compareTree);
 	StaticGameObject* CheckCollision(StaticGameObject* compareTree, StaticGameObject* objectTreeRoot);
-	virtual void CollisionEffect(float oldValue, float &valueThatWasChanged);
+	virtual void CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
 
 #pragma region Set Methods
 	void SetModel(Model* model);
@@ -97,6 +102,7 @@ public:
 	void SetScale(float scale);
 
 	void SetDeleteAfterCollision(bool shouldDelete);
+	void SetGameObjectType(GameObjectTypes type);
 #pragma endregion
 
 #pragma region Get Methods
@@ -114,6 +120,7 @@ public:
 	XMVECTOR GetWorldCentrePosition();
 
 	bool GetDeleteAfterCollision(void);
+	GameObjectTypes GetGameObjectType(void);
 #pragma endregion
 
 };

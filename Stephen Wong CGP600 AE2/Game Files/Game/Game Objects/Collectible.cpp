@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Collectible.cpp
-//	Last Updated:	18/12/2017
+//	Last Updated:	19/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -14,6 +14,9 @@
 
 #pragma endregion
 
+//####################################################################################
+// Constructors
+//####################################################################################
 Collectible::Collectible(int* score) : StaticGameObject()
 {
 	InitialiseCollectible(score);
@@ -38,15 +41,27 @@ Collectible::Collectible(int* score, float xPos, float yPos, float zPos, float x
 	InitialiseCollectible(score);
 }
 
+//####################################################################################
+// Set up the collectible object
+//####################################################################################
 void Collectible::InitialiseCollectible(int* score)
 {
 	// Delete after being collected to stop the player getting it multiple times
 	m_deleteAfterCollision = true; 
 	m_pScore = score;
+	SetGameObjectType(COLLECTIBLE);
 }
 
-void Collectible::CollisionEffect(float oldValue, float &valueThatWasChanged)
+//####################################################################################
+// What happens on collision
+//####################################################################################
+void Collectible::CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object)
 {
 	// Don't move the object back because the collectible should be able to be walked through
-	(*m_pScore)++; // Increase the score
+	// Only increase the score if its the camera/player
+	// This prevents other object colliding with it and increasing the score
+	if (object->GetGameObjectType() == CAMERA)
+	{
+		(*m_pScore)++; // Increase the score
+	}
 }
