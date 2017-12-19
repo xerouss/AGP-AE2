@@ -82,11 +82,12 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 
 	// Create the game objects
 	m_pRootWallGameObject = new StaticGameObject();
-	m_pWall1GameObject = new DynamicGameObject(-3, 0, 0);
-	m_pWall2GameObject = new DynamicGameObject(-3, 0, 5);
-	m_pWall3GameObject = new DynamicGameObject(3, 0, -10);
-	m_pPushableGameObject1 = new PushableGameObject(m_pRootWallGameObject, 3, 0, 0);
-	m_pCollectible1 = new Collectible(m_scoreSaveLocation, -3, 0, 0);
+	m_pWall1GameObject = new DynamicGameObject(-5, 0, 0);
+	m_pWall2GameObject = new DynamicGameObject(-5, 0, 5);
+	m_pWall3GameObject = new DynamicGameObject(5, 0, -10);
+	m_pPushableGameObject1 = new PushableGameObject(m_pRootWallGameObject, 0, 0, 0);
+	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 6, 0, 0);
+	m_pCamera = new Camera(0.0f, 0.0f, -15.0f);
 
 	// Set the children, models and positions
 	m_pRootWallGameObject->AddChildNode(m_pWall1GameObject);
@@ -94,16 +95,15 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pRootWallGameObject->AddChildNode(m_pWall3GameObject);
 	m_pRootWallGameObject->AddChildNode(m_pCollectible1);
 	m_pRootWallGameObject->AddChildNode(m_pPushableGameObject1);
+	m_pRootWallGameObject->AddChildNode(m_pCamera);
 
+	// Set the models
 	m_pWall1GameObject->SetModel(m_pWallModel);
 	m_pWall2GameObject->SetModel(m_pWallModel);
 	m_pWall3GameObject->SetModel(m_pWallModel);
 	m_pCollectible1->SetModel(m_pWallModel);
 	m_pPushableGameObject1->SetModel(m_pWallModel);
-	//m_pRootWallGameObject->AddChildNode(m_pCamera);
-
-	// Create the camera
-	m_pCamera = new Camera(0.0f, 0.0f, -0.5f);
+	m_pCamera->SetModel(m_pWallModel);
 
 	return hr; // Should return S_OK if nothing fails
 }
@@ -129,7 +129,7 @@ void Level::Render(void)
 
 	// Depending on the z position it will either move it closer or further away
 	world = XMMatrixRotationRollPitchYaw(0, 0, 0);
-	world *= XMMatrixTranslation(0, 0, 10); // World transformation
+	world *= XMMatrixTranslation(0, 0, 0); // World transformation
 
 	view = m_pCamera->GetViewMatrix(); // Change this to camera 
 // TODO: CHANGE THIS
@@ -140,14 +140,14 @@ void Level::Render(void)
 	m_pRootWallGameObject->Update(&world, &view, &projection);
 }
 
-void Level::MoveCameraForward(float distance)
+void Level::MoveCameraForward(float movementMultiplier)
 {
-	m_pCamera->MoveForward(distance);
+	m_pCamera->MoveForward(m_pCamera->GetMovementSpeed() * movementMultiplier, m_pRootWallGameObject);
 }
 
-void Level::StrafeCamera(float distance)
+void Level::StrafeCamera(float movementMultiplier)
 {
-	m_pCamera->Strafe(distance);
+	m_pCamera->Strafe(m_pCamera->GetMovementSpeed() * movementMultiplier, m_pRootWallGameObject );
 }
 
 void Level::ChangeCameraDirection(float amount)

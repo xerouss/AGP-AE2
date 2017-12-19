@@ -52,6 +52,8 @@ Camera::Camera(float xPos, float yPos, float zPos, float xAngle, float yAngle, f
 //####################################################################################
 void Camera::SetDefaultProperties()
 {
+	m_gameObjectType = CAMERA;
+
 	m_deltaXPos = (float)sin(0);
 	m_deltaYPos = (float)tan(0);
 	m_deltaZPos = (float)cos(0);
@@ -60,19 +62,31 @@ void Camera::SetDefaultProperties()
 //####################################################################################
 // Move the camera forward/backwards
 //####################################################################################
-void Camera::MoveForward(float distance)
+void Camera::MoveForward(float distance, StaticGameObject* rootNode)
 {
+	float oldXPos = m_xPos;
+	float oldZPos = m_zPos;
+
 	m_xPos += distance * m_deltaXPos;
 	m_zPos += distance * m_deltaZPos;
+
+	UpdateTransformAndCheckCollision(oldXPos, m_xPos, rootNode);
+	UpdateTransformAndCheckCollision(oldZPos, m_zPos, rootNode);
 }
 
 //####################################################################################
 // Move the camera left/right
 //####################################################################################
-void Camera::Strafe(float distance)
+void Camera::Strafe(float distance, StaticGameObject* rootNode)
 {
+	float oldXPos = m_xPos;
+	float oldZPos = m_zPos;
+
 	m_xPos += distance * m_deltaZPos;
 	m_zPos += distance * m_deltaXPos;
+
+	UpdateTransformAndCheckCollision(oldXPos, m_xPos, rootNode);
+	UpdateTransformAndCheckCollision(oldZPos, m_zPos, rootNode);
 }
 
 //void Camera::MoveForwardIncludingY(float distance)
@@ -120,6 +134,19 @@ XMMATRIX Camera::GetViewMatrix(void)
 	m_lookAtPos = XMVectorSet(m_xPos + m_deltaXPos, m_yPos + m_deltaYPos, m_zPos + m_deltaZPos, 0.0f);
 	m_up = XMVectorSet(0, 1.0f, 0, 0);
 	return XMMatrixLookAtLH(m_position, m_lookAtPos, m_up);
+}
+
+//####################################################################################
+// Get and Set movement speed
+//####################################################################################
+float Camera::GetMovementSpeed(void)
+{
+	return m_movementSpeed;
+}
+
+void Camera::SetMovementSpeed(float speed)
+{
+	m_movementSpeed = speed;
 }
 
 

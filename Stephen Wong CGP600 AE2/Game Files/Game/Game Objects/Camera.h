@@ -14,6 +14,8 @@
 #pragma endregion
 
 
+const float defaultMovementSpeed = 0.001f;
+
 class Camera: public DynamicGameObject
 {
 private:
@@ -25,6 +27,7 @@ private:
 	XMVECTOR m_lookAtPos;
 	XMVECTOR m_up;
 
+	float m_movementSpeed = defaultMovementSpeed;
 public:
 	Camera();
 	Camera(float xPos, float yPos, float zPos);
@@ -34,8 +37,8 @@ public:
 
 	void SetDefaultProperties(void);
 
-	void MoveForward(float distance);
-	void Strafe(float distance);
+	void MoveForward(float distance, StaticGameObject* rootNode);
+	void Strafe(float distance, StaticGameObject* rootNode);
 	//void MoveForwardIncludingY(float distance);
 
 	bool IncrementXAngle(float increaseAmount, StaticGameObject* rootNode);
@@ -43,4 +46,7 @@ public:
 	bool IncrementZAngle(float increaseAmount, StaticGameObject* rootNode);
 
 	XMMATRIX GetViewMatrix(void);
+
+	float GetMovementSpeed(void);
+	void SetMovementSpeed(float speed);
 };

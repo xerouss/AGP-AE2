@@ -104,10 +104,10 @@ void GameManager::Update(void)
 	// Need to make update return bool and true if escape pressed to exit
 	// if(m_pInput->IsKeyPressed(DIK_ESCAPE))  
 
-	if (m_pInput->IsKeyPressed(DIK_W)) m_pLevel->MoveCameraForward(0.1f);
-	if (m_pInput->IsKeyPressed(DIK_S)) m_pLevel->MoveCameraForward(-0.1f);
-	if (m_pInput->IsKeyPressed(DIK_A)) m_pLevel->StrafeCamera(-0.1f);
-	if (m_pInput->IsKeyPressed(DIK_D)) m_pLevel->StrafeCamera(0.1f);
+	if (m_pInput->IsKeyDown(DIK_W)) m_pLevel->MoveCameraForward(1);
+	if (m_pInput->IsKeyDown(DIK_S)) m_pLevel->MoveCameraForward(-1);
+	if (m_pInput->IsKeyDown(DIK_A)) m_pLevel->StrafeCamera(-1);
+	if (m_pInput->IsKeyDown(DIK_D)) m_pLevel->StrafeCamera(1);
 
 	float mouseChangeAmount = (float)m_pInput->GetMousePositionChange(true);
 	if (mouseChangeAmount != 0) m_pLevel->ChangeCameraDirection(mouseChangeAmount / 100);

@@ -47,7 +47,7 @@ public:
 	void Update(void);
 	void Render(void);
 	
-	void MoveCameraForward(float distance);
-	void StrafeCamera(float distance);
+	void MoveCameraForward(float movementMultiplier);
+	void StrafeCamera(float movementMultiplier);
 	void ChangeCameraDirection(float amount);
 };
