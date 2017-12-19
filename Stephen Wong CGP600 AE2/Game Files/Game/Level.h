@@ -14,6 +14,7 @@
 #include "Game Objects\DynamicGameObject.h"
 #include "Game Objects\Camera.h"
 #include "Game Objects\Collectible.h"
+#include "Game Objects\PushableGameObject.h"
 
 #pragma endregion
 
@@ -23,10 +24,7 @@ class Level
 private:
 	// TODO: ADD THESE:
 	// Lights
-	// GameObjects
-	// Camera
 	// Particles
-	// Scene Nodes
 
 	// Need the device and context for the models
 	ID3D11Device* m_pD3DDevice;
@@ -39,6 +37,7 @@ private:
 	DynamicGameObject* m_pWall2GameObject;
 	DynamicGameObject* m_pWall3GameObject;
 	Collectible* m_pCollectible1;
+	PushableGameObject* m_pPushableGameObject1;
 
 public:
 	Level(ID3D11Device* device, ID3D11DeviceContext* immediateContext);

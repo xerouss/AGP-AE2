@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			PushableGameObject.h
-//	Last Updated:	18/12/2017
+//	Last Updated:	19/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -13,17 +13,20 @@
 
 #pragma endregion
 
+const float pushSpeed = 0.1f;
 
-
-class PushableGameObject : DynamicGameObject
+class PushableGameObject : public DynamicGameObject
 {
 private:
-
+	StaticGameObject* m_pWorldRootGameObject;
 
 public:
-	//PushableGameObject();
-	//~PushableGameObject();
+	PushableGameObject(StaticGameObject* rootGameObject);
+	PushableGameObject(StaticGameObject* rootGameObject, float xPos, float yPos, float zPos);
+	PushableGameObject(StaticGameObject* rootGameObject, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
+	PushableGameObject(StaticGameObject* rootGameObject, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 
-	//virtual void CollisionEffect(float oldValue, float &valueThatWasChanged);
+	void InitialisePushabelGameObject(StaticGameObject* rootGameObject);
+	virtual void CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
 
 };

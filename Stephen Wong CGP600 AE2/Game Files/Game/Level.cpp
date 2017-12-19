@@ -85,18 +85,21 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pWall1GameObject = new DynamicGameObject(-3, 0, 0);
 	m_pWall2GameObject = new DynamicGameObject(-3, 0, 5);
 	m_pWall3GameObject = new DynamicGameObject(3, 0, -10);
-	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 3, 0, 0);
+	m_pPushableGameObject1 = new PushableGameObject(m_pRootWallGameObject, 3, 0, 0);
+	m_pCollectible1 = new Collectible(m_scoreSaveLocation, -3, 0, 0);
 
 	// Set the children, models and positions
 	m_pRootWallGameObject->AddChildNode(m_pWall1GameObject);
 	m_pRootWallGameObject->AddChildNode(m_pWall2GameObject);
 	m_pRootWallGameObject->AddChildNode(m_pWall3GameObject);
 	m_pRootWallGameObject->AddChildNode(m_pCollectible1);
+	m_pRootWallGameObject->AddChildNode(m_pPushableGameObject1);
 
 	m_pWall1GameObject->SetModel(m_pWallModel);
 	m_pWall2GameObject->SetModel(m_pWallModel);
 	m_pWall3GameObject->SetModel(m_pWallModel);
 	m_pCollectible1->SetModel(m_pWallModel);
+	m_pPushableGameObject1->SetModel(m_pWallModel);
 	//m_pRootWallGameObject->AddChildNode(m_pCamera);
 
 	// Create the camera

@@ -19,6 +19,7 @@
 //####################################################################################
 Collectible::Collectible(int* score) : StaticGameObject()
 {
+	// Call static game object's constructor
 	InitialiseCollectible(score);
 }
 
@@ -26,18 +27,21 @@ Collectible::Collectible(int* score, float xPos, float yPos, float zPos) :
 	StaticGameObject(xPos, yPos, zPos)
 
 {
+	// Call static game object's constructor
 	InitialiseCollectible(score);
 }
 
 Collectible::Collectible(int* score, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
 	StaticGameObject(xPos, yPos, zPos, xAngle, yAngle, zAngle)
 {
+	// Call static game object's constructor
 	InitialiseCollectible(score);
 }
 
 Collectible::Collectible(int* score, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
 	StaticGameObject(xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
 {
+	// Call static game object's constructor
 	InitialiseCollectible(score);
 }
 

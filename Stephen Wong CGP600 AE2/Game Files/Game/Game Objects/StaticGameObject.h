@@ -76,6 +76,7 @@ public:
 	StaticGameObject(float xPos, float yPos, float zPos);
 	StaticGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
 	StaticGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
+	// TODO: MAKE THIS VIRTUAL AND USE IT IN INHERITED OBJECTS
 	void SetDefaultProperties(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 	virtual ~StaticGameObject();
 
