@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			GameManager.cpp
-//	Last Updated:	18/12/2017
+//	Last Updated:	20/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -130,7 +130,7 @@ void GameManager::Render(void)
 	// Set the topology, triangle list is chosen since all objects will be made out of triangles
 	m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	// RENDER HERE
+	// Render the level
 	m_pLevel->Render();
 
 	// Show the score in the HUD
@@ -139,5 +139,22 @@ void GameManager::Render(void)
 
 	// Display what has just been rendered
 	m_pSwapChain->Present(0, 0);
+}
+
+void GameManager::SetZBuffer(ID3D11DepthStencilView * zbuffer)
+{
+	m_pZBuffer = zbuffer;
+}
+
+//####################################################################################
+// Update the level's projection matrix
+//####################################################################################
+void GameManager::SetProjectionMatrix(float screenWidth, float screenHeight)
+{
+	XMMATRIX projection;
+	projection = XMMatrixPerspectiveFovLH(defaultProjectionFOVAngleRadian, 
+		screenWidth/ screenHeight, defaultNearClippingPlaneZ, defaultFarClippingPlaneZ);
+
+	m_pLevel->SetProjectionMatrix(projection);
 }
 

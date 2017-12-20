@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Direct3D.h
-//	Last Updated:	09/12/2017
+//	Last Updated:	20/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -30,7 +30,10 @@ public:
 	~Direct3D();
 
 	HRESULT InitialiseD3D(HWND hWindow);
-	HRESULT CreateZBuffer(UINT descCount, UINT width, UINT height, HRESULT hr);
+	HRESULT CreateBackBuffer(void);
+	HRESULT CreateZBuffer(UINT descCount, UINT width, UINT height);
+	void SetViewport(float width, float height);
+	HRESULT UpdateViewport(UINT viewportWidth, UINT viewportHeight); // Update viewport when it gets resized
 
 #pragma region Get Methods
 

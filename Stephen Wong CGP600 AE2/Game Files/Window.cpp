@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Window.cpp
-//	Last Updated:	09/12/2017
+//	Last Updated:	20/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -15,6 +15,10 @@
 
 #pragma endregion
 
+LONG Window::m_screenWidth = 0;
+LONG Window::m_screenHeight = 0;
+bool  Window::m_updateViewport = false;
+
 //####################################################################################
 // Constructor
 //####################################################################################
@@ -26,6 +30,9 @@ Window::Window(LONG screenWidth, LONG screenHeight, char projectName[100])
 	// Save the project name
 	// Got to do it this way because you can't array = array
 	strcpy_s(m_projectName, projectName);
+
+	m_updateViewport = false;
+
 }
 
 //####################################################################################
@@ -87,6 +94,12 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+		// When the window is resized
+	case WM_SIZE:
+		m_screenWidth = LOWORD(lParam);
+		m_screenHeight = HIWORD(lParam);
+		m_updateViewport = true;
+		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -94,6 +107,10 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	return 0;
 }
 
+
+//####################################################################################
+// Get methods
+//####################################################################################
 #pragma region Get Methods
 
 HWND Window::GetWindow(void)
@@ -104,6 +121,30 @@ HWND Window::GetWindow(void)
 HINSTANCE Window::GetHInstance(void)
 {
 	return m_hInstance;
+}
+
+bool Window::GetUpdateViewport(void)
+{
+	return m_updateViewport;
+}
+
+LONG Window::GetScreenWidth(void)
+{
+	return m_screenWidth;
+}
+
+LONG Window::GetScreenHeight(void)
+{
+	return m_screenHeight;
+}
+#pragma endregion
+
+
+#pragma region Set Methods
+
+void Window::SetUpdateViewport(bool shouldUpdate)
+{
+	m_updateViewport = shouldUpdate;
 }
 
 #pragma endregion

@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Direct3D.cpp
-//	Last Updated:	18/12/2017
+//	Last Updated:	20/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -93,48 +93,49 @@ HRESULT Direct3D::InitialiseD3D(HWND hWindow)
 
 	if (FAILED(hr)) return hr;
 
-	// Get pointer to back buffer texture
-	ID3D11Texture2D *pBackBufferTexture;
-	hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-		(LPVOID*)&pBackBufferTexture);
-	if (FAILED(hr)) return hr;
-
-
-	// Use the back buffer texture pointer to create the render target view
-	hr = m_pD3DDevice->CreateRenderTargetView(pBackBufferTexture, NULL,
-		&m_pBackBufferRenderTargetView);
-	pBackBufferTexture->Release();
+	// Create the back buffer
+	hr = CreateBackBuffer();
 	if (FAILED(hr)) return hr;
 
 	// ZBUFFER
 	m_descCount = sd.SampleDesc.Count;
-	hr = CreateZBuffer(m_descCount, (UINT)width, (UINT)height, hr);
+	hr = CreateZBuffer(m_descCount, width, height);
 	if (FAILED(hr)) return hr;
 
-	// Set the render target view
-	m_pImmediateContext->OMSetRenderTargets(1, &m_pBackBufferRenderTargetView, m_pZBuffer);
-
-	// Set the viewport
-	D3D11_VIEWPORT viewport;
-
-	viewport.TopLeftX = 0;
-	viewport.TopLeftY = 0;
-	// Cast these as floats to prevent type difference warnings
-	viewport.Width = (FLOAT)width;
-	viewport.Height = (FLOAT)height;
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
-
-	m_pImmediateContext->RSSetViewports(1, &viewport);
+	// Viewport
+	SetViewport((float)width, (float)height);
 
 	return hr;
 }
 
 //####################################################################################
+// Create back Buffer
+//####################################################################################
+HRESULT Direct3D::CreateBackBuffer(void)
+{
+	HRESULT hr = S_OK;
+
+	// Get pointer to back buffer texture
+	ID3D11Texture2D *pBackBufferTexture;
+	hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBufferTexture);
+	if (FAILED(hr)) return hr;
+
+
+	// Use the back buffer texture pointer to create the render target view
+	hr = m_pD3DDevice->CreateRenderTargetView(pBackBufferTexture, NULL, &m_pBackBufferRenderTargetView);
+	pBackBufferTexture->Release();
+
+	return hr;
+}
+
+
+//####################################################################################
 // Create Z Buffer
 //####################################################################################
-HRESULT Direct3D::CreateZBuffer(UINT descCount, UINT width, UINT height, HRESULT hr)
+HRESULT Direct3D::CreateZBuffer(UINT descCount, UINT width, UINT height)
 {
+	HRESULT hr = S_OK;
+
 	// Create Z buffer texture
 	D3D11_TEXTURE2D_DESC texture2dDesc;
 	ZeroMemory(&texture2dDesc, sizeof(texture2dDesc));
@@ -164,6 +165,61 @@ HRESULT Direct3D::CreateZBuffer(UINT descCount, UINT width, UINT height, HRESULT
 
 	// Release texture since its no longer needed
 	if(pZBufferTexture) pZBufferTexture->Release();
+
+	return hr;
+}
+
+//####################################################################################
+// Set up the viewport
+//####################################################################################
+void Direct3D::SetViewport(float width, float height)
+{
+	// Set the render target view
+	m_pImmediateContext->OMSetRenderTargets(1, &m_pBackBufferRenderTargetView, m_pZBuffer);
+
+	// Set the viewport
+	D3D11_VIEWPORT viewport;
+
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	// Cast these as floats to prevent type difference warnings
+	viewport.Width = (FLOAT)width;
+	viewport.Height = (FLOAT)height;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+
+	m_pImmediateContext->RSSetViewports(1, &viewport);
+}
+
+//####################################################################################
+// Update the viewport with a new size
+//####################################################################################
+HRESULT Direct3D::UpdateViewport(UINT viewportWidth, UINT viewportHeight)
+{
+	HRESULT hr = S_OK;
+
+	if (m_pSwapChain)
+	{
+		// Bind render targets to the output-merger stage
+		m_pImmediateContext->OMSetRenderTargets(0, 0, 0);
+
+		// Release references to swap chain buffers
+		m_pBackBufferRenderTargetView->Release();
+		hr = m_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
+		if (FAILED(hr)) return hr;
+
+		// Re-create the back buffer
+		m_pZBuffer->Release();
+		hr = CreateBackBuffer();
+		if (FAILED(hr)) return hr;
+
+		// Re-create the zbuffer
+		hr = CreateZBuffer(m_descCount, viewportWidth, viewportHeight);
+		if (FAILED(hr)) return hr;
+
+		// Re-set the viewport
+		SetViewport((float)viewportWidth, (float)viewportHeight);
+	}
 
 	return hr;
 }

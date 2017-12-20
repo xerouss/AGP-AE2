@@ -30,24 +30,9 @@ int (WINAPIV * __vsnprintf_s)(char *, size_t, const char*, va_list) = _vsnprintf
 #pragma region Constants
 const LONG startingScreenWidth = 640;
 const LONG startingScreenHeight = 480;
-
+const int failed = 0;
 #pragma endregion
 
-//////////////////////////////////////////////////////////////////////////////////////
-// Global Variables
-//////////////////////////////////////////////////////////////////////////////////////
-#pragma region Global Variables
-//HINSTANCE	g_hInst = NULL;
-//HWND		g_hWnd = NULL;
-
-#pragma endregion
-
-//////////////////////////////////////////////////////////////////////////////////////
-// Forward Declarations
-//////////////////////////////////////////////////////////////////////////////////////
-#pragma region Forward Declarations
-void ShutdownD3D();
-#pragma endregion
 
 //////////////////////////////////////////////////////////////////////////////////////
 // Functions
@@ -70,14 +55,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (FAILED(pWindow->InitialiseWindow(hInstance, nCmdShow)))
 	{
 		DXTRACE_MSG("Failed to create Window");
-		return 0;
+		return failed;
 	}
 
 	// Start up D3D
 	if (FAILED(pDirect3D->InitialiseD3D(pWindow->GetWindow())))
 	{
 		DXTRACE_MSG("Failed to create Device");
-		return 0;
+		return failed;
 	}
 
 	// Game Manager initiated here because Direct3D needs to be initialised first
@@ -91,15 +76,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		pWindow->GetWindow())))
 	{
 		DXTRACE_MSG("Failed to initialise input");
-		return 0;
+		return failed;
 	}
 
 	// Set up the level
 	if (FAILED(pGameManager->InitialiseLevel(pDirect3D->GetD3DDevice())))
 	{
 		DXTRACE_MSG("Failed to initialise level");
-		return 0;
+		return failed;
 	}
+
+	pGameManager->SetProjectionMatrix((float)pWindow->GetScreenWidth(),
+		(float)pWindow->GetScreenHeight());
 
 	// Set up the HUD for the game
 	pGameManager->InitialiseHUD(pDirect3D->GetD3DDevice());
@@ -117,6 +105,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		else
 		{
+			// Check if the window has been resized
+			if (pWindow->GetUpdateViewport() == true)
+			{
+				// Update the viewport so it re-creates the buffers to match the new viewport size
+				if (FAILED(pDirect3D->UpdateViewport(pWindow->GetScreenWidth(),
+					pWindow->GetScreenHeight())))
+				{
+					DXTRACE_MSG("Failed to update viewport");
+					return failed;
+				}
+
+				// Update the projection matrix with the new window size
+				pGameManager->SetProjectionMatrix((float)pWindow->GetScreenWidth(),
+					(float)pWindow->GetScreenHeight());
+
+				// Need to reset the zbuffer or else the screen will be blank
+				pGameManager->SetZBuffer(pDirect3D->GetZBuffer());
+
+				// Viewport is updated so don't update again until it is changed again
+				pWindow->SetUpdateViewport(false);
+			}
+
 			// Update objects
 			pGameManager->Update();
 
@@ -126,8 +136,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	// Delete all objects before exiting the game
-	ShutdownD3D();
-
 	delete pGameManager;
 	pGameManager = NULL;
 
@@ -138,13 +146,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	pWindow = NULL;
 
 	return (int)msg.wParam;
-}
-
-//####################################################################################
-// Clean up objects
-//####################################################################################
-void ShutdownD3D()
-{
-
 }
 #pragma endregion

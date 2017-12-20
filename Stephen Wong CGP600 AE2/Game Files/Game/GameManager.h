@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			GameManager.h
-//	Last Updated:	19/12/2017
+//	Last Updated:	20/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -21,7 +21,9 @@
 const float scoreHUDXPos = -1;
 const float scoreHUDYPos = 1;
 const float scoreHUDTextSize = 0.2f;
-
+const float defaultProjectionFOVAngleRadian = 0.785398f; // 45 in degrees
+const float defaultNearClippingPlaneZ = 1.0f;
+const float defaultFarClippingPlaneZ = 100.0f;
 #pragma endregion
 
 class GameManager
@@ -34,7 +36,6 @@ private:
 	int m_score = 0;
 
 	// Don't delete these since they are passed from another class
-	//ID3D11Device* m_pD3DDevice; // Made this a parameter for initialise level since its only used there
 	ID3D11RenderTargetView* m_pBackBuffer;
 	IDXGISwapChain* m_pSwapChain;
 	ID3D11DeviceContext* m_pImmediateContext;
@@ -54,5 +55,8 @@ public:
 
 	void Update(void);
 	void Render(void);
+
+	void SetZBuffer(ID3D11DepthStencilView* zbuffer);
+	void SetProjectionMatrix(float screenWidth, float screenHeight);
 };
 

@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.h
-//	Last Updated:	02/12/2017
+//	Last Updated:	20/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -18,6 +18,8 @@
 
 #pragma endregion
 
+
+const float defaultWorldMatrixValue = 0.0f;
 
 class Level
 {
@@ -39,6 +41,9 @@ private:
 	Collectible* m_pCollectible1;
 	PushableGameObject* m_pPushableGameObject1;
 
+	XMMATRIX m_projectionMatrix;
+	XMMATRIX m_worldMatrix;
+
 public:
 	Level(ID3D11Device* device, ID3D11DeviceContext* immediateContext);
 	~Level();
@@ -50,4 +55,8 @@ public:
 	void MoveCameraForward(float movementMultiplier);
 	void StrafeCamera(float movementMultiplier);
 	void ChangeCameraDirection(float amount);
+
+	void SetWorldMatrix(float xPos, float yPos, float zPos,
+		float xRot, float yRot, float zRot, float scale);
+	void SetProjectionMatrix(XMMATRIX projection);
 };

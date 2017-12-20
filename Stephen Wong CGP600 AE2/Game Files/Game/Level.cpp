@@ -55,6 +55,10 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 {
 	HRESULT hr = S_OK;
 
+	// Set up world matrix
+	SetWorldMatrix(defaultWorldMatrixValue, defaultWorldMatrixValue, defaultWorldMatrixValue,
+		defaultWorldMatrixValue, defaultWorldMatrixValue, defaultWorldMatrixValue, 1);
+
 	// Create the model and load it from the assets folder
 	m_pWallModel = new Model(m_pD3DDevice, m_pImmediateContext);
 	hr = m_pWallModel->LoadObjectModel("Assets/Models/cube.obj");
@@ -86,7 +90,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pWall2GameObject = new DynamicGameObject(0, 0, -20);
 	m_pWall3GameObject = new DynamicGameObject(5, 0, -10);
 	m_pPushableGameObject1 = new PushableGameObject(m_pRootWallGameObject, 0, 0, 0);
-	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 6, 0, 0);
+	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 5, 0, 0);
 	m_pCamera = new Camera(0.0f, 0.0f, -15.0f);
 
 	// Set the children, models and positions
@@ -122,22 +126,15 @@ void Level::Update(void)
 //####################################################################################
 void Level::Render(void)
 {
-	// TODO MOVE THIS?
-	// Could move this to game manager, pass down the value including the screen width/height
-	// Or keep it here and just pass the with/height
-	XMMATRIX world, view, projection;
+	// Only view is done here since we don't need to redo the world matrix unless it changes
+	// The same goes for projection matrix
 
-	// Depending on the z position it will either move it closer or further away
-	world = XMMatrixRotationRollPitchYaw(0, 0, 0);
-	world *= XMMatrixTranslation(0, 0, 0); // World transformation
+	XMMATRIX view;
+	
+	// Get the camera view
+	view = m_pCamera->GetViewMatrix();
 
-	view = m_pCamera->GetViewMatrix(); // Change this to camera 
-// TODO: CHANGE THIS
-// Change the width and height so its dynamic
-	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), 640 / 480, 1.0f, 100.0f); // Projection transformation
-
-
-	m_pRootWallGameObject->Update(&world, &view, &projection);
+	m_pRootWallGameObject->Update(&m_worldMatrix, &view, &m_projectionMatrix);
 }
 
 void Level::MoveCameraForward(float movementMultiplier)
@@ -147,7 +144,7 @@ void Level::MoveCameraForward(float movementMultiplier)
 
 void Level::StrafeCamera(float movementMultiplier)
 {
-	m_pCamera->Strafe(m_pCamera->GetMovementSpeed() * movementMultiplier, m_pRootWallGameObject );
+	m_pCamera->Strafe(m_pCamera->GetMovementSpeed() * movementMultiplier, m_pRootWallGameObject);
 }
 
 void Level::ChangeCameraDirection(float amount)
@@ -155,4 +152,16 @@ void Level::ChangeCameraDirection(float amount)
 	// In order to do a full 360 both need to be incremented
 	m_pCamera->IncrementXAngle(amount, m_pRootWallGameObject);
 	m_pCamera->IncrementZAngle(amount, m_pRootWallGameObject);
+}
+
+void Level::SetWorldMatrix(float xPos, float yPos, float zPos, float xRot, float yRot, float zRot, float scale)
+{
+	m_worldMatrix = XMMatrixScaling(scale, scale, scale);
+	m_worldMatrix *= XMMatrixRotationRollPitchYaw(xRot, yRot, zRot);
+	m_worldMatrix *= XMMatrixTranslation(xPos, yPos, zPos);
+}
+
+void Level::SetProjectionMatrix(XMMATRIX projection)
+{
+	m_projectionMatrix = projection;
 }
