@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.cpp
-//	Last Updated:	09/12/2017
+//	Last Updated:	20/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -83,7 +83,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	// Create the game objects
 	m_pRootWallGameObject = new StaticGameObject();
 	m_pWall1GameObject = new DynamicGameObject(-5, 0, 0);
-	m_pWall2GameObject = new DynamicGameObject(-5, 0, 5);
+	m_pWall2GameObject = new DynamicGameObject(0, 0, -20);
 	m_pWall3GameObject = new DynamicGameObject(5, 0, -10);
 	m_pPushableGameObject1 = new PushableGameObject(m_pRootWallGameObject, 0, 0, 0);
 	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 6, 0, 0);
@@ -152,5 +152,7 @@ void Level::StrafeCamera(float movementMultiplier)
 
 void Level::ChangeCameraDirection(float amount)
 {
+	// In order to do a full 360 both need to be incremented
 	m_pCamera->IncrementXAngle(amount, m_pRootWallGameObject);
+	m_pCamera->IncrementZAngle(amount, m_pRootWallGameObject);
 }

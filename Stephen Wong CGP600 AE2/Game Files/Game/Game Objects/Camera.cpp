@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Camera.cpp
-//	Last Updated:	07/12/2017
+//	Last Updated:	30/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -79,6 +79,8 @@ void Camera::MoveForward(float distance, StaticGameObject* rootNode)
 //####################################################################################
 void Camera::Strafe(float distance, StaticGameObject* rootNode)
 {
+
+	// TODO: USE THIS TO FIX https://gamedev.stackexchange.com/questions/63819/first-person-camera-strafing-at-angle
 	float oldXPos = m_xPos;
 	float oldZPos = m_zPos;
 
@@ -101,7 +103,7 @@ bool Camera::IncrementXAngle(float increaseAmount, StaticGameObject * rootNode)
 
 	if (collision) return true;
 
-	m_deltaXPos = (float)sin(m_xAngle * DegreesToRadians);
+	m_deltaXPos = sinf(m_xAngle * DegreesToRadians);
 	return false;
 }
 
@@ -111,7 +113,7 @@ bool Camera::IncrementYAngle(float increaseAmount, StaticGameObject * rootNode)
 
 	if (collision) return true;
 
-	m_deltaYPos = (float)tan(m_yAngle * DegreesToRadians);
+	m_deltaYPos = tan(m_yAngle * DegreesToRadians);
 	return false;
 }
 
@@ -121,7 +123,7 @@ bool Camera::IncrementZAngle(float increaseAmount, StaticGameObject * rootNode)
 
 	if (collision) return true;
 
-	m_deltaZPos = (float)cos(m_zAngle * DegreesToRadians);
+	m_deltaZPos = cos(m_zAngle * DegreesToRadians);
 	return false;
 }
 
