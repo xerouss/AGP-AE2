@@ -58,18 +58,13 @@ void Camera::InitialiseCamera()
 }
 
 //####################################################################################
-// Move the camera forward/backwards
+// Get new position when moving forward
 //####################################################################################
-void Camera::MoveForward(float distance, StaticGameObject* rootNode)
+void Camera::SetNewForwardPosition(float distance)
 {
-	float oldXPos = m_xPos;
-	float oldZPos = m_zPos;
-
 	m_xPos += distance * m_deltaXPos;
 	m_zPos += distance * m_deltaZPos;
 
-	UpdateTransformAndCheckCollision(oldXPos, m_xPos, rootNode);
-	UpdateTransformAndCheckCollision(oldZPos, m_zPos, rootNode);
 }
 
 //####################################################################################

@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			NonPlayerEntity.cpp
-//	Last Updated:	20/12/2017
+//	Last Updated:	21/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -46,9 +46,6 @@ NonPlayerEntity::NonPlayerEntity(float speed, float xPos, float yPos, float zPos
 void NonPlayerEntity::InitialiseNonPlayerEntity(void)
 {
 	m_gameObjectType = NONPLAYERENTITY;
-	m_startXPos = m_xPos;
-	m_startZPos = m_zPos;
-
 	SetNewTargetPosition();
 }
 
@@ -59,7 +56,7 @@ void NonPlayerEntity::Update(StaticGameObject* rootNode)
 {
 	if (IsNearTargetPosition()) SetNewTargetPosition();
 
-	MoveForward(m_movementSpeed);
+	MoveForward(m_movementSpeed, rootNode);
 }
 
 //####################################################################################
@@ -92,4 +89,17 @@ bool NonPlayerEntity::IsNearTargetPosition(void)
 		(m_zPos >= m_targetZPos - positionCheckRange && m_zPos <= m_targetZPos + positionCheckRange))
 			return true;
 	return false;
+}
+
+//####################################################################################
+// On collision with another object
+//####################################################################################
+void NonPlayerEntity::OnAnyCollision(StaticGameObject* object)
+{
+	// Make the object go in the opposite direction that it is currently going in
+	m_targetXPos = ((m_xPos - m_targetXPos)) + m_xPos;
+	m_targetZPos = ((m_zPos - m_targetZPos))+ m_zPos;
+
+	LookAtXZ(m_targetXPos, m_targetZPos);
+
 }

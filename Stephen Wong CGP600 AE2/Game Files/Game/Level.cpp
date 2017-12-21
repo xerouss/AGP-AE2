@@ -86,10 +86,10 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 
 	// Create the game objects
 	m_pRootGameObject = new StaticGameObject();
-	m_pWall1GameObject = new DynamicGameObject(defaultMovementSpeed, -5, 0, 0);
-	m_pWall2GameObject = new DynamicGameObject(defaultMovementSpeed, 0, 0, -20);
-	m_pWall3GameObject = new DynamicGameObject(defaultMovementSpeed, 5, 0, -10);
-	m_pPushableGameObject1 = new PushableGameObject(m_pRootGameObject, defaultMovementSpeed, 0, 0, 0);
+	m_pWall1GameObject = new DynamicGameObject(defaultMovementSpeed, -5, 0, 2);
+	m_pWall2GameObject = new DynamicGameObject(defaultMovementSpeed, 0, 0, 5);
+	m_pWall3GameObject = new DynamicGameObject(defaultMovementSpeed, 5, 0, 2);
+	m_pPushableGameObject1 = new PushableGameObject(m_pRootGameObject, defaultMovementSpeed, 0, 0, -20);
 	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 5, 0, 0);
 	m_pCamera = new Camera(defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
 	m_pNonPlayerEntity1 = new NonPlayerEntity(defaultMovementSpeed, 0, 0, 0);
@@ -121,7 +121,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 void Level::Update(void)
 {
 	//m_pCamera->IncrementYAngle(0.001f, m_pRootWallGameObject);
-	m_pWall3GameObject->IncrementZPos(m_pWall3GameObject->GetMovementSpeed(), m_pRootGameObject);
+	//m_pWall3GameObject->IncrementZPos(m_pWall3GameObject->GetMovementSpeed(), m_pRootGameObject);
 
 	m_pNonPlayerEntity1->Update(m_pRootGameObject);
 }

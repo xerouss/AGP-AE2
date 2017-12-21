@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			NonPlayerEntity.h
-//	Last Updated:	20/12/2017
+//	Last Updated:	21/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -33,4 +33,5 @@ public:
 	void SetNewTargetPosition(void);
 	int GetRandomPatrolPosition(void);
 	bool IsNearTargetPosition(void);
+	virtual void OnAnyCollision(StaticGameObject* object);
 };

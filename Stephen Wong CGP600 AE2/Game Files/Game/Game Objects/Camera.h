@@ -35,7 +35,7 @@ public:
 
 	void InitialiseCamera(void);
 
-	void MoveForward(float distance, StaticGameObject* rootNode);
+	virtual void SetNewForwardPosition(float distance);
 	void Strafe(float distance, StaticGameObject* rootNode);
 	//void MoveForwardIncludingY(float distance);
 

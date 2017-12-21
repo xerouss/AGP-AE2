@@ -29,9 +29,11 @@ public:
 	void InitialiseDynamicGameObject(float speed);
 	void LookAtXZ(float worldX, float worldZ);
 	void LookAtXYZ(float worldX, float worldY, float worldZ);
-	virtual void MoveForward(float distance);
+	void MoveForward(float distance, StaticGameObject* rootNode);
+	virtual void SetNewForwardPosition(float distance);
 	virtual void MoveForwardIncludingY(float distance);
 	bool UpdateTransformAndCheckCollision(float oldValue, float &valueThatWasChanged, StaticGameObject* rootNode);
+	virtual void OnAnyCollision(StaticGameObject* object); // When this object collides with any object
 
 #pragma region Increment Methods
 

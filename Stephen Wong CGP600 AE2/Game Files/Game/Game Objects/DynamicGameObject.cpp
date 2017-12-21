@@ -87,15 +87,26 @@ void DynamicGameObject::LookAtXYZ(float worldX, float worldY, float worldZ)
 //####################################################################################
 // Move forward
 //####################################################################################
-void DynamicGameObject::MoveForward(float distance)
+void DynamicGameObject::MoveForward(float distance, StaticGameObject * rootNode)
 {
-	// TODO: CONVERT TO RADIANS/DEGREES?
-	// Don't need to convert to radians since its already radians
-	//TODO: COMMENT THIS
-	// TODO: ADD COLLISION
+	float oldXPos = m_xPos;
+	float oldZPos = m_zPos;
+
+	SetNewForwardPosition(distance);
+
+	UpdateTransformAndCheckCollision(oldXPos, m_xPos, rootNode);
+	UpdateTransformAndCheckCollision(oldZPos, m_zPos, rootNode);
+}
+
+//####################################################################################
+// Get new position when moving forward
+//####################################################################################
+void DynamicGameObject::SetNewForwardPosition(float distance)
+{
 	m_xPos += sin(m_yAngle) * distance;
 	m_zPos += cos(m_yAngle) * distance;
 }
+
 
 //####################################################################################
 // Move forward but include y in the calculations
@@ -132,6 +143,9 @@ bool DynamicGameObject::UpdateTransformAndCheckCollision(float oldValue, float &
 		// Carry out the collided object's collision effect
 		collidedObject->CollisionEffect(oldValue, valueChanged, this);
 
+		// Carry out this object's collision effect
+		OnAnyCollision(collidedObject);
+
 		// If the object needs to be deleted after collision, delete it
 		if (collidedObject->GetDeleteAfterCollision())
 		{
@@ -146,6 +160,14 @@ bool DynamicGameObject::UpdateTransformAndCheckCollision(float oldValue, float &
 
 	// No Collision
 	return false;
+}
+
+//####################################################################################
+// When this object collides with any object
+//####################################################################################
+void DynamicGameObject::OnAnyCollision(StaticGameObject * object)
+{
+	// Is blank because most objects won't need anything
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

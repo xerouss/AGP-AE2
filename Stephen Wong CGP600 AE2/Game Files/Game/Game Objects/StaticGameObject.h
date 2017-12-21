@@ -87,6 +87,7 @@ public:
 	// These returns what it collides with
 	StaticGameObject* CheckCollision(StaticGameObject* compareTree);
 	StaticGameObject* CheckCollision(StaticGameObject* compareTree, StaticGameObject* objectTreeRoot);
+	// When this object gets collided with another
 	virtual void CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
 
 #pragma region Set Methods
