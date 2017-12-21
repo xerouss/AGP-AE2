@@ -33,7 +33,7 @@ public:
 	Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 	// ~Camera();
 
-	void SetDefaultProperties(void);
+	void InitialiseCamera(void);
 
 	void MoveForward(float distance, StaticGameObject* rootNode);
 	void Strafe(float distance, StaticGameObject* rootNode);

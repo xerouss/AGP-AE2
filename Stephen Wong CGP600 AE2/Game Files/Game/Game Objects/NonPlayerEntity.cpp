@@ -46,6 +46,9 @@ NonPlayerEntity::NonPlayerEntity(float speed, float xPos, float yPos, float zPos
 void NonPlayerEntity::InitialiseNonPlayerEntity(void)
 {
 	m_gameObjectType = NONPLAYERENTITY;
+	m_startXPos = m_xPos;
+	m_startZPos = m_zPos;
+
 	SetNewTargetPosition();
 }
 
@@ -64,8 +67,8 @@ void NonPlayerEntity::Update(StaticGameObject* rootNode)
 //####################################################################################
 void NonPlayerEntity::SetNewTargetPosition(void)
 {
-	m_targetXPos = m_xPos + GetRandomPortalPosition();
-	m_targetZPos = m_zPos + GetRandomPortalPosition();
+	m_targetXPos = m_xPos + GetRandomPatrolPosition();
+	m_targetZPos = m_zPos + GetRandomPatrolPosition();
 
 	LookAtXZ(m_targetXPos, m_targetZPos);
 }
@@ -73,7 +76,7 @@ void NonPlayerEntity::SetNewTargetPosition(void)
 //####################################################################################
 // Get a random value for the target position
 //####################################################################################
-int NonPlayerEntity::GetRandomPortalPosition(void)
+int NonPlayerEntity::GetRandomPatrolPosition(void)
 {
 	// Does - patrol range /2 so it can go into negatives
 	return rand() % patrolRange - (patrolRange / 2);

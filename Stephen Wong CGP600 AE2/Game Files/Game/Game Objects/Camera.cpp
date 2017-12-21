@@ -20,37 +20,38 @@
 Camera::Camera() : DynamicGameObject()
 {	
 	// Call dynamic game object constructor
-	SetDefaultProperties();
+	InitialiseCamera();
 }
 
 Camera::Camera(float speed, float xPos, float yPos, float zPos) :
 	DynamicGameObject(speed, xPos, yPos, zPos)
 {
 	// Call dynamic game object constructor
-	SetDefaultProperties();
+	InitialiseCamera();
 }
 
 Camera::Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
 	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle)
 {
 	// Call dynamic game object constructor
-	SetDefaultProperties();
+	InitialiseCamera();
 }
 
 Camera::Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
 	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
 {
 	// Call dynamic game object constructor
-	SetDefaultProperties();
+	InitialiseCamera();
 }
 
 //####################################################################################
 // Set up the camera
 //####################################################################################
-void Camera::SetDefaultProperties()
+void Camera::InitialiseCamera()
 {
 	m_gameObjectType = CAMERA;
 
+	m_up = XMVectorSet(0, 1.0f, 0, 0);
 	m_deltaXPos = (float)sin(0);
 	m_deltaYPos = (float)tan(0);
 	m_deltaZPos = (float)cos(0);
@@ -131,7 +132,6 @@ XMMATRIX Camera::GetViewMatrix(void)
 {
 	m_position = XMVectorSet(m_xPos, m_yPos, m_zPos, 0.0f);
 	m_lookAtPos = XMVectorSet(m_xPos + m_deltaXPos, m_yPos + m_deltaYPos, m_zPos + m_deltaZPos, 0.0f);
-	m_up = XMVectorSet(0, 1.0f, 0, 0);
 	return XMMatrixLookAtLH(m_position, m_lookAtPos, m_up);
 }
 

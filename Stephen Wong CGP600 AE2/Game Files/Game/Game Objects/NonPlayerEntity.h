@@ -21,8 +21,6 @@ class NonPlayerEntity : public DynamicGameObject
 private:
 	float m_targetXPos;
 	float m_targetZPos;
-	float m_startXPos;
-	float m_startZPos;
 
 public:
 	NonPlayerEntity();
@@ -33,6 +31,6 @@ public:
 	void InitialiseNonPlayerEntity(void);
 	void Update(StaticGameObject* rootNode);
 	void SetNewTargetPosition(void);
-	int GetRandomPortalPosition(void);
+	int GetRandomPatrolPosition(void);
 	bool IsNearTargetPosition(void);
 };
