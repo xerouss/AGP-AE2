@@ -22,6 +22,7 @@ int (WINAPIV * __vsnprintf_s)(char *, size_t, const char*, va_list) = _vsnprintf
 #include "Window.h"
 #include "Direct3D.h"
 #include "Game\GameManager.h"
+#include <time.h>
 #pragma endregion
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +92,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// Set up the HUD for the game
 	pGameManager->InitialiseHUD(pDirect3D->GetD3DDevice());
+
+	srand((unsigned int)time(NULL)); // Set up the random seed
 
 	//// Main message loop
 	MSG msg = { 0 };

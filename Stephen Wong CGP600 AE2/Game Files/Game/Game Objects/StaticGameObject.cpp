@@ -115,7 +115,7 @@ bool StaticGameObject::DetachNode(StaticGameObject * node)
 //####################################################################################
 // Update the position of the object
 //####################################################################################
-void StaticGameObject::Update(XMMATRIX *world, XMMATRIX* view, XMMATRIX* projection)
+void StaticGameObject::Render(XMMATRIX *world, XMMATRIX* view, XMMATRIX* projection)
 {
 	// Local World used to calculate local transforms from this node
 	XMMATRIX localWorld = XMMatrixIdentity();
@@ -142,7 +142,7 @@ void StaticGameObject::Update(XMMATRIX *world, XMMATRIX* view, XMMATRIX* project
 	// Go through all the child nodes and pass the world matrix
 	for (size_t i = 0; i < m_pChildren.size(); i++)
 	{
-		m_pChildren[i]->Update(&localWorld, view, projection);
+		m_pChildren[i]->Render(&localWorld, view, projection);
 	}
 }
 

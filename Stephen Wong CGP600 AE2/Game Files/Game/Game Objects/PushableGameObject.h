@@ -22,9 +22,9 @@ private:
 
 public:
 	PushableGameObject(StaticGameObject* rootGameObject);
-	PushableGameObject(StaticGameObject* rootGameObject, float xPos, float yPos, float zPos);
-	PushableGameObject(StaticGameObject* rootGameObject, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
-	PushableGameObject(StaticGameObject* rootGameObject, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
+	PushableGameObject(StaticGameObject* rootGameObject, float speed, float xPos, float yPos, float zPos);
+	PushableGameObject(StaticGameObject* rootGameObject, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
+	PushableGameObject(StaticGameObject* rootGameObject, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 
 	void InitialisePushabelGameObject(StaticGameObject* rootGameObject);
 	virtual void CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object);

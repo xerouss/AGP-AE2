@@ -15,11 +15,13 @@
 #include "Game Objects\Camera.h"
 #include "Game Objects\Collectible.h"
 #include "Game Objects\PushableGameObject.h"
+#include "Game Objects\NonPlayerEntity.h"
 
 #pragma endregion
 
 
 const float defaultWorldMatrixValue = 0.0f;
+const float defaultMovementSpeed = 0.001f;
 
 class Level
 {
@@ -34,12 +36,13 @@ private:
 
 	Camera* m_pCamera;
 	Model* m_pWallModel;
-	StaticGameObject* m_pRootWallGameObject;
+	StaticGameObject* m_pRootGameObject;
 	DynamicGameObject* m_pWall1GameObject;
 	DynamicGameObject* m_pWall2GameObject;
 	DynamicGameObject* m_pWall3GameObject;
 	Collectible* m_pCollectible1;
 	PushableGameObject* m_pPushableGameObject1;
+	NonPlayerEntity* m_pNonPlayerEntity1;
 
 	XMMATRIX m_projectionMatrix;
 	XMMATRIX m_worldMatrix;

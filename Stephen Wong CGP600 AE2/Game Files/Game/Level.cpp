@@ -41,10 +41,10 @@ Level::~Level()
 	}
 
 	// Only delete the root node since the nodes attached to it will be deleted
-	if (m_pRootWallGameObject)
+	if (m_pRootGameObject)
 	{
-		delete m_pRootWallGameObject;
-		m_pRootWallGameObject = NULL;
+		delete m_pRootGameObject;
+		m_pRootGameObject = NULL;
 	}
 }
 
@@ -85,21 +85,23 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	if (FAILED(hr)) return hr;
 
 	// Create the game objects
-	m_pRootWallGameObject = new StaticGameObject();
-	m_pWall1GameObject = new DynamicGameObject(-5, 0, 0);
-	m_pWall2GameObject = new DynamicGameObject(0, 0, -20);
-	m_pWall3GameObject = new DynamicGameObject(5, 0, -10);
-	m_pPushableGameObject1 = new PushableGameObject(m_pRootWallGameObject, 0, 0, 0);
+	m_pRootGameObject = new StaticGameObject();
+	m_pWall1GameObject = new DynamicGameObject(defaultMovementSpeed, -5, 0, 0);
+	m_pWall2GameObject = new DynamicGameObject(defaultMovementSpeed, 0, 0, -20);
+	m_pWall3GameObject = new DynamicGameObject(defaultMovementSpeed, 5, 0, -10);
+	m_pPushableGameObject1 = new PushableGameObject(m_pRootGameObject, defaultMovementSpeed, 0, 0, 0);
 	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 5, 0, 0);
-	m_pCamera = new Camera(0.0f, 0.0f, -15.0f);
+	m_pCamera = new Camera(defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
+	m_pNonPlayerEntity1 = new NonPlayerEntity(defaultMovementSpeed, 0, 0, 0);
 
 	// Set the children, models and positions
-	m_pRootWallGameObject->AddChildNode(m_pWall1GameObject);
-	m_pRootWallGameObject->AddChildNode(m_pWall2GameObject);
-	m_pRootWallGameObject->AddChildNode(m_pWall3GameObject);
-	m_pRootWallGameObject->AddChildNode(m_pCollectible1);
-	m_pRootWallGameObject->AddChildNode(m_pPushableGameObject1);
-	m_pRootWallGameObject->AddChildNode(m_pCamera);
+	m_pRootGameObject->AddChildNode(m_pWall1GameObject);
+	m_pRootGameObject->AddChildNode(m_pWall2GameObject);
+	m_pRootGameObject->AddChildNode(m_pWall3GameObject);
+	m_pRootGameObject->AddChildNode(m_pCollectible1);
+	m_pRootGameObject->AddChildNode(m_pPushableGameObject1);
+	m_pRootGameObject->AddChildNode(m_pCamera);
+	m_pRootGameObject->AddChildNode(m_pNonPlayerEntity1);
 
 	// Set the models
 	m_pWall1GameObject->SetModel(m_pWallModel);
@@ -108,6 +110,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pCollectible1->SetModel(m_pWallModel);
 	m_pPushableGameObject1->SetModel(m_pWallModel);
 	m_pCamera->SetModel(m_pWallModel);
+	m_pNonPlayerEntity1->SetModel(m_pWallModel);
 
 	return hr; // Should return S_OK if nothing fails
 }
@@ -118,7 +121,9 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 void Level::Update(void)
 {
 	//m_pCamera->IncrementYAngle(0.001f, m_pRootWallGameObject);
-	m_pWall3GameObject->IncrementZPos(0.001f, m_pRootWallGameObject);
+	m_pWall3GameObject->IncrementZPos(m_pWall3GameObject->GetMovementSpeed(), m_pRootGameObject);
+
+	m_pNonPlayerEntity1->Update(m_pRootGameObject);
 }
 
 //####################################################################################
@@ -134,24 +139,25 @@ void Level::Render(void)
 	// Get the camera view
 	view = m_pCamera->GetViewMatrix();
 
-	m_pRootWallGameObject->Update(&m_worldMatrix, &view, &m_projectionMatrix);
+	// Render all game objects in the level
+	m_pRootGameObject->Render(&m_worldMatrix, &view, &m_projectionMatrix);
 }
 
 void Level::MoveCameraForward(float movementMultiplier)
 {
-	m_pCamera->MoveForward(m_pCamera->GetMovementSpeed() * movementMultiplier, m_pRootWallGameObject);
+	m_pCamera->MoveForward(m_pCamera->GetMovementSpeed() * movementMultiplier, m_pRootGameObject);
 }
 
 void Level::StrafeCamera(float movementMultiplier)
 {
-	m_pCamera->Strafe(m_pCamera->GetMovementSpeed() * movementMultiplier, m_pRootWallGameObject);
+	m_pCamera->Strafe(m_pCamera->GetMovementSpeed() * movementMultiplier, m_pRootGameObject);
 }
 
 void Level::ChangeCameraDirection(float amount)
 {
 	// In order to do a full 360 both need to be incremented
-	m_pCamera->IncrementXAngle(amount, m_pRootWallGameObject);
-	m_pCamera->IncrementZAngle(amount, m_pRootWallGameObject);
+	m_pCamera->IncrementXAngle(amount, m_pRootGameObject);
+	m_pCamera->IncrementZAngle(amount, m_pRootGameObject);
 }
 
 void Level::SetWorldMatrix(float xPos, float yPos, float zPos, float xRot, float yRot, float zRot, float scale)

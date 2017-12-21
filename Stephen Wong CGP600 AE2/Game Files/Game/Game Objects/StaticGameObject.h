@@ -30,7 +30,7 @@ const float defaultAxisRotation = 0.0f;
 
 enum GameObjectTypes
 {
-	STATIC, DYNAMIC, COLLECTIBLE, PUSHABLE, CAMERA, NUMOFOBJECTTYPES
+	STATIC, DYNAMIC, COLLECTIBLE, PUSHABLE, CAMERA, NONPLAYERENTITY, NUMOFOBJECTTYPES
 };
 
 
@@ -82,7 +82,7 @@ public:
 
 	void AddChildNode(StaticGameObject *node);
 	bool DetachNode(StaticGameObject *node);
-	void Update(XMMATRIX *world, XMMATRIX* view, XMMATRIX* projection);
+	void Render(XMMATRIX *world, XMMATRIX* view, XMMATRIX* projection);
 	void UpdateCollisionTree(XMMATRIX* world, float scale);
 	// These returns what it collides with
 	StaticGameObject* CheckCollision(StaticGameObject* compareTree);

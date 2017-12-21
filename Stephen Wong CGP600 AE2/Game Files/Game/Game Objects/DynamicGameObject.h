@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			DynamicGameObject.h
-//	Last Updated:	19/12/2017
+//	Last Updated:	21/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -14,19 +14,19 @@
 
 #pragma endregion
 
-
 class DynamicGameObject : public StaticGameObject
 {
-private:
-
+protected:
+	float m_movementSpeed;
 
 public:
 	DynamicGameObject();
-	DynamicGameObject(float xPos, float yPos, float zPos);
-	DynamicGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
-	DynamicGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
+	DynamicGameObject(float speed, float xPos, float yPos, float zPos);
+	DynamicGameObject(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
+	DynamicGameObject(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 	//~DynamicGameObject();
 
+	void InitialiseDynamicGameObject(float speed);
 	void LookAtXZ(float worldX, float worldZ);
 	void LookAtXYZ(float worldX, float worldY, float worldZ);
 	virtual void MoveForward(float distance);
@@ -46,4 +46,7 @@ public:
 	bool IncrementScale(float increaseAmount, StaticGameObject* rootNode);
 
 #pragma endregion
+
+	float GetMovementSpeed(void);
+	void SetMovementSpeed(float speed);
 };

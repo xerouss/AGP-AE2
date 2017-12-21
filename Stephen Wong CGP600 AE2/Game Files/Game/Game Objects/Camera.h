@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Camera.h
-//	Last Updated:	07/12/2017
+//	Last Updated:	21/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -13,8 +13,8 @@
 
 #pragma endregion
 
-
-const float defaultMovementSpeed = 0.001f;
+const float defaultDeltaPos = 0;
+const float DegreesToRadians = 0.01745329251f;
 
 class Camera: public DynamicGameObject
 {
@@ -26,13 +26,11 @@ private:
 	XMVECTOR m_position;
 	XMVECTOR m_lookAtPos;
 	XMVECTOR m_up;
-
-	float m_movementSpeed = defaultMovementSpeed;
 public:
 	Camera();
-	Camera(float xPos, float yPos, float zPos);
-	Camera(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
-	Camera(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
+	Camera(float speed, float xPos, float yPos, float zPos);
+	Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
+	Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 	// ~Camera();
 
 	void SetDefaultProperties(void);
@@ -46,7 +44,4 @@ public:
 	bool IncrementZAngle(float increaseAmount, StaticGameObject* rootNode);
 
 	XMMATRIX GetViewMatrix(void);
-
-	float GetMovementSpeed(void);
-	void SetMovementSpeed(float speed);
 };

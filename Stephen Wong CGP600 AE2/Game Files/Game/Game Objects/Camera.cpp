@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Camera.cpp
-//	Last Updated:	30/12/2017
+//	Last Updated:	21/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -14,9 +14,6 @@
 
 #pragma endregion
 
-const float defaultDeltaPos = 0;
-const float DegreesToRadians = 0.01745329251f;
-
 //####################################################################################
 // Constructors
 //####################################################################################
@@ -26,22 +23,22 @@ Camera::Camera() : DynamicGameObject()
 	SetDefaultProperties();
 }
 
-Camera::Camera(float xPos, float yPos, float zPos) :
-	DynamicGameObject(xPos, yPos, zPos)
+Camera::Camera(float speed, float xPos, float yPos, float zPos) :
+	DynamicGameObject(speed, xPos, yPos, zPos)
 {
 	// Call dynamic game object constructor
 	SetDefaultProperties();
 }
 
-Camera::Camera(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
-	DynamicGameObject(xPos, yPos, zPos, xAngle, yAngle, zAngle)
+Camera::Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
+	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle)
 {
 	// Call dynamic game object constructor
 	SetDefaultProperties();
 }
 
-Camera::Camera(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
-	DynamicGameObject(xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
+Camera::Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
+	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
 {
 	// Call dynamic game object constructor
 	SetDefaultProperties();
@@ -103,7 +100,7 @@ bool Camera::IncrementXAngle(float increaseAmount, StaticGameObject * rootNode)
 
 	if (collision) return true;
 
-	m_deltaXPos = sinf(m_xAngle * DegreesToRadians);
+	m_deltaXPos = sin(m_xAngle * DegreesToRadians);
 	return false;
 }
 
@@ -137,18 +134,4 @@ XMMATRIX Camera::GetViewMatrix(void)
 	m_up = XMVectorSet(0, 1.0f, 0, 0);
 	return XMMatrixLookAtLH(m_position, m_lookAtPos, m_up);
 }
-
-//####################################################################################
-// Get and Set movement speed
-//####################################################################################
-float Camera::GetMovementSpeed(void)
-{
-	return m_movementSpeed;
-}
-
-void Camera::SetMovementSpeed(float speed)
-{
-	m_movementSpeed = speed;
-}
-
 

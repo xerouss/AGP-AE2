@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			DynamicGameObject.cpp
-//	Last Updated:	19/12/2017
+//	Last Updated:	21/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -20,28 +20,34 @@
 DynamicGameObject::DynamicGameObject() : StaticGameObject()
 {
 	// Call static game object's constructor
-	SetGameObjectType(DYNAMIC);
+	InitialiseDynamicGameObject(0);
 }
 
-DynamicGameObject::DynamicGameObject(float xPos, float yPos, float zPos):
+DynamicGameObject::DynamicGameObject(float speed, float xPos, float yPos, float zPos):
 	StaticGameObject(xPos, yPos, zPos)
 {
 	// Call static game object's constructor
-	SetGameObjectType(DYNAMIC);
+	InitialiseDynamicGameObject(speed);
 }
 
-DynamicGameObject::DynamicGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
+DynamicGameObject::DynamicGameObject(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
 	StaticGameObject(xPos, yPos, zPos, xAngle, yAngle, zAngle)
 {
 	// Call static game object's constructor
-	SetGameObjectType(DYNAMIC);
+	InitialiseDynamicGameObject(speed);
 }
 
-DynamicGameObject::DynamicGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
+DynamicGameObject::DynamicGameObject(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
 	StaticGameObject(xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
 {
 	// Call static game object's constructor
+	InitialiseDynamicGameObject(speed);
+}
+
+void DynamicGameObject::InitialiseDynamicGameObject(float speed)
+{
 	SetGameObjectType(DYNAMIC);
+	m_movementSpeed = speed;
 }
 
 //####################################################################################
@@ -86,6 +92,7 @@ void DynamicGameObject::MoveForward(float distance)
 	// TODO: CONVERT TO RADIANS/DEGREES?
 	// Don't need to convert to radians since its already radians
 	//TODO: COMMENT THIS
+	// TODO: ADD COLLISION
 	m_xPos += sin(m_yAngle) * distance;
 	m_zPos += cos(m_yAngle) * distance;
 }
@@ -215,5 +222,19 @@ bool DynamicGameObject::IncrementScale(float increaseAmount, StaticGameObject* r
 	// Check for collisions
 	return UpdateTransformAndCheckCollision(oldValue, m_scale, rootNode);
 }
+
+//####################################################################################
+// Get and Set movement speed
+//####################################################################################
+float DynamicGameObject::GetMovementSpeed(void)
+{
+	return m_movementSpeed;
+}
+
+void DynamicGameObject::SetMovementSpeed(float speed)
+{
+	m_movementSpeed = speed;
+}
+
 
 #pragma endregion

@@ -23,22 +23,22 @@ PushableGameObject::PushableGameObject(StaticGameObject* rootGameObject) : Dynam
 	InitialisePushabelGameObject(rootGameObject);
 }
 
-PushableGameObject::PushableGameObject(StaticGameObject* rootGameObject, float xPos, float yPos, float zPos) :
-	DynamicGameObject(xPos, yPos, zPos)
+PushableGameObject::PushableGameObject(StaticGameObject* rootGameObject, float speed, float xPos, float yPos, float zPos) :
+	DynamicGameObject(speed, xPos, yPos, zPos)
 {
 	// Call dynamic game object constructor
 	InitialisePushabelGameObject(rootGameObject);
 }
 
-PushableGameObject::PushableGameObject(StaticGameObject* rootGameObject, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
-	DynamicGameObject(xPos, yPos, zPos, xAngle, yAngle, zAngle)
+PushableGameObject::PushableGameObject(StaticGameObject* rootGameObject, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
+	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle)
 {
 	// Call dynamic game object constructor
 	InitialisePushabelGameObject(rootGameObject);
 }
 
-PushableGameObject::PushableGameObject(StaticGameObject* rootGameObject, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
-	DynamicGameObject(xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
+PushableGameObject::PushableGameObject(StaticGameObject* rootGameObject, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
+	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
 {
 	// Call dynamic game object constructor
 	InitialisePushabelGameObject(rootGameObject);
