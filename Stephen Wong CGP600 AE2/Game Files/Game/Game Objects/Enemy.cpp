@@ -1,6 +1,6 @@
 // *********************************************************
 //	Name:			Stephen Wong
-//	File:			NonPlayerEntity.cpp
+//	File:			Enemy.cpp
 //	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
@@ -10,31 +10,31 @@
 //////////////////////////////////////////////////////////////////////////////////////
 #pragma region Includes
 
-#include "NonPlayerEntity.h"
+#include "Enemy.h"
 
 #pragma endregion
 
 //####################################################################################
 // Constructors
 //####################################################################################
-NonPlayerEntity::NonPlayerEntity() : DynamicGameObject()
+Enemy::Enemy() : DynamicGameObject()
 {
 	InitialiseNonPlayerEntity();
 }
 
-NonPlayerEntity::NonPlayerEntity(float speed, float xPos, float yPos, float zPos) :
+Enemy::Enemy(float speed, float xPos, float yPos, float zPos) :
 	DynamicGameObject(speed, xPos, yPos, zPos)
 {
 	InitialiseNonPlayerEntity();
 }
 
-NonPlayerEntity::NonPlayerEntity(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle):
+Enemy::Enemy(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle):
 	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle)
 {
 	InitialiseNonPlayerEntity();
 }
 
-NonPlayerEntity::NonPlayerEntity(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale):
+Enemy::Enemy(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale):
 	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
 {
 	InitialiseNonPlayerEntity();
@@ -43,16 +43,16 @@ NonPlayerEntity::NonPlayerEntity(float speed, float xPos, float yPos, float zPos
 //####################################################################################
 // Set up the non-player entity
 //####################################################################################
-void NonPlayerEntity::InitialiseNonPlayerEntity(void)
+void Enemy::InitialiseNonPlayerEntity(void)
 {
-	m_gameObjectType = NONPLAYERENTITY;
+	m_gameObjectType = ENEMY;
 	SetNewTargetPosition();
 }
 
 //####################################################################################
 // Update the game object's position
 //####################################################################################
-void NonPlayerEntity::Update(StaticGameObject* rootNode)
+void Enemy::Update(StaticGameObject* rootNode)
 {
 	if (IsNearTargetPosition()) SetNewTargetPosition();
 
@@ -62,7 +62,7 @@ void NonPlayerEntity::Update(StaticGameObject* rootNode)
 //####################################################################################
 // Get a new target position
 //####################################################################################
-void NonPlayerEntity::SetNewTargetPosition(void)
+void Enemy::SetNewTargetPosition(void)
 {
 	m_targetXPos = m_xPos + GetRandomPatrolPosition();
 	m_targetZPos = m_zPos + GetRandomPatrolPosition();
@@ -73,7 +73,7 @@ void NonPlayerEntity::SetNewTargetPosition(void)
 //####################################################################################
 // Get a random value for the target position
 //####################################################################################
-int NonPlayerEntity::GetRandomPatrolPosition(void)
+int Enemy::GetRandomPatrolPosition(void)
 {
 	// Does - patrol range /2 so it can go into negatives
 	return rand() % patrolRange - (patrolRange / 2);
@@ -82,7 +82,7 @@ int NonPlayerEntity::GetRandomPatrolPosition(void)
 //####################################################################################
 // Check if the object is near the target
 //####################################################################################
-bool NonPlayerEntity::IsNearTargetPosition(void)
+bool Enemy::IsNearTargetPosition(void)
 {
 	// Check if the game object is near the target position
 	if ((m_xPos >= m_targetXPos - positionCheckRange && m_xPos <= m_targetXPos + positionCheckRange) &&
@@ -92,17 +92,9 @@ bool NonPlayerEntity::IsNearTargetPosition(void)
 }
 
 //####################################################################################
-// Collision when another object hits it
-//####################################################################################
-void NonPlayerEntity::ObjectCollidesWithThis(float oldValue, float & valueThatWasChanged, StaticGameObject * object)
-{
-
-}
-
-//####################################################################################
 // Collision when this object hit another
 //####################################################################################
-void NonPlayerEntity::ThisCollidesWithAnotherObject(StaticGameObject* object)
+void Enemy::ThisCollidesWithAnotherObject(StaticGameObject* object)
 {
 	// Make the object go in the opposite direction that it is currently going in
 	m_targetXPos = ((m_xPos - m_targetXPos)) + m_xPos;

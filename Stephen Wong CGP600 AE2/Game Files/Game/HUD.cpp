@@ -26,6 +26,7 @@ HUD::HUD(ID3D11Device* device, ID3D11DeviceContext* immediateContext)
 	InitialiseTransparency();
 
 	m_scoreText = new Text2D("Assets/Font/fontTransparent.png", m_pD3DDevice, m_pImmediateContext);
+	m_healthText = new Text2D("Assets/Font/fontTransparent.png", m_pD3DDevice, m_pImmediateContext);
 }
 
 //####################################################################################
@@ -33,6 +34,12 @@ HUD::HUD(ID3D11Device* device, ID3D11DeviceContext* immediateContext)
 //####################################################################################
 HUD::~HUD()
 {
+	if (m_healthText)
+	{
+		delete m_healthText;
+		m_healthText = NULL;
+	}
+
 	if (m_scoreText)
 	{
 		delete m_scoreText;
@@ -53,17 +60,32 @@ void HUD::Render(void)
 
 	// Render the text
 	m_scoreText->RenderText();
+	m_healthText->RenderText();
 
 	// Disable transparency
 	// Need to disable it so it doesn't effect non-text objects
 	m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, blendStateSampleMask);
 }
 
+//####################################################################################
+// Set the text for the score
+//####################################################################################
 void HUD::SetScoreText(string score, float x, float y, float size)
 {
 	m_scoreText->AddText(score, x, y, size);
 }
 
+//####################################################################################
+// Set the text for the timer
+//####################################################################################
+void HUD::SetHealthText(string health, float x, float y, float size)
+{
+	m_healthText->AddText(health, x, y, size);
+}
+
+//####################################################################################
+// Set transparency for text
+//####################################################################################
 void HUD::InitialiseTransparency(void)
 {
 	// Set up blend for transparency

@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.cpp
-//	Last Updated:	20/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -28,12 +28,6 @@ Level::Level(ID3D11Device *device, ID3D11DeviceContext *immediateContext)
 //####################################################################################
 Level::~Level()
 {
-	if (m_pCamera)
-	{
-		delete m_pCamera;
-		m_pCamera = NULL;
-	}
-
 	if (m_pWallModel)
 	{
 		delete m_pWallModel;
@@ -92,7 +86,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pPushableGameObject1 = new PushableGameObject(m_pRootGameObject, defaultMovementSpeed, 0, 0, -20);
 	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 5, 0, 0);
 	m_pCamera = new Camera(defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
-	m_pNonPlayerEntity1 = new NonPlayerEntity(defaultMovementSpeed, 0, 0, 0);
+	m_pEnemy1 = new Enemy(defaultMovementSpeed, 0, 0, 0);
 
 	// Set the children, models and positions
 	m_pRootGameObject->AddChildNode(m_pWall1GameObject);
@@ -101,7 +95,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pRootGameObject->AddChildNode(m_pCollectible1);
 	m_pRootGameObject->AddChildNode(m_pPushableGameObject1);
 	m_pRootGameObject->AddChildNode(m_pCamera);
-	m_pRootGameObject->AddChildNode(m_pNonPlayerEntity1);
+	m_pRootGameObject->AddChildNode(m_pEnemy1);
 
 	// Set the models
 	m_pWall1GameObject->SetModel(m_pWallModel);
@@ -110,7 +104,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pCollectible1->SetModel(m_pWallModel);
 	m_pPushableGameObject1->SetModel(m_pWallModel);
 	m_pCamera->SetModel(m_pWallModel);
-	m_pNonPlayerEntity1->SetModel(m_pWallModel);
+	m_pEnemy1->SetModel(m_pWallModel);
 
 	return hr; // Should return S_OK if nothing fails
 }
@@ -123,7 +117,7 @@ void Level::Update(void)
 	//m_pCamera->IncrementYAngle(0.001f, m_pRootWallGameObject);
 	//m_pWall3GameObject->IncrementZPos(m_pWall3GameObject->GetMovementSpeed(), m_pRootGameObject);
 
-	m_pNonPlayerEntity1->Update(m_pRootGameObject);
+	m_pEnemy1->Update(m_pRootGameObject);
 }
 
 //####################################################################################
@@ -170,4 +164,9 @@ void Level::SetWorldMatrix(float xPos, float yPos, float zPos, float xRot, float
 void Level::SetProjectionMatrix(XMMATRIX projection)
 {
 	m_projectionMatrix = projection;
+}
+
+int Level::GetPlayerHealth(void)
+{
+	return m_pCamera->GetCurrentHealth();
 }

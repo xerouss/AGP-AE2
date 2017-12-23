@@ -1,6 +1,6 @@
 // *********************************************************
 //	Name:			Stephen Wong
-//	File:			NonPlayerEntity.h
+//	File:			Enemy.h
 //	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
@@ -20,23 +20,22 @@ const int positionCheckRange = 1;
 
 #pragma endregion
 
-class NonPlayerEntity : public DynamicGameObject
+class Enemy : public DynamicGameObject
 {
 private:
 	float m_targetXPos;
 	float m_targetZPos;
 
 public:
-	NonPlayerEntity();
-	NonPlayerEntity(float speed, float xPos, float yPos, float zPos);
-	NonPlayerEntity(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
-	NonPlayerEntity(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
+	Enemy();
+	Enemy(float speed, float xPos, float yPos, float zPos);
+	Enemy(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
+	Enemy(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 
 	void InitialiseNonPlayerEntity(void);
 	void Update(StaticGameObject* rootNode);
 	void SetNewTargetPosition(void);
 	int GetRandomPatrolPosition(void);
 	bool IsNearTargetPosition(void);
-	virtual void ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
 	virtual void ThisCollidesWithAnotherObject(StaticGameObject* object);
 };

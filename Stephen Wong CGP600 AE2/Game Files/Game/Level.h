@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.h
-//	Last Updated:	20/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -15,7 +15,7 @@
 #include "Game Objects\Camera.h"
 #include "Game Objects\Collectible.h"
 #include "Game Objects\PushableGameObject.h"
-#include "Game Objects\NonPlayerEntity.h"
+#include "Game Objects\Enemy.h"
 
 #pragma endregion
 
@@ -42,7 +42,7 @@ private:
 	DynamicGameObject* m_pWall3GameObject;
 	Collectible* m_pCollectible1;
 	PushableGameObject* m_pPushableGameObject1;
-	NonPlayerEntity* m_pNonPlayerEntity1;
+	Enemy* m_pEnemy1;
 
 	XMMATRIX m_projectionMatrix;
 	XMMATRIX m_worldMatrix;
@@ -62,4 +62,6 @@ public:
 	void SetWorldMatrix(float xPos, float yPos, float zPos,
 		float xRot, float yRot, float zRot, float scale);
 	void SetProjectionMatrix(XMMATRIX projection);
+
+	int GetPlayerHealth(void);
 };

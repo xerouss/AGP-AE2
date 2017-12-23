@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Camera.h
-//	Last Updated:	21/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -15,6 +15,7 @@
 
 const float defaultDeltaPos = 0;
 const float DegreesToRadians = 0.01745329251f;
+const int defaultMaxHealth = 100;
 
 class Camera: public DynamicGameObject
 {
@@ -26,6 +27,8 @@ private:
 	XMVECTOR m_position;
 	XMVECTOR m_lookAtPos;
 	XMVECTOR m_up;
+
+	int m_currentHealth = defaultMaxHealth;
 public:
 	Camera();
 	Camera(float speed, float xPos, float yPos, float zPos);
@@ -42,6 +45,7 @@ public:
 	bool IncrementXAngle(float increaseAmount, StaticGameObject* rootNode);
 	bool IncrementYAngle(float increaseAmount, StaticGameObject* rootNode);
 	bool IncrementZAngle(float increaseAmount, StaticGameObject* rootNode);
-
+	virtual void ThisCollidesWithAnotherObject(StaticGameObject* object);
 	XMMATRIX GetViewMatrix(void);
+	int GetCurrentHealth(void);
 };

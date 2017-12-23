@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			HUD.h
-//	Last Updated:	18/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -9,15 +9,23 @@
 #pragma region Includes
 
 #include "Text2D.h"
+#include <time.h>
+#include <string>
 
 #pragma endregion
 
+#pragma region Constants
+
 const UINT blendStateSampleMask = 0xffffffff;
+
+#pragma endregion
+
 
 class HUD
 {
 private:
 	Text2D* m_scoreText;
+	Text2D* m_healthText;
 	ID3D11BlendState* m_pAlphaBlendEnable;
 	ID3D11BlendState* m_pAlphaBlendDisable;
 
@@ -33,5 +41,6 @@ public:
 
 	// Will need to be called every frame since it is deleted after use
 	void SetScoreText(string score, float x, float y, float size);
+	void SetHealthText(string health, float x, float y, float size);
 	void InitialiseTransparency(void);
 };

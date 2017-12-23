@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Camera.cpp
-//	Last Updated:	21/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -89,7 +89,9 @@ void Camera::Strafe(float distance, StaticGameObject* rootNode)
 //}
 //
 
-// TODO: Make these into one method?
+//####################################################################################
+// Increase x angle
+//####################################################################################
 bool Camera::IncrementXAngle(float increaseAmount, StaticGameObject * rootNode)
 {
 	bool collision = DynamicGameObject::IncrementXAngle(increaseAmount, rootNode);
@@ -100,6 +102,9 @@ bool Camera::IncrementXAngle(float increaseAmount, StaticGameObject * rootNode)
 	return false;
 }
 
+//####################################################################################
+// Increase y angle
+//####################################################################################
 bool Camera::IncrementYAngle(float increaseAmount, StaticGameObject * rootNode)
 {
 	bool collision = DynamicGameObject::IncrementYAngle(increaseAmount, rootNode);
@@ -110,6 +115,9 @@ bool Camera::IncrementYAngle(float increaseAmount, StaticGameObject * rootNode)
 	return false;
 }
 
+//####################################################################################
+// Increase z angle
+//####################################################################################
 bool Camera::IncrementZAngle(float increaseAmount, StaticGameObject * rootNode)
 {
 	bool collision = DynamicGameObject::IncrementZAngle(increaseAmount, rootNode);
@@ -121,6 +129,22 @@ bool Camera::IncrementZAngle(float increaseAmount, StaticGameObject * rootNode)
 }
 
 //####################################################################################
+// What happens when the player collides with another object
+//####################################################################################
+void Camera::ThisCollidesWithAnotherObject(StaticGameObject * object)
+{
+	// TODO MAKE IS SO THE ENEMY CAN ONLY ATTACK EVERY SO MANY SECONDS
+	if (object->GetGameObjectType() == ENEMY)
+	{
+		m_currentHealth -= 1;
+
+		if (m_currentHealth < 0) m_currentHealth = 0;
+
+		// TODO: DEATH
+	}
+}
+
+//####################################################################################
 // Get the view matrix to display the world
 //####################################################################################
 XMMATRIX Camera::GetViewMatrix(void)
@@ -128,5 +152,13 @@ XMMATRIX Camera::GetViewMatrix(void)
 	m_position = XMVectorSet(m_xPos, m_yPos, m_zPos, 0.0f);
 	m_lookAtPos = XMVectorSet(m_xPos + m_deltaXPos, m_yPos + m_deltaYPos, m_zPos + m_deltaZPos, 0.0f);
 	return XMMatrixLookAtLH(m_position, m_lookAtPos, m_up);
+}
+
+//####################################################################################
+// Get current health
+//####################################################################################
+int Camera::GetCurrentHealth(void)
+{
+	return m_currentHealth;
 }
 

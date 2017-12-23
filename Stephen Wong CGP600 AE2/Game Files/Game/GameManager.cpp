@@ -135,6 +135,7 @@ void GameManager::Render(void)
 
 	// Show the score in the HUD
 	m_HUD->SetScoreText(to_string(m_score), scoreHUDXPos, scoreHUDYPos, scoreHUDTextSize);
+	m_HUD->SetHealthText(to_string(m_pLevel->GetPlayerHealth()), healthHUDXPos, healthHUDYPos, healthHUDTextSize);
 	m_HUD->Render();
 
 	// Display what has just been rendered

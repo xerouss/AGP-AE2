@@ -24,7 +24,7 @@
     <ClCompile Include="Game Files\Game\Game Objects\Collectible.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\DynamicGameObject.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\Model.cpp" />
-    <ClCompile Include="Game Files\Game\Game Objects\NonPlayerEntity.cpp" />
+    <ClCompile Include="Game Files\Game\Game Objects\Enemy.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\ObjectFileModel.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\PushableGameObject.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\StaticGameObject.cpp" />
@@ -42,7 +42,7 @@
     <ClInclude Include="Game Files\Game\Game Objects\Collectible.h" />
     <ClInclude Include="Game Files\Game\Game Objects\DynamicGameObject.h" />
     <ClInclude Include="Game Files\Game\Game Objects\Model.h" />
-    <ClInclude Include="Game Files\Game\Game Objects\NonPlayerEntity.h" />
+    <ClInclude Include="Game Files\Game\Game Objects\Enemy.h" />
     <ClInclude Include="Game Files\Game\Game Objects\ObjectFileModel.h" />
     <ClInclude Include="Game Files\Game\Game Objects\PushableGameObject.h" />
     <ClInclude Include="Game Files\Game\Game Objects\StaticGameObject.h" />
