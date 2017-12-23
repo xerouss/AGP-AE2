@@ -26,6 +26,10 @@ const float healthHUDXPos = -1;
 const float healthHUDYPos = 0.8f;
 const float healthHUDTextSize = 0.2f;
 
+const float timerHUDXPos = -1;
+const float timerHUDYPos = 0.6f;
+const float timerHUDTextSize = 0.2f;
+
 const float defaultProjectionFOVAngleRadian = 0.785398f; // 45 in degrees
 const float defaultNearClippingPlaneZ = 1.0f;
 const float defaultFarClippingPlaneZ = 100.0f;

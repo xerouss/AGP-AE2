@@ -8,7 +8,7 @@
 // THIS IS THE SAME SCRIPT FROM THE SOLENT ONLINE LEARNING
 // PAGE FOR TUTORIAL 9.
 // THE MODIFCATIONS I MADE WAS I CHANGED THE STRING
-// FOR TEH SHADER FILE LOADING 
+// FOR TEH SHADER FILE LOADING AND ADDED SYMBOLS
 // #########################################################
 // *********************************************************
 
@@ -183,16 +183,15 @@ void Text2D::RenderText(void)
 				texy = 1.0 / NUMLINES; //second line
 				texx = (c - 'A') *1.0f / 26.0f;
 			}
-			else if (c >= '0' && c <= '9') // numbers
+			else if (c >= '0' && c <= ':') // numbers + :
 			{
 				texy = 2.0 / NUMLINES; // third line
 				texx = (c - '0') *1.0f / 26.0f;
 			}
-			else // add any symbol code here
+			else // SYMBOLS THAT I ADDED
 			{
-				texy = 3.0 / NUMLINES;
-				texx = (c - ' ') * 1.0f / 26.0f;
-				//symbols to display can go here
+				texy = 3.0 / NUMLINES; // The line on in the image
+				texx = (c - ' ') * 1.0f / 26.0f; // - from ' ' because that is the start of the symbols
 			}
 
 			// set correct texture coordinates for letter

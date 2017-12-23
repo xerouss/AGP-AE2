@@ -26,8 +26,11 @@ class HUD
 private:
 	Text2D* m_scoreText;
 	Text2D* m_healthText;
+	Text2D* m_timerText;
 	ID3D11BlendState* m_pAlphaBlendEnable;
 	ID3D11BlendState* m_pAlphaBlendDisable;
+
+	clock_t m_startTime;
 
 	// Don't delete these pointers since they are passed down
 	// These are stored in case more text are added in the future during the game
@@ -42,5 +45,7 @@ public:
 	// Will need to be called every frame since it is deleted after use
 	void SetScoreText(string score, float x, float y, float size);
 	void SetHealthText(string health, float x, float y, float size);
+	void SetTimerText(float x, float y, float size);
+	string TimerPadding(int time);
 	void InitialiseTransparency(void);
 };

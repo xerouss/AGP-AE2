@@ -27,6 +27,9 @@ HUD::HUD(ID3D11Device* device, ID3D11DeviceContext* immediateContext)
 
 	m_scoreText = new Text2D("Assets/Font/fontTransparent.png", m_pD3DDevice, m_pImmediateContext);
 	m_healthText = new Text2D("Assets/Font/fontTransparent.png", m_pD3DDevice, m_pImmediateContext);
+	m_timerText = new Text2D("Assets/Font/fontTransparent.png", m_pD3DDevice, m_pImmediateContext);
+
+	m_startTime = clock();
 }
 
 //####################################################################################
@@ -34,6 +37,12 @@ HUD::HUD(ID3D11Device* device, ID3D11DeviceContext* immediateContext)
 //####################################################################################
 HUD::~HUD()
 {
+	if (m_timerText)
+	{
+		delete m_timerText;
+		m_timerText = NULL;
+	}
+
 	if (m_healthText)
 	{
 		delete m_healthText;
@@ -61,6 +70,7 @@ void HUD::Render(void)
 	// Render the text
 	m_scoreText->RenderText();
 	m_healthText->RenderText();
+	m_timerText->RenderText();
 
 	// Disable transparency
 	// Need to disable it so it doesn't effect non-text objects
@@ -76,11 +86,41 @@ void HUD::SetScoreText(string score, float x, float y, float size)
 }
 
 //####################################################################################
-// Set the text for the timer
+// Set the text for the health
 //####################################################################################
 void HUD::SetHealthText(string health, float x, float y, float size)
 {
 	m_healthText->AddText(health, x, y, size);
+}
+
+//####################################################################################
+// Set the text for the timer
+//####################################################################################
+void HUD::SetTimerText(float x, float y, float size)
+{
+	// Get the length of time since the start of the program
+	int time = (clock() - m_startTime) / CLOCKS_PER_SEC;
+	int minutes = time / 60; 
+	int seconds = time % 60; // Mode time for seconds since if it goes over 59 will reset to 0
+
+	string minutessText = TimerPadding(minutes);
+	string secondsText = TimerPadding(seconds);	
+
+	m_timerText->AddText(minutessText + ":"+ secondsText, x, y, size);
+}
+
+//####################################################################################
+// Add zeros to the time if under 0
+//####################################################################################
+string HUD::TimerPadding(int time)
+{
+	string timeString;
+
+	// Add 0 if time is under 10 to make it looks better
+	if (time < 10) timeString = string(1, '0').append(to_string(time));
+	else timeString = to_string(time);
+
+	return timeString;
 }
 
 //####################################################################################

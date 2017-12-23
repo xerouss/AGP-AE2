@@ -74,6 +74,7 @@ void Camera::Strafe(float distance, StaticGameObject* rootNode)
 {
 
 	// TODO: USE THIS TO FIX https://gamedev.stackexchange.com/questions/63819/first-person-camera-strafing-at-angle
+	// https://stackoverflow.com/questions/19484601/3d-first-person-camera-strafing-at-angle
 	float oldXPos = m_xPos;
 	float oldZPos = m_zPos;
 
