@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			PushableGameObject.cpp
-//	Last Updated:	19/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -56,7 +56,7 @@ void PushableGameObject::InitialisePushabelGameObject(StaticGameObject* rootGame
 //####################################################################################
 // What happens on collision
 //####################################################################################
-void PushableGameObject::CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object)
+void PushableGameObject::ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, StaticGameObject* object)
 {
 	// Work out the direction the object is colliding the pushable object from
 	float dx = (m_xPos - object->GetXPos()) * pushSpeed;

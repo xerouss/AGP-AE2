@@ -141,10 +141,10 @@ bool DynamicGameObject::UpdateTransformAndCheckCollision(float oldValue, float &
 
 		// Collision
 		// Carry out the collided object's collision effect
-		collidedObject->CollisionEffect(oldValue, valueChanged, this);
+		collidedObject->ObjectCollidesWithThis(oldValue, valueChanged, this);
 
 		// Carry out this object's collision effect
-		OnAnyCollision(collidedObject);
+		ThisCollidesWithAnotherObject(collidedObject);
 
 		// If the object needs to be deleted after collision, delete it
 		if (collidedObject->GetDeleteAfterCollision())
@@ -165,7 +165,7 @@ bool DynamicGameObject::UpdateTransformAndCheckCollision(float oldValue, float &
 //####################################################################################
 // When this object collides with any object
 //####################################################################################
-void DynamicGameObject::OnAnyCollision(StaticGameObject * object)
+void DynamicGameObject::ThisCollidesWithAnotherObject(StaticGameObject * object)
 {
 	// Is blank because most objects won't need anything
 }

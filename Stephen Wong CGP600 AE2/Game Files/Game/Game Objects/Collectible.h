@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Collectible.h
-//	Last Updated:	19/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -24,5 +24,5 @@ public:
 	Collectible(int* score, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 
 	void InitialiseCollectible(int* score);
-	virtual void CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
+	virtual void ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
 };

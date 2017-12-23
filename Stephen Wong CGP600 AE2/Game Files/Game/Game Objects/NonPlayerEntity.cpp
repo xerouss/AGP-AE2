@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			NonPlayerEntity.cpp
-//	Last Updated:	21/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -92,9 +92,17 @@ bool NonPlayerEntity::IsNearTargetPosition(void)
 }
 
 //####################################################################################
-// On collision with another object
+// Collision when another object hits it
 //####################################################################################
-void NonPlayerEntity::OnAnyCollision(StaticGameObject* object)
+void NonPlayerEntity::ObjectCollidesWithThis(float oldValue, float & valueThatWasChanged, StaticGameObject * object)
+{
+
+}
+
+//####################################################################################
+// Collision when this object hit another
+//####################################################################################
+void NonPlayerEntity::ThisCollidesWithAnotherObject(StaticGameObject* object)
 {
 	// Make the object go in the opposite direction that it is currently going in
 	m_targetXPos = ((m_xPos - m_targetXPos)) + m_xPos;

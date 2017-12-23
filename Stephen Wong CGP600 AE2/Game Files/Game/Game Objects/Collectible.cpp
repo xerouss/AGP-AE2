@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Collectible.cpp
-//	Last Updated:	19/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -59,7 +59,7 @@ void Collectible::InitialiseCollectible(int* score)
 //####################################################################################
 // What happens on collision
 //####################################################################################
-void Collectible::CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object)
+void Collectible::ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, StaticGameObject* object)
 {
 	// Don't move the object back because the collectible should be able to be walked through
 	// Only increase the score if its the camera/player

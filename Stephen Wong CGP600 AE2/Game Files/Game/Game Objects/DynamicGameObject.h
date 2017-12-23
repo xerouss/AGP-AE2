@@ -33,7 +33,7 @@ public:
 	virtual void SetNewForwardPosition(float distance);
 	virtual void MoveForwardIncludingY(float distance);
 	bool UpdateTransformAndCheckCollision(float oldValue, float &valueThatWasChanged, StaticGameObject* rootNode);
-	virtual void OnAnyCollision(StaticGameObject* object); // When this object collides with any object
+	virtual void ThisCollidesWithAnotherObject(StaticGameObject* object); // When this object collides with any object
 
 #pragma region Increment Methods
 

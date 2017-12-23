@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			NonPlayerEntity.h
-//	Last Updated:	21/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -13,8 +13,12 @@
 
 #pragma endregion
 
+#pragma region Constants
+
 const int patrolRange = 10;
 const int positionCheckRange = 1;
+
+#pragma endregion
 
 class NonPlayerEntity : public DynamicGameObject
 {
@@ -33,5 +37,6 @@ public:
 	void SetNewTargetPosition(void);
 	int GetRandomPatrolPosition(void);
 	bool IsNearTargetPosition(void);
-	virtual void OnAnyCollision(StaticGameObject* object);
+	virtual void ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
+	virtual void ThisCollidesWithAnotherObject(StaticGameObject* object);
 };

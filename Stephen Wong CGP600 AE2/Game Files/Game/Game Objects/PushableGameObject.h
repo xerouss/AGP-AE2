@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			PushableGameObject.h
-//	Last Updated:	19/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -27,6 +27,6 @@ public:
 	PushableGameObject(StaticGameObject* rootGameObject, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 
 	void InitialisePushabelGameObject(StaticGameObject* rootGameObject);
-	virtual void CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
+	virtual void ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
 
 };

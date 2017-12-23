@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			StaticGameObject.cpp
-//	Last Updated:	19/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -264,7 +264,7 @@ StaticGameObject* StaticGameObject::CheckCollision(StaticGameObject* compareTree
 //####################################################################################
 // What happens when an object collides with this
 //####################################################################################
-void StaticGameObject::CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object)
+void StaticGameObject::ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, StaticGameObject* object)
 {
 	// Move the object back to it's original position
 	valueThatWasChanged = oldValue;

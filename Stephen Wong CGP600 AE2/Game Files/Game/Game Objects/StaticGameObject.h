@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			StaticGameObject.h
-//	Last Updated:	19/12/2017
+//	Last Updated:	23/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -23,9 +23,11 @@ using namespace DirectX::PackedVector;
 #pragma endregion
 
 #pragma region Constants
+
 const float defaultScale = 1.0f;
 const float defaultAxisPos = 0.0f;
 const float defaultAxisRotation = 0.0f;
+
 #pragma endregion
 
 enum GameObjectTypes
@@ -88,7 +90,7 @@ public:
 	StaticGameObject* CheckCollision(StaticGameObject* compareTree);
 	StaticGameObject* CheckCollision(StaticGameObject* compareTree, StaticGameObject* objectTreeRoot);
 	// When this object gets collided with another
-	virtual void CollisionEffect(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
+	virtual void ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
 
 #pragma region Set Methods
 	void SetModel(Model* model);
