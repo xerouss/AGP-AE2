@@ -20,6 +20,11 @@ using namespace DirectX::PackedVector;
 
 #pragma endregion
 
+#pragma region Constants
+
+const int DefaultColourWValue = 1;
+
+#pragma endregion
 
 class Light
 {

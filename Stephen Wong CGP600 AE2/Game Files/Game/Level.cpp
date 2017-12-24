@@ -28,6 +28,12 @@ Level::Level(ID3D11Device *device, ID3D11DeviceContext *immediateContext)
 //####################################################################################
 Level::~Level()
 {
+	if (m_pDirectionalLight1)
+	{
+		delete m_pDirectionalLight1;
+		m_pDirectionalLight1 = NULL;
+	}
+
 	if (m_pAmbientLight)
 	{
 		delete m_pAmbientLight;
@@ -93,7 +99,9 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 5, 0, 0);
 	m_pCamera = new Camera(defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
 	m_pEnemy1 = new Enemy(defaultMovementSpeed, 0, 0, 0);
-	m_pAmbientLight = new Light(1, 0.2f, 0.2f);
+	// TODO: REMOVE MAGIC NUMBERS
+	m_pAmbientLight = new Light(0.1f, 0.1f, 0.1f);
+	m_pDirectionalLight1 = new DirectionalLight(0.1f, 0.1f, 1, 0, 0, -1, 10, 0, 0, 0);
 
 	// Set the children, models and positions
 	m_pRootGameObject->AddChildNode(m_pWall1GameObject);
@@ -115,6 +123,8 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 
 	// Set Lighting
 	m_pWallModel->SetAmbientLight(m_pAmbientLight->GetLightColour());
+	// TODO: Check range
+	m_pWallModel->SetDirectionalLight(m_pDirectionalLight1->GetShineFromVector(), m_pDirectionalLight1->GetLightColour());
 
 	return hr; // Should return S_OK if nothing fails
 }
@@ -128,6 +138,8 @@ void Level::Update(void)
 	//m_pWall3GameObject->IncrementZPos(m_pWall3GameObject->GetMovementSpeed(), m_pRootGameObject);
 
 	m_pEnemy1->Update(m_pRootGameObject);
+	m_pDirectionalLight1->SetYRotation(m_pDirectionalLight1->GetYRotation() + 0.001f);
+	m_pWallModel->SetDirectionalLight(m_pDirectionalLight1->GetShineFromVector(), m_pDirectionalLight1->GetLightColour());
 }
 
 //####################################################################################

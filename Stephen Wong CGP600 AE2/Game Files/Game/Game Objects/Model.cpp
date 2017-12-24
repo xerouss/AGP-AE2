@@ -316,8 +316,8 @@ void Model::Draw(XMMATRIX* world, XMMATRIX* view, XMMATRIX* projection)
 
 	// Lighting
 	modelConstantBufferValues.ambientLightColour = m_ambientLightColour;
-	//modelConstantBufferValues.directionalLightVector = m_directionalLightShinesFrom;
-	//modelConstantBufferValues.directionalLightColour = m_directionalLightColour;
+	modelConstantBufferValues.directionalLightVector = m_directionalLightShinesFrom;
+	modelConstantBufferValues.directionalLightColour = m_directionalLightColour;
 	//modelConstantBufferValues.pointLightVector = m_pointLightPosition;
 	//modelConstantBufferValues.pointLightColour = m_pointLightColour;
 
@@ -350,13 +350,12 @@ void Model::SetAmbientLight(XMVECTOR colour)
 	m_ambientLightColour = colour;
 }
 
-//void Model::SetDirectionalLight(XMVECTOR pos, XMVECTOR colour)
-//{
-//	m_directionalLightShinesFrom = pos;
-//	m_directionalLightColour = colour;
-//
-//}
-//
+void Model::SetDirectionalLight(XMVECTOR pos, XMVECTOR colour)
+{
+	m_directionalLightShinesFrom = pos;
+	m_directionalLightColour = colour;
+}
+
 //void Model::SetPointLight(XMVECTOR pos, XMVECTOR colour)
 //{
 //	m_pointLightPosition = pos;

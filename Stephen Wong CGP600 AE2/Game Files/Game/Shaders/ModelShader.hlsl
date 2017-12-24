@@ -44,9 +44,9 @@ VertexOut ModelVertexShader(float4 position : POSITION, float2 texCoord : TEXCOO
     output.colour = ambientLightColour; // Ambient Light Colour
 
     // Directional
-    //float diffuseAmount = dot((float3) directionalLightVector, normal); // Light intensity
-    //diffuseAmount = saturate(diffuseAmount); // Clamp value between 0 and 1 to stop problems on unlit faces
-    //output.colour += (directionalLightColour * diffuseAmount);
+    float diffuseAmount = dot((float3) directionalLightVector, normal); // Light intensity
+    diffuseAmount = saturate(diffuseAmount); // Clamp value between 0 and 1 to stop problems on unlit faces
+    output.colour += (directionalLightColour * diffuseAmount);
 
     //// Point Light
     //float4 lightVector = pointLightVector - position;

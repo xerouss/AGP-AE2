@@ -17,6 +17,7 @@
 #include "Game Objects\PushableGameObject.h"
 #include "Game Objects\Enemy.h"
 #include "Lights\Light.h"
+#include "Lights\DirectionalLight.h"
 
 #pragma endregion
 
@@ -45,6 +46,7 @@ private:
 	PushableGameObject* m_pPushableGameObject1;
 	Enemy* m_pEnemy1;
 	Light* m_pAmbientLight;
+	DirectionalLight* m_pDirectionalLight1;
 
 	XMMATRIX m_projectionMatrix;
 	XMMATRIX m_worldMatrix;

@@ -8,7 +8,6 @@
 //////////////////////////////////////////////////////////////////////////////////////
 // All The includes for the file
 //////////////////////////////////////////////////////////////////////////////////////
-
 #pragma region Includes
 
 #include "Light.h"
@@ -36,5 +35,5 @@ XMVECTOR Light::GetLightColour(void)
 //####################################################################################
 void Light::SetLightColour(float red, float green, float blue)
 {
-	m_colour = XMVectorSet(red, green, blue, 1);
+	m_colour = XMVectorSet(red, green, blue, DefaultColourWValue);
 }
