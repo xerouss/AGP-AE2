@@ -318,8 +318,8 @@ void Model::Draw(XMMATRIX* world, XMMATRIX* view, XMMATRIX* projection)
 	modelConstantBufferValues.ambientLightColour = m_ambientLightColour;
 	modelConstantBufferValues.directionalLightVector = m_directionalLightShinesFrom;
 	modelConstantBufferValues.directionalLightColour = m_directionalLightColour;
-	//modelConstantBufferValues.pointLightVector = m_pointLightPosition;
-	//modelConstantBufferValues.pointLightColour = m_pointLightColour;
+	modelConstantBufferValues.pointLightVector = m_pointLightPosition;
+	modelConstantBufferValues.pointLightColour = m_pointLightColour;
 
 	// Update constant buffer
 	m_pImmediateContext->UpdateSubresource(m_pConstantBuffer, 0, 0, &modelConstantBufferValues, 0, 0);
@@ -356,11 +356,11 @@ void Model::SetDirectionalLight(XMVECTOR pos, XMVECTOR colour)
 	m_directionalLightColour = colour;
 }
 
-//void Model::SetPointLight(XMVECTOR pos, XMVECTOR colour)
-//{
-//	m_pointLightPosition = pos;
-//	m_pointLightColour = colour;
-//}
+void Model::SetPointLight(XMVECTOR pos, XMVECTOR colour)
+{
+	m_pointLightPosition = pos;
+	m_pointLightColour = colour;
+}
 
 #pragma endregion
 

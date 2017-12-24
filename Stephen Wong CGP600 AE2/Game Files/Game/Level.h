@@ -18,6 +18,7 @@
 #include "Game Objects\Enemy.h"
 #include "Lights\Light.h"
 #include "Lights\DirectionalLight.h"
+#include "Lights\PointLight.h"
 
 #pragma endregion
 
@@ -47,6 +48,7 @@ private:
 	Enemy* m_pEnemy1;
 	Light* m_pAmbientLight;
 	DirectionalLight* m_pDirectionalLight1;
+	PointLight* m_pPointLight1;
 
 	XMMATRIX m_projectionMatrix;
 	XMMATRIX m_worldMatrix;

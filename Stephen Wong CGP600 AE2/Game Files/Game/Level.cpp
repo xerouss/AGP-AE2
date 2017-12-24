@@ -28,6 +28,12 @@ Level::Level(ID3D11Device *device, ID3D11DeviceContext *immediateContext)
 //####################################################################################
 Level::~Level()
 {
+	if (m_pPointLight1)
+	{
+		delete m_pPointLight1;
+		m_pPointLight1 = NULL;
+	}
+
 	if (m_pDirectionalLight1)
 	{
 		delete m_pDirectionalLight1;
@@ -102,6 +108,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	// TODO: REMOVE MAGIC NUMBERS
 	m_pAmbientLight = new Light(0.1f, 0.1f, 0.1f);
 	m_pDirectionalLight1 = new DirectionalLight(0.1f, 0.1f, 1, 0, 0, -1, 10, 0, 0, 0);
+	m_pPointLight1 = new PointLight(0.1f, 1, 0.1f, 2, 0, 0, 10);
 
 	// Set the children, models and positions
 	m_pRootGameObject->AddChildNode(m_pWall1GameObject);
@@ -125,6 +132,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pWallModel->SetAmbientLight(m_pAmbientLight->GetLightColour());
 	// TODO: Check range
 	m_pWallModel->SetDirectionalLight(m_pDirectionalLight1->GetShineFromVector(), m_pDirectionalLight1->GetLightColour());
+	m_pWallModel->SetPointLight(m_pPointLight1->GetShineFromVector(m_worldMatrix), m_pPointLight1->GetLightColour());
 
 	return hr; // Should return S_OK if nothing fails
 }
@@ -138,8 +146,11 @@ void Level::Update(void)
 	//m_pWall3GameObject->IncrementZPos(m_pWall3GameObject->GetMovementSpeed(), m_pRootGameObject);
 
 	m_pEnemy1->Update(m_pRootGameObject);
-	m_pDirectionalLight1->SetYRotation(m_pDirectionalLight1->GetYRotation() + 0.001f);
-	m_pWallModel->SetDirectionalLight(m_pDirectionalLight1->GetShineFromVector(), m_pDirectionalLight1->GetLightColour());
+	m_pPointLight1->SetPosition(m_pPointLight1->GetPosition().vector4_f32[0] - 0.001f, 0, 0);
+	m_pWallModel->SetPointLight(m_pPointLight1->GetShineFromVector(m_worldMatrix), m_pPointLight1->GetLightColour());
+	m_pWall1GameObject->SetXPos(m_pPointLight1->GetPosition().vector4_f32[0]);
+	m_pWall1GameObject->SetYPos(m_pPointLight1->GetPosition().vector4_f32[1]);
+	m_pWall1GameObject->SetZPos(m_pPointLight1->GetPosition().vector4_f32[2]);
 }
 
 //####################################################################################

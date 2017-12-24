@@ -49,11 +49,11 @@ VertexOut ModelVertexShader(float4 position : POSITION, float2 texCoord : TEXCOO
     output.colour += (directionalLightColour * diffuseAmount);
 
     //// Point Light
-    //float4 lightVector = pointLightVector - position;
-    //lightVector = normalize(lightVector);
-    //float pointAmount = dot((float3) lightVector, normal);
-    //pointAmount = saturate(pointAmount);
-    //output.colour += (pointLightColour * pointAmount);
+    float4 lightVector = pointLightVector - position;
+    lightVector = normalize(lightVector);
+    float pointAmount = dot((float3) lightVector, normal);
+    pointAmount = saturate(pointAmount);
+    output.colour += (pointLightColour * pointAmount);
     
     output.texCoord = texCoord;
     return output;

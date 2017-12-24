@@ -31,8 +31,8 @@ private:
 		XMVECTOR m_ambientLightColour;
 		XMVECTOR m_directionalLightShinesFrom;
 		XMVECTOR m_directionalLightColour;
-	//	XMVECTOR m_pointLightPosition;
-	//	XMVECTOR m_pointLightColour;
+		XMVECTOR m_pointLightPosition;
+		XMVECTOR m_pointLightColour;
 	#pragma endregion
 
 #pragma region Bounding Sphere Collision
@@ -64,7 +64,7 @@ public:
 	// Lights
 	void SetAmbientLight(XMVECTOR colour);
 	void SetDirectionalLight(XMVECTOR pos, XMVECTOR colour);
-	//void SetPointLight(XMVECTOR pos, XMVECTOR colour);
+	void SetPointLight(XMVECTOR pos, XMVECTOR colour);
 
 #pragma endregion
 
