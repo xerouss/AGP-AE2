@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Model.h
-//	Last Updated:	04/12/2017
+//	Last Updated:	24/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -27,13 +27,13 @@ private:
 	// TODO: Add more textures?
 	ID3D11ShaderResourceView* m_pTexture0;
 
-	//#pragma region Lights
-	//	XMVECTOR m_ambientLightColour;
+	#pragma region Lights
+		XMVECTOR m_ambientLightColour;
 	//	XMVECTOR m_directionalLightShinesFrom;
 	//	XMVECTOR m_directionalLightColour;
 	//	XMVECTOR m_pointLightPosition;
 	//	XMVECTOR m_pointLightColour;
-	//#pragma endregion
+	#pragma endregion
 
 #pragma region Bounding Sphere Collision
 	float m_boundingSphereCentreX;
@@ -62,7 +62,7 @@ public:
 #pragma region Set Methods
 
 	// Lights
-	//void SetAmbientLight(XMVECTOR colour);
+	void SetAmbientLight(XMVECTOR colour);
 	//void SetDirectionalLight(XMVECTOR pos, XMVECTOR colour);
 	//void SetPointLight(XMVECTOR pos, XMVECTOR colour);
 

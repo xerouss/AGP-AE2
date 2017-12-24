@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.h
-//	Last Updated:	23/12/2017
+//	Last Updated:	24/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -16,6 +16,7 @@
 #include "Game Objects\Collectible.h"
 #include "Game Objects\PushableGameObject.h"
 #include "Game Objects\Enemy.h"
+#include "Lights\Light.h"
 
 #pragma endregion
 
@@ -43,6 +44,7 @@ private:
 	Collectible* m_pCollectible1;
 	PushableGameObject* m_pPushableGameObject1;
 	Enemy* m_pEnemy1;
+	Light* m_pAmbientLight;
 
 	XMMATRIX m_projectionMatrix;
 	XMMATRIX m_worldMatrix;

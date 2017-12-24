@@ -28,6 +28,12 @@ Level::Level(ID3D11Device *device, ID3D11DeviceContext *immediateContext)
 //####################################################################################
 Level::~Level()
 {
+	if (m_pAmbientLight)
+	{
+		delete m_pAmbientLight;
+		m_pAmbientLight = NULL;
+	}
+
 	if (m_pWallModel)
 	{
 		delete m_pWallModel;
@@ -87,6 +93,7 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 5, 0, 0);
 	m_pCamera = new Camera(defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
 	m_pEnemy1 = new Enemy(defaultMovementSpeed, 0, 0, 0);
+	m_pAmbientLight = new Light(1, 0.2f, 0.2f);
 
 	// Set the children, models and positions
 	m_pRootGameObject->AddChildNode(m_pWall1GameObject);
@@ -105,6 +112,9 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pPushableGameObject1->SetModel(m_pWallModel);
 	m_pCamera->SetModel(m_pWallModel);
 	m_pEnemy1->SetModel(m_pWallModel);
+
+	// Set Lighting
+	m_pWallModel->SetAmbientLight(m_pAmbientLight->GetLightColour());
 
 	return hr; // Should return S_OK if nothing fails
 }

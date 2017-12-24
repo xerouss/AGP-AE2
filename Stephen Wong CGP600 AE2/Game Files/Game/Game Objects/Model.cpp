@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Model.cpp
-//	Last Updated:	05/12/2017
+//	Last Updated:	24/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -315,7 +315,7 @@ void Model::Draw(XMMATRIX* world, XMMATRIX* view, XMMATRIX* projection)
 	modelConstantBufferValues.worldViewProjection = (*world) * (*view) * (*projection);
 
 	// Lighting
-	//modelConstantBufferValues.ambientLightColour = m_ambientLightColour;
+	modelConstantBufferValues.ambientLightColour = m_ambientLightColour;
 	//modelConstantBufferValues.directionalLightVector = m_directionalLightShinesFrom;
 	//modelConstantBufferValues.directionalLightColour = m_directionalLightColour;
 	//modelConstantBufferValues.pointLightVector = m_pointLightPosition;
@@ -345,11 +345,11 @@ void Model::Draw(XMMATRIX* world, XMMATRIX* view, XMMATRIX* projection)
 //////////////////////////////////////////////////////////////////////////////////////
 #pragma region Set Methods
 
-//void Model::SetAmbientLight(XMVECTOR colour)
-//{
-//	m_ambientLightColour = colour;
-//}
-//
+void Model::SetAmbientLight(XMVECTOR colour)
+{
+	m_ambientLightColour = colour;
+}
+
 //void Model::SetDirectionalLight(XMVECTOR pos, XMVECTOR colour)
 //{
 //	m_directionalLightShinesFrom = pos;
