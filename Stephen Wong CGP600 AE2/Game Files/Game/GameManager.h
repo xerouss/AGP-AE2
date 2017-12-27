@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			GameManager.h
-//	Last Updated:	20/12/2017
+//	Last Updated:	27/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -13,6 +13,7 @@
 #include "Level.h"
 #include "Input.h"
 #include "HUD.h"
+#include "Time.h"
 
 #pragma endregion
 
@@ -41,7 +42,8 @@ private:
 
 	Level* m_pLevel;
 	Input* m_pInput;
-	HUD* m_HUD;
+	HUD* m_pHUD;
+	Time* m_pTime;
 	int m_score = 0;
 
 	// Don't delete these since they are passed from another class

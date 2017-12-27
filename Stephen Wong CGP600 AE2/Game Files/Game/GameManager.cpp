@@ -32,6 +32,18 @@ GameManager::GameManager(ID3D11RenderTargetView* backBuffer, IDXGISwapChain* swa
 //####################################################################################
 GameManager::~GameManager()
 {
+	if (m_pTime)
+	{
+		delete m_pTime;
+		m_pTime = NULL;
+	}
+
+	if (m_pHUD)
+	{
+		delete m_pHUD;
+		m_pHUD = NULL;
+	}
+
 	if (m_pInput)
 	{
 		delete m_pInput;
@@ -73,7 +85,7 @@ HRESULT GameManager::InitialiseInput(HINSTANCE hInstance, HWND hWND)
 //####################################################################################
 void GameManager::InitialiseHUD(ID3D11Device* device)
 {
-	m_HUD = new HUD(device, m_pImmediateContext);
+	m_pHUD = new HUD(device, m_pImmediateContext);
 }
 
 //####################################################################################
@@ -87,7 +99,11 @@ HRESULT GameManager::InitialiseLevel(ID3D11Device* device)
 
 	hr = m_pLevel->SetUpLevel(&m_score);
 
-	// If failed will return fail else it would have been set up
+	if (FAILED(hr)) return hr;
+
+	// Set up time since level has now been created
+	m_pTime = new Time(); 
+
 	return hr;
 }
 
@@ -134,18 +150,21 @@ void GameManager::Render(void)
 	m_pLevel->Render();
 
 	// Show the score in the HUD
-	m_HUD->SetScoreText(to_string(m_score), scoreHUDXPos, scoreHUDYPos, scoreHUDTextSize);
-	m_HUD->SetHealthText(to_string(m_pLevel->GetPlayerHealth()), healthHUDXPos, healthHUDYPos, healthHUDTextSize);
-	m_HUD->SetTimerText(timerHUDXPos, timerHUDYPos, timerHUDTextSize);
-	m_HUD->Render();
+	m_pHUD->SetScoreText(to_string(m_score), scoreHUDXPos, scoreHUDYPos, scoreHUDTextSize);
+	m_pHUD->SetHealthText(to_string(m_pLevel->GetPlayerHealth()), healthHUDXPos, healthHUDYPos, healthHUDTextSize);
+	m_pHUD->SetTimerText(m_pTime->GetTimeSinceStartOfGameFormatted(), timerHUDXPos, timerHUDYPos, timerHUDTextSize);
+	m_pHUD->Render();
 
 	// Display what has just been rendered
 	m_pSwapChain->Present(0, 0);
 }
 
+//####################################################################################
+// Set Z buffer
+//####################################################################################
 void GameManager::SetZBuffer(ID3D11DepthStencilView * zbuffer)
 {
-	m_pZBuffer = zbuffer;
+	m_pZBuffer = zbuffer; // Need to reset z buffer when resizing window
 }
 
 //####################################################################################

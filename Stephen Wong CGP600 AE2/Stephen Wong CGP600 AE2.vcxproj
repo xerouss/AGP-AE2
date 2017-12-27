@@ -37,6 +37,7 @@
     <ClCompile Include="Game Files\Game\Lights\PointLight.cpp" />
     <ClCompile Include="Game Files\Game\Lights\PositionalLight.cpp" />
     <ClCompile Include="Game Files\Game\Text2D.cpp" />
+    <ClCompile Include="Game Files\Game\Time.cpp" />
     <ClCompile Include="Game Files\main.cpp" />
     <ClCompile Include="Game Files\Window.cpp" />
   </ItemGroup>
@@ -59,6 +60,7 @@
     <ClInclude Include="Game Files\Game\Lights\PointLight.h" />
     <ClInclude Include="Game Files\Game\Lights\PositionalLight.h" />
     <ClInclude Include="Game Files\Game\Text2D.h" />
+    <ClInclude Include="Game Files\Game\Time.h" />
     <ClInclude Include="Game Files\Window.h" />
   </ItemGroup>
   <ItemGroup>

@@ -148,9 +148,9 @@ void Level::Update(void)
 	m_pEnemy1->Update(m_pRootGameObject);
 	m_pPointLight1->SetPosition(m_pPointLight1->GetPosition().vector4_f32[0] + 0.001f, 0, 0);
 	m_pWallModel->SetPointLight(m_pPointLight1->GetShineFromVector(m_worldMatrix), m_pPointLight1->GetLightColour());
-	//m_pWall1GameObject->SetXPos(m_pPointLight1->GetPosition().vector4_f32[0]);
-	//m_pWall1GameObject->SetYPos(m_pPointLight1->GetPosition().vector4_f32[1]);
-	//m_pWall1GameObject->SetZPos(m_pPointLight1->GetPosition().vector4_f32[2]);
+	m_pWall1GameObject->SetXPos(m_pPointLight1->GetPosition().vector4_f32[0]);
+	m_pWall1GameObject->SetYPos(m_pPointLight1->GetPosition().vector4_f32[1]);
+	m_pWall1GameObject->SetZPos(m_pPointLight1->GetPosition().vector4_f32[2]);
 }
 
 //####################################################################################
