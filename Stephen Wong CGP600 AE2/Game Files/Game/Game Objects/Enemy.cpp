@@ -17,55 +17,92 @@
 //####################################################################################
 // Constructors
 //####################################################################################
-Enemy::Enemy() : DynamicGameObject()
+Enemy::Enemy(float aggroRange) : DynamicGameObject()
 {
-	InitialiseNonPlayerEntity();
+	// Call dynamic game object constructor first
+
+	InitialiseNonPlayerEntity(aggroRange);
 }
 
-Enemy::Enemy(float speed, float xPos, float yPos, float zPos) :
+Enemy::Enemy(float aggroRange, float speed, float xPos, float yPos, float zPos) :
 	DynamicGameObject(speed, xPos, yPos, zPos)
 {
-	InitialiseNonPlayerEntity();
+	// Call dynamic game object constructor first
+
+	InitialiseNonPlayerEntity(aggroRange);
 }
 
-Enemy::Enemy(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle):
+Enemy::Enemy(float aggroRange, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle):
 	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle)
 {
-	InitialiseNonPlayerEntity();
+	// Call dynamic game object constructor first
+
+	InitialiseNonPlayerEntity(aggroRange);
 }
 
-Enemy::Enemy(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale):
+Enemy::Enemy(float aggroRange, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale):
 	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
 {
-	InitialiseNonPlayerEntity();
+	// Call dynamic game object constructor first
+
+	InitialiseNonPlayerEntity(aggroRange);
 }
 
 //####################################################################################
 // Set up the non-player entity
 //####################################################################################
-void Enemy::InitialiseNonPlayerEntity(void)
+void Enemy::InitialiseNonPlayerEntity(float aggroRange)
 {
+	m_aggroRange = aggroRange;
 	m_gameObjectType = ENEMY;
-	SetNewTargetPosition();
+	SetNewRandomTargetPosition();
 }
 
 //####################################################################################
 // Update the game object's position
 //####################################################################################
-void Enemy::Update(StaticGameObject* rootNode)
+void Enemy::Update(StaticGameObject* rootNode, Camera* player)
 {
-	if (IsNearTargetPosition()) SetNewTargetPosition();
+	float playerXPos = player->GetXPos();
+	float playerZPos = player->GetZPos();
+
+	// Check if player is in aggro range
+	if (IsNearPosition(playerXPos, playerZPos, m_aggroRange))
+	{
+		m_isChasingPlayer = true;
+		// Make the player position the target
+		SetNewTargetPosition(playerXPos, playerZPos);
+	}
+	// Is else if so that it only gets a new random position once the player is out of aggro range
+	else if (m_isChasingPlayer == true)
+	{
+		m_isChasingPlayer = false;
+		SetNewRandomTargetPosition();
+	}
+
+	// Get new target position if near the current one
+	// Does this while not chasing so it doesn't randomly stop chasing when it gets near the target position
+	if(IsNearPosition(m_targetXPos, m_targetZPos, positionCheckRange) 
+		&& !m_isChasingPlayer) SetNewRandomTargetPosition();
 
 	MoveForward(m_movementSpeed, rootNode);
 }
 
 //####################################################################################
-// Get a new target position
+// Set a new target position by using random numbers
 //####################################################################################
-void Enemy::SetNewTargetPosition(void)
+void Enemy::SetNewRandomTargetPosition(void)
 {
-	m_targetXPos = m_xPos + GetRandomPatrolPosition();
-	m_targetZPos = m_zPos + GetRandomPatrolPosition();
+	SetNewTargetPosition(m_xPos + GetRandomPatrolPosition(), m_zPos + GetRandomPatrolPosition());
+}
+
+//####################################################################################
+// Set a new target position
+//####################################################################################
+void Enemy::SetNewTargetPosition(float x, float z)
+{
+	m_targetXPos = x;
+	m_targetZPos = z;
 
 	LookAtXZ(m_targetXPos, m_targetZPos);
 }
@@ -82,11 +119,16 @@ int Enemy::GetRandomPatrolPosition(void)
 //####################################################################################
 // Check if the object is near the target
 //####################################################################################
-bool Enemy::IsNearTargetPosition(void)
+bool Enemy::IsNearPosition(float x, float z, float range)
 {
+	// Half the range since one half will be used for the upper bound
+	// While the other half is the lower bound
+	range = range / 2;
+
 	// Check if the game object is near the target position
-	if ((m_xPos >= m_targetXPos - positionCheckRange && m_xPos <= m_targetXPos + positionCheckRange) &&
-		(m_zPos >= m_targetZPos - positionCheckRange && m_zPos <= m_targetZPos + positionCheckRange))
+	// Only check x and z because the enemy doesn't jump
+	if ((m_xPos >= x - range && m_xPos <= x + range) &&
+		(m_zPos >= z - range && m_zPos <= z + range))
 			return true;
 	return false;
 }

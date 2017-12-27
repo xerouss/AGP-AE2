@@ -63,9 +63,9 @@ void Camera::InitialiseCamera(Time* time)
 //####################################################################################
 void Camera::SetNewForwardPosition(float distance)
 {
+	// TODO: COmment this
 	m_xPos += distance * m_deltaXPos;
 	m_zPos += distance * m_deltaZPos;
-
 }
 
 //####################################################################################
