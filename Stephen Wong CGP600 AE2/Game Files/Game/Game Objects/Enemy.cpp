@@ -53,6 +53,8 @@ Enemy::Enemy(float aggroRange, float speed, float xPos, float yPos, float zPos, 
 //####################################################################################
 void Enemy::InitialiseNonPlayerEntity(float aggroRange)
 {
+	m_startXPos = m_xPos;
+	m_startZPos = m_zPos;
 	m_aggroRange = aggroRange;
 	m_gameObjectType = ENEMY;
 	SetNewRandomTargetPosition();
@@ -77,13 +79,19 @@ void Enemy::Update(StaticGameObject* rootNode, Camera* player)
 	else if (m_isChasingPlayer == true)
 	{
 		m_isChasingPlayer = false;
-		SetNewRandomTargetPosition();
+		// Go back to the original position once the player is out of aggro range
+		SetNewTargetPosition(m_startXPos, m_startZPos);
 	}
 
 	// Get new target position if near the current one
 	// Does this while not chasing so it doesn't randomly stop chasing when it gets near the target position
 	if(IsNearPosition(m_targetXPos, m_targetZPos, positionCheckRange) 
 		&& !m_isChasingPlayer) SetNewRandomTargetPosition();
+
+	// If the enemy walks to far from the start position go back to it
+	if(!IsNearPosition(m_startXPos, m_startZPos, maxDistanceFromStartPosition) &&
+		!m_isChasingPlayer)
+		SetNewTargetPosition(m_startXPos, m_startZPos);
 
 	MoveForward(m_movementSpeed, rootNode);
 }

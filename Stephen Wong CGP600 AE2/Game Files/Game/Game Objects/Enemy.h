@@ -17,6 +17,7 @@
 
 const int patrolRange = 10;
 const float positionCheckRange = 2;
+const float maxDistanceFromStartPosition = 30;
 
 #pragma endregion
 
@@ -27,6 +28,8 @@ private:
 	float m_targetZPos;
 	float m_aggroRange;
 	bool m_isChasingPlayer = false;
+	float m_startXPos;
+	float m_startZPos;
 
 public:
 	Enemy(float aggroRange);

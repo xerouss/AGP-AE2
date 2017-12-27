@@ -104,7 +104,7 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	m_pPushableGameObject1 = new PushableGameObject(m_pRootGameObject, defaultMovementSpeed, 0, 0, -20);
 	m_pCollectible1 = new Collectible(scoreSaveLocation, 5, 0, 0);
 	m_pCamera = new Camera(time, defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
-	m_pEnemy1 = new Enemy(25, defaultMovementSpeed / 2, 0, 0, 0);
+	m_pEnemy1 = new Enemy(25, defaultMovementSpeed * 2, 0, 0, 0);
 	// TODO: REMOVE MAGIC NUMBERS
 	m_pAmbientLight = new Light(0.1f, 0.1f, 0.1f);
 	m_pDirectionalLight1 = new DirectionalLight(0.1f, 0.1f, 1, 0, 0, -1, 10, 0, 0, 1);
