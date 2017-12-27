@@ -73,15 +73,17 @@ void Camera::SetNewForwardPosition(float distance)
 //####################################################################################
 void Camera::Strafe(float distance, StaticGameObject* rootNode)
 {
-
-	// TODO: USE THIS TO FIX https://gamedev.stackexchange.com/questions/63819/first-person-camera-strafing-at-angle
-	// https://stackoverflow.com/questions/19484601/3d-first-person-camera-strafing-at-angle
+	// Saved old position in case of a collision
 	float oldXPos = m_xPos;
 	float oldZPos = m_zPos;
 
+	// Used this to help implement strafing: http://www.cplusplus.com/forum/beginner/124843/ (hdn, 2014) Last Viewed 27/12/17
+	// Instead of using y I sued the z since its rotating on x and z
+	// I made the z have the minus since it was rotating the wrong way round
 	m_xPos += distance * m_deltaZPos;
-	m_zPos += distance * m_deltaXPos;
+	m_zPos += distance * -m_deltaXPos;
 
+	// Check for collisions
 	UpdateTransformAndCheckCollision(oldXPos, m_xPos, rootNode);
 	UpdateTransformAndCheckCollision(oldZPos, m_zPos, rootNode);
 }
