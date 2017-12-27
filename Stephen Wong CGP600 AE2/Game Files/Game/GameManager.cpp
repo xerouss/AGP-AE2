@@ -95,14 +95,14 @@ HRESULT GameManager::InitialiseLevel(ID3D11Device* device)
 {
 	HRESULT hr = S_OK;
 
+	// Set up time
+	m_pTime = new Time();
+
 	m_pLevel = new Level(device, m_pImmediateContext);
 
-	hr = m_pLevel->SetUpLevel(&m_score);
+	hr = m_pLevel->SetUpLevel(&m_score, m_pTime);
 
 	if (FAILED(hr)) return hr;
-
-	// Set up time since level has now been created
-	m_pTime = new Time(); 
 
 	return hr;
 }

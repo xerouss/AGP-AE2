@@ -63,7 +63,7 @@ Level::~Level()
 //####################################################################################
 // Place the game objects around the level to create it
 //####################################################################################
-HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
+HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 {
 	HRESULT hr = S_OK;
 
@@ -102,8 +102,8 @@ HRESULT Level::SetUpLevel(int* m_scoreSaveLocation)
 	m_pWall2GameObject = new DynamicGameObject(defaultMovementSpeed, 0, 0, 5);
 	m_pWall3GameObject = new DynamicGameObject(defaultMovementSpeed, 5, 0, 2);
 	m_pPushableGameObject1 = new PushableGameObject(m_pRootGameObject, defaultMovementSpeed, 0, 0, -20);
-	m_pCollectible1 = new Collectible(m_scoreSaveLocation, 5, 0, 0);
-	m_pCamera = new Camera(defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
+	m_pCollectible1 = new Collectible(scoreSaveLocation, 5, 0, 0);
+	m_pCamera = new Camera(time, defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
 	m_pEnemy1 = new Enemy(defaultMovementSpeed, 0, 0, 0);
 	// TODO: REMOVE MAGIC NUMBERS
 	m_pAmbientLight = new Light(0.1f, 0.1f, 0.1f);

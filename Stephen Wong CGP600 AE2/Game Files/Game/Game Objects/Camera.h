@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Camera.h
-//	Last Updated:	23/12/2017
+//	Last Updated:	27/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -10,12 +10,19 @@
 #pragma region Includes
 
 #include "DynamicGameObject.h"
+#include "../Time.h"
 
 #pragma endregion
+
+
+#pragma region Constants
 
 const float defaultDeltaPos = 0;
 const float DegreesToRadians = 0.01745329251f;
 const int defaultMaxHealth = 100;
+const int timeBetweenHits = 2;
+
+#pragma endregion
 
 class Camera: public DynamicGameObject
 {
@@ -29,14 +36,17 @@ private:
 	XMVECTOR m_up;
 
 	int m_currentHealth = defaultMaxHealth;
+	int m_timeAtCollision = 0;
+
+	Time* m_pTime;
 public:
-	Camera();
-	Camera(float speed, float xPos, float yPos, float zPos);
-	Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
-	Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
+	Camera(Time* time);
+	Camera(Time* time, float speed, float xPos, float yPos, float zPos);
+	Camera(Time* time, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
+	Camera(Time* time, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 	// ~Camera();
 
-	void InitialiseCamera(void);
+	void InitialiseCamera(Time* time);
 
 	virtual void SetNewForwardPosition(float distance);
 	void Strafe(float distance, StaticGameObject* rootNode);

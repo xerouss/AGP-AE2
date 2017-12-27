@@ -29,7 +29,7 @@ private:
 
 public:
 	Time();
-	int GetTimeSinceStartOfGame(void);
+	int GetSecondsSinceStartOfGame(void);
 	string GetTimeSinceStartOfGameFormatted(void);
 	string TimePadding(int time);
 };

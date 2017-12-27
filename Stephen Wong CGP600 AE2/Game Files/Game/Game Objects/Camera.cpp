@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Camera.cpp
-//	Last Updated:	23/12/2017
+//	Last Updated:	27/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -17,38 +17,39 @@
 //####################################################################################
 // Constructors
 //####################################################################################
-Camera::Camera() : DynamicGameObject()
+Camera::Camera(Time* time) : DynamicGameObject()
 {	
 	// Call dynamic game object constructor
-	InitialiseCamera();
+	InitialiseCamera(time);
 }
 
-Camera::Camera(float speed, float xPos, float yPos, float zPos) :
+Camera::Camera(Time* time, float speed, float xPos, float yPos, float zPos) :
 	DynamicGameObject(speed, xPos, yPos, zPos)
 {
 	// Call dynamic game object constructor
-	InitialiseCamera();
+	InitialiseCamera(time);
 }
 
-Camera::Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
+Camera::Camera(Time* time, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle) :
 	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle)
 {
 	// Call dynamic game object constructor
-	InitialiseCamera();
+	InitialiseCamera(time);
 }
 
-Camera::Camera(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
+Camera::Camera(Time* time, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale) :
 	DynamicGameObject(speed, xPos, yPos, zPos, xAngle, yAngle, zAngle, scale)
 {
 	// Call dynamic game object constructor
-	InitialiseCamera();
+	InitialiseCamera(time);
 }
 
 //####################################################################################
 // Set up the camera
 //####################################################################################
-void Camera::InitialiseCamera()
+void Camera::InitialiseCamera(Time* time)
 {
+	m_pTime = time;
 	m_gameObjectType = CAMERA;
 
 	m_up = XMVectorSet(0, 1.0f, 0, 0);
@@ -134,14 +135,20 @@ bool Camera::IncrementZAngle(float increaseAmount, StaticGameObject * rootNode)
 //####################################################################################
 void Camera::ThisCollidesWithAnotherObject(StaticGameObject * object)
 {
-	// TODO MAKE IS SO THE ENEMY CAN ONLY ATTACK EVERY SO MANY SECONDS
 	if (object->GetGameObjectType() == ENEMY)
 	{
-		m_currentHealth -= 1;
+		// Make sure time has passed between hits or the player will lose all of their health
+		if (m_pTime->GetSecondsSinceStartOfGame() - m_timeAtCollision >= timeBetweenHits)
+		{
+			m_currentHealth -= 10;
 
-		if (m_currentHealth < 0) m_currentHealth = 0;
+			if (m_currentHealth < 0) m_currentHealth = 0;
 
-		// TODO: DEATH
+			// TODO: DEATH
+
+			// Save the time the collision happened
+			m_timeAtCollision = m_pTime->GetSecondsSinceStartOfGame();
+		}
 	}
 }
 

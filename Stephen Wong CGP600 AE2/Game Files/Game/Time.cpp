@@ -25,7 +25,7 @@ Time::Time()
 //####################################################################################
 // Get time from start of the game
 //####################################################################################
-int Time::GetTimeSinceStartOfGame(void)
+int Time::GetSecondsSinceStartOfGame(void)
 {
 	// Minus the time by the time at the start of the game
 	// Need to divide by clocks per sec in order to get seconds
@@ -37,7 +37,7 @@ int Time::GetTimeSinceStartOfGame(void)
 //####################################################################################
 string Time::GetTimeSinceStartOfGameFormatted(void)
 {
-	int time = GetTimeSinceStartOfGame();
+	int time = GetSecondsSinceStartOfGame();
 	int minutes = time / secondsInAMinute;
 	int seconds = time % secondsInAMinute; // Mod time for seconds since if it goes over 59 will reset to 0
 

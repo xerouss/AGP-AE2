@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.h
-//	Last Updated:	24/12/2017
+//	Last Updated:	27/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -57,7 +57,7 @@ public:
 	Level(ID3D11Device* device, ID3D11DeviceContext* immediateContext);
 	~Level();
 
-	HRESULT SetUpLevel(int* m_scoreSaveLocation);
+	HRESULT SetUpLevel(int* scoreSaveLocation, Time* time);
 	void Update(void);
 	void Render(void);
 	
