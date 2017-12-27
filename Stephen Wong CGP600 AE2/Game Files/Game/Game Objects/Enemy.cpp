@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Enemy.cpp
-//	Last Updated:	23/12/2017
+//	Last Updated:	27/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -97,8 +97,8 @@ bool Enemy::IsNearTargetPosition(void)
 void Enemy::ThisCollidesWithAnotherObject(StaticGameObject* object)
 {
 	// Make the object go in the opposite direction that it is currently going in
-	m_targetXPos = ((m_xPos - m_targetXPos)) + m_xPos;
-	m_targetZPos = ((m_zPos - m_targetZPos))+ m_zPos;
+	m_targetXPos = ((m_xPos - object->GetXPos())) + m_xPos;
+	m_targetZPos = ((m_zPos - object->GetZPos()))+ m_zPos;
 
 	LookAtXZ(m_targetXPos, m_targetZPos);
 
