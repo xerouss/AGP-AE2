@@ -58,6 +58,18 @@ Level::~Level()
 		delete m_pRootGameObject;
 		m_pRootGameObject = NULL;
 	}
+
+	// Is an else statement because only one of these should be attached to the root game object
+	if (m_pSecondaryCamera != NULL)
+	{
+		delete m_pSecondaryCamera;
+		m_pSecondaryCamera = NULL;
+	}
+	else
+	{
+		delete m_pPrimaryCamera;
+		m_pPrimaryCamera = NULL;
+	}
 }
 
 //####################################################################################
@@ -103,8 +115,17 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	m_pWall3GameObject = new DynamicGameObject(defaultMovementSpeed, 5, 0, 2);
 	m_pPushableGameObject1 = new PushableGameObject(m_pRootGameObject, defaultMovementSpeed, 0, 0, -20);
 	m_pCollectible1 = new Collectible(scoreSaveLocation, 5, 0, 0);
-	m_pCamera = new Camera(time, defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
-	m_pEnemy1 = new Enemy(25, defaultMovementSpeed * 2, 0, 0, 0);
+
+	// Cameras
+	m_pPrimaryCamera = new Camera(time, defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
+	m_pSecondaryCamera = new Camera(time, defaultMovementSpeed, -30, 0, 0);
+
+	m_pActiveCamera = m_pPrimaryCamera;
+
+	// Enemies
+	m_pEnemy1 = new Enemy(25, defaultMovementSpeed / 2, 0, 0, 0);
+
+	// Lights
 	// TODO: REMOVE MAGIC NUMBERS
 	m_pAmbientLight = new Light(0.1f, 0.1f, 0.1f);
 	m_pDirectionalLight1 = new DirectionalLight(0.1f, 0.1f, 1, 0, 0, -1, 10, 0, 0, 1);
@@ -116,7 +137,7 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	m_pRootGameObject->AddChildNode(m_pWall3GameObject);
 	m_pRootGameObject->AddChildNode(m_pCollectible1);
 	m_pRootGameObject->AddChildNode(m_pPushableGameObject1);
-	m_pRootGameObject->AddChildNode(m_pCamera);
+	m_pRootGameObject->AddChildNode(m_pPrimaryCamera);
 	m_pRootGameObject->AddChildNode(m_pEnemy1);
 
 	// Set the models
@@ -125,8 +146,17 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	m_pWall3GameObject->SetModel(m_pWallModel);
 	m_pCollectible1->SetModel(m_pWallModel);
 	m_pPushableGameObject1->SetModel(m_pWallModel);
-	m_pCamera->SetModel(m_pWallModel);
+	m_pPrimaryCamera->SetModel(m_pWallModel);
+	m_pSecondaryCamera->SetModel(m_pWallModel);
 	m_pEnemy1->SetModel(m_pWallModel);
+
+	// Transformations
+	// Have to attach the secondary camera for the rotation to be applied correctly
+	// It is removed afterwards since we don't want to render it and have collisions with it
+	m_pRootGameObject->AddChildNode(m_pSecondaryCamera);
+	m_pSecondaryCamera->IncrementXAngle(secondaryCameraRotation, m_pRootGameObject);
+	m_pSecondaryCamera->IncrementZAngle(secondaryCameraRotation, m_pRootGameObject);
+	m_pRootGameObject->DetachNode(m_pSecondaryCamera);
 
 	// Set Lighting
 	m_pWallModel->SetAmbientLight(m_pAmbientLight->GetLightColour());
@@ -142,10 +172,10 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 //####################################################################################
 void Level::Update(void)
 {
-	//m_pCamera->IncrementYAngle(0.001f, m_pRootWallGameObject);
+	//m_pPrimaryCamera->IncrementYAngle(0.001f, m_pRootWallGameObject);
 	//m_pWall3GameObject->IncrementZPos(m_pWall3GameObject->GetMovementSpeed(), m_pRootGameObject);
 
-	m_pEnemy1->Update(m_pRootGameObject, m_pCamera);
+	m_pEnemy1->Update(m_pRootGameObject, m_pActiveCamera);
 	m_pPointLight1->SetPosition(m_pPointLight1->GetPosition().vector4_f32[0] + 0.001f, 0, 0);
 	m_pWallModel->SetPointLight(m_pPointLight1->GetShineFromVector(m_worldMatrix), m_pPointLight1->GetLightColour());
 	m_pWall1GameObject->SetXPos(m_pPointLight1->GetPosition().vector4_f32[0]);
@@ -164,29 +194,63 @@ void Level::Render(void)
 	XMMATRIX view;
 	
 	// Get the camera view
-	view = m_pCamera->GetViewMatrix();
+	view = m_pActiveCamera->GetViewMatrix();
 
 	// Render all game objects in the level
 	m_pRootGameObject->Render(&m_worldMatrix, &view, &m_projectionMatrix);
 }
 
+//####################################################################################
+// Move the active camera forward
+//####################################################################################
 void Level::MoveCameraForward(float movementMultiplier)
 {
-	m_pCamera->MoveForward(m_pCamera->GetMovementSpeed() * movementMultiplier, m_pRootGameObject);
+	m_pActiveCamera->MoveForward(m_pActiveCamera->GetMovementSpeed() * movementMultiplier, m_pRootGameObject);
 }
 
+//####################################################################################
+// Move the active camera to the side
+//####################################################################################
 void Level::StrafeCamera(float movementMultiplier)
 {
-	m_pCamera->Strafe(m_pCamera->GetMovementSpeed() * movementMultiplier, m_pRootGameObject);
+	m_pActiveCamera->Strafe(m_pActiveCamera->GetMovementSpeed() * movementMultiplier, m_pRootGameObject);
 }
 
+//####################################################################################
+// Rotate the active camera to the sides
+//####################################################################################
 void Level::ChangeCameraDirection(float amount)
 {
 	// In order to do a full 360 both need to be incremented
-	m_pCamera->IncrementXAngle(amount, m_pRootGameObject);
-	m_pCamera->IncrementZAngle(amount, m_pRootGameObject);
+	m_pActiveCamera->IncrementXAngle(amount, m_pRootGameObject);
+	m_pActiveCamera->IncrementZAngle(amount, m_pRootGameObject);
 }
 
+//####################################################################################
+// Change which camera is being used
+//####################################################################################
+void Level::ChangeActiveCamera(void)
+{
+	// Set new active camera
+	// Detach old one and attach new one to the root node
+	// This prevents collisions and rendering for the unused camera
+	if (m_pActiveCamera == m_pPrimaryCamera)
+	{
+		m_pActiveCamera = m_pSecondaryCamera;
+		m_pRootGameObject->AddChildNode(m_pSecondaryCamera);
+		m_pRootGameObject->DetachNode(m_pPrimaryCamera);
+	}
+	else
+	{
+		m_pActiveCamera = m_pPrimaryCamera;
+		m_pRootGameObject->AddChildNode(m_pPrimaryCamera);
+		m_pRootGameObject->DetachNode(m_pSecondaryCamera);
+	}
+}
+
+//####################################################################################
+// Set the world matrix for rendering
+//####################################################################################
 void Level::SetWorldMatrix(float xPos, float yPos, float zPos, float xRot, float yRot, float zRot, float scale)
 {
 	m_worldMatrix = XMMatrixScaling(scale, scale, scale);
@@ -194,12 +258,18 @@ void Level::SetWorldMatrix(float xPos, float yPos, float zPos, float xRot, float
 	m_worldMatrix *= XMMatrixTranslation(xPos, yPos, zPos);
 }
 
+//####################################################################################
+// Set the projection matrix for rendering
+//####################################################################################
 void Level::SetProjectionMatrix(XMMATRIX projection)
 {
 	m_projectionMatrix = projection;
 }
 
+//####################################################################################
+// Get the player's health
+//####################################################################################
 int Level::GetPlayerHealth(void)
 {
-	return m_pCamera->GetCurrentHealth();
+	return m_pActiveCamera->GetCurrentHealth();
 }

@@ -124,6 +124,7 @@ void GameManager::Update(void)
 	if (m_pInput->IsKeyDown(DIK_S)) m_pLevel->MoveCameraForward(-1);
 	if (m_pInput->IsKeyDown(DIK_A)) m_pLevel->StrafeCamera(-1);
 	if (m_pInput->IsKeyDown(DIK_D)) m_pLevel->StrafeCamera(1);
+	if (m_pInput->IsKeyPressed(DIK_SPACE)) m_pLevel->ChangeActiveCamera();
 
 	float mouseChangeAmount = (float)m_pInput->GetMousePositionChange(true);
 	if (mouseChangeAmount != 0) m_pLevel->ChangeCameraDirection(mouseChangeAmount / 100);

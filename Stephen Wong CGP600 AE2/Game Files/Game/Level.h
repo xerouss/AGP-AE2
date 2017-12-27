@@ -22,9 +22,16 @@
 
 #pragma endregion
 
+#pragma region Constants
 
 const float defaultWorldMatrixValue = 0.0f;
 const float defaultMovementSpeed = 0.001f;
+const float secondaryCameraRotation = 90;
+
+#pragma endregion
+
+
+
 
 class Level
 {
@@ -37,7 +44,10 @@ private:
 	ID3D11Device* m_pD3DDevice;
 	ID3D11DeviceContext* m_pImmediateContext;
 
-	Camera* m_pCamera;
+	Camera* m_pPrimaryCamera;
+	Camera* m_pSecondaryCamera;
+	Camera* m_pActiveCamera;
+
 	Model* m_pWallModel;
 	StaticGameObject* m_pRootGameObject;
 	DynamicGameObject* m_pWall1GameObject;
@@ -61,9 +71,11 @@ public:
 	void Update(void);
 	void Render(void);
 	
+	// Changes made by the player
 	void MoveCameraForward(float movementMultiplier);
 	void StrafeCamera(float movementMultiplier);
 	void ChangeCameraDirection(float amount);
+	void ChangeActiveCamera(void);
 
 	void SetWorldMatrix(float xPos, float yPos, float zPos,
 		float xRot, float yRot, float zRot, float scale);
