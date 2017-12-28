@@ -55,7 +55,7 @@ public:
 	bool IncrementXAngle(float increaseAmount, StaticGameObject* rootNode);
 	bool IncrementYAngle(float increaseAmount, StaticGameObject* rootNode);
 	bool IncrementZAngle(float increaseAmount, StaticGameObject* rootNode);
-	virtual void ThisCollidesWithAnotherObject(StaticGameObject* object);
+	virtual void ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, StaticGameObject* object);
 	XMMATRIX GetViewMatrix(void);
 	int GetCurrentHealth(void);
 };

@@ -135,7 +135,7 @@ bool Camera::IncrementZAngle(float increaseAmount, StaticGameObject * rootNode)
 //####################################################################################
 // What happens when the player collides with another object
 //####################################################################################
-void Camera::ThisCollidesWithAnotherObject(StaticGameObject * object)
+void Camera::ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, StaticGameObject* object)
 {
 	if (object->GetGameObjectType() == ENEMY)
 	{
@@ -152,6 +152,9 @@ void Camera::ThisCollidesWithAnotherObject(StaticGameObject * object)
 			m_timeAtCollision = m_pTime->GetSecondsSinceStartOfGame();
 		}
 	}
+
+	// Call the dynamics game object version which should move the object back to it's original position
+	DynamicGameObject::ObjectCollidesWithThis(oldValue, valueThatWasChanged, object);
 }
 
 //####################################################################################
