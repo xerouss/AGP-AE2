@@ -74,7 +74,8 @@ public:
 	// Changes made by the player
 	void MoveCameraForward(float movementMultiplier);
 	void StrafeCamera(float movementMultiplier);
-	void ChangeCameraDirection(float amount);
+	void ChangeCameraXAndZDirection(float amount);
+	void ChangeCameraYDirection(float amount);
 	void ChangeActiveCamera(void);
 
 	void SetWorldMatrix(float xPos, float yPos, float zPos,

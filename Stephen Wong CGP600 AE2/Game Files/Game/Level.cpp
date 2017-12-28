@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.cpp
-//	Last Updated:	27/12/2017
+//	Last Updated:	28/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -219,12 +219,21 @@ void Level::StrafeCamera(float movementMultiplier)
 //####################################################################################
 // Rotate the active camera to the sides
 //####################################################################################
-void Level::ChangeCameraDirection(float amount)
+void Level::ChangeCameraXAndZDirection(float amount)
 {
 	// In order to do a full 360 both need to be incremented
 	m_pActiveCamera->IncrementXAngle(amount, m_pRootGameObject);
 	m_pActiveCamera->IncrementZAngle(amount, m_pRootGameObject);
 }
+
+//####################################################################################
+// Rotate the active camera up and down
+//####################################################################################
+void Level::ChangeCameraYDirection(float amount)
+{
+	m_pActiveCamera->IncrementYAngle(amount, m_pRootGameObject);
+}
+
 
 //####################################################################################
 // Change which camera is being used

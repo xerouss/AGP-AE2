@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			GameManager.cpp
-//	Last Updated:	20/12/2017
+//	Last Updated:	28/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -126,8 +126,13 @@ void GameManager::Update(void)
 	if (m_pInput->IsKeyDown(DIK_D)) m_pLevel->StrafeCamera(1);
 	if (m_pInput->IsKeyPressed(DIK_SPACE)) m_pLevel->ChangeActiveCamera();
 
+	// Get x mouse change
 	float mouseChangeAmount = (float)m_pInput->GetMousePositionChange(true);
-	if (mouseChangeAmount != 0) m_pLevel->ChangeCameraDirection(mouseChangeAmount / 100);
+	if (mouseChangeAmount != 0) m_pLevel->ChangeCameraXAndZDirection(mouseChangeAmount / 100);
+
+	// Get y mouse change
+	mouseChangeAmount = (float)m_pInput->GetMousePositionChange(false);
+	if (mouseChangeAmount != 0) m_pLevel->ChangeCameraYDirection(-mouseChangeAmount / 100);
 
 	m_pLevel->Update();
 }
@@ -174,8 +179,8 @@ void GameManager::SetZBuffer(ID3D11DepthStencilView * zbuffer)
 void GameManager::SetProjectionMatrix(float screenWidth, float screenHeight)
 {
 	XMMATRIX projection;
-	projection = XMMatrixPerspectiveFovLH(defaultProjectionFOVAngleRadian, 
-		screenWidth/ screenHeight, defaultNearClippingPlaneZ, defaultFarClippingPlaneZ);
+	projection = XMMatrixPerspectiveFovLH(defaultProjectionFOVAngleRadian,
+		screenWidth / screenHeight, defaultNearClippingPlaneZ, defaultFarClippingPlaneZ);
 
 	m_pLevel->SetProjectionMatrix(projection);
 }

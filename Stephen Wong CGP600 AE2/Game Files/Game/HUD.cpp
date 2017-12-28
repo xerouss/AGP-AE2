@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			HUD.cpp
-//	Last Updated:	27/12/2017
+//	Last Updated:	28/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -25,9 +25,9 @@ HUD::HUD(ID3D11Device* device, ID3D11DeviceContext* immediateContext)
 
 	InitialiseTransparency();
 
-	m_scoreText = new Text2D("Assets/Font/fontTransparent.png", m_pD3DDevice, m_pImmediateContext);
-	m_healthText = new Text2D("Assets/Font/fontTransparent.png", m_pD3DDevice, m_pImmediateContext);
-	m_timerText = new Text2D("Assets/Font/fontTransparent.png", m_pD3DDevice, m_pImmediateContext);
+	m_scoreText = new Text2D("Assets/Font/redFontTransparent.png", m_pD3DDevice, m_pImmediateContext);
+	m_healthText = new Text2D("Assets/Font/redFontTransparent.png", m_pD3DDevice, m_pImmediateContext);
+	m_timerText = new Text2D("Assets/Font/redFontTransparent.png", m_pD3DDevice, m_pImmediateContext);
 }
 
 //####################################################################################
