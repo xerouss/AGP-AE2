@@ -29,15 +29,18 @@
     <ClCompile Include="Game Files\Game\Game Objects\PushableGameObject.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\StaticGameObject.cpp" />
     <ClCompile Include="Game Files\Game\GameManager.cpp" />
-    <ClCompile Include="Game Files\Game\HUD.cpp" />
     <ClCompile Include="Game Files\Game\Input.cpp" />
     <ClCompile Include="Game Files\Game\Level.cpp" />
     <ClCompile Include="Game Files\Game\Lights\DirectionalLight.cpp" />
     <ClCompile Include="Game Files\Game\Lights\Light.cpp" />
     <ClCompile Include="Game Files\Game\Lights\PointLight.cpp" />
     <ClCompile Include="Game Files\Game\Lights\PositionalLight.cpp" />
-    <ClCompile Include="Game Files\Game\Text2D.cpp" />
     <ClCompile Include="Game Files\Game\Time.cpp" />
+    <ClCompile Include="Game Files\Game\User Interface\Button.cpp" />
+    <ClCompile Include="Game Files\Game\User Interface\HUD.cpp" />
+    <ClCompile Include="Game Files\Game\User Interface\PauseMenu.cpp" />
+    <ClCompile Include="Game Files\Game\User Interface\Text2D.cpp" />
+    <ClCompile Include="Game Files\Game\User Interface\UserInterface.cpp" />
     <ClCompile Include="Game Files\main.cpp" />
     <ClCompile Include="Game Files\Window.cpp" />
   </ItemGroup>
@@ -52,15 +55,18 @@
     <ClInclude Include="Game Files\Game\Game Objects\PushableGameObject.h" />
     <ClInclude Include="Game Files\Game\Game Objects\StaticGameObject.h" />
     <ClInclude Include="Game Files\Game\GameManager.h" />
-    <ClInclude Include="Game Files\Game\HUD.h" />
     <ClInclude Include="Game Files\Game\Input.h" />
     <ClInclude Include="Game Files\Game\Level.h" />
     <ClInclude Include="Game Files\Game\Lights\DirectionalLight.h" />
     <ClInclude Include="Game Files\Game\Lights\Light.h" />
     <ClInclude Include="Game Files\Game\Lights\PointLight.h" />
     <ClInclude Include="Game Files\Game\Lights\PositionalLight.h" />
-    <ClInclude Include="Game Files\Game\Text2D.h" />
     <ClInclude Include="Game Files\Game\Time.h" />
+    <ClInclude Include="Game Files\Game\User Interface\Button.h" />
+    <ClInclude Include="Game Files\Game\User Interface\HUD.h" />
+    <ClInclude Include="Game Files\Game\User Interface\PauseMenu.h" />
+    <ClInclude Include="Game Files\Game\User Interface\Text2D.h" />
+    <ClInclude Include="Game Files\Game\User Interface\UserInterface.h" />
     <ClInclude Include="Game Files\Window.h" />
   </ItemGroup>
   <ItemGroup>

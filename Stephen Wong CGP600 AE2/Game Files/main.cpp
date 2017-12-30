@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			main.cpp
-//	Last Updated:	09/12/2017
+//	Last Updated:	30/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -67,7 +67,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	// Game Manager initiated here because Direct3D needs to be initialised first
-	GameManager* pGameManager = new GameManager(pDirect3D->GetBackBuffer(),
+	GameManager* pGameManager = new GameManager(pDirect3D->GetD3DDevice(),
+		pDirect3D->GetBackBuffer(),
 		pDirect3D->GetSwapChain(),
 		pDirect3D->GetImmediateContext(),
 		pDirect3D->GetZBuffer());
@@ -81,17 +82,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	// Set up the level
-	if (FAILED(pGameManager->InitialiseLevel(pDirect3D->GetD3DDevice())))
+	if (FAILED(pGameManager->InitialiseLevel()))
 	{
 		DXTRACE_MSG("Failed to initialise level");
 		return failed;
 	}
 
+	// Set up the projection matrix
 	pGameManager->SetProjectionMatrix((float)pWindow->GetScreenWidth(),
 		(float)pWindow->GetScreenHeight());
 
 	// Set up the HUD for the game
-	pGameManager->InitialiseHUD(pDirect3D->GetD3DDevice());
+	pGameManager->InitialiseHUD();
 
 	srand((unsigned int)time(NULL)); // Set up the random seed
 

@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Input.h
-//	Last Updated:	09/12/2017
+//	Last Updated:	30/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -13,6 +13,15 @@
 
 #pragma endregion
 
+#pragma region Constants
+
+const int leftMouseButton = 0;
+const int getHighOrderBit = 0x80;
+const bool failedGetMousePosition = false;
+
+#pragma endregion
+
+
 class Input
 {
 private:
@@ -21,7 +30,7 @@ private:
 	unsigned char m_keyboardKeysState[256]; // Stores states of all keyboard keys
 	bool m_keyboardKeysPressedState[256]; // Stores if the key is currently pressed down
 	IDirectInputDevice8* m_pMouseDevice; // Pointer to mouse device
-
+	HWND m_window;
 	/*
 	 DIMOUSESTATE structure:
 	 LONG    lX; - X pos
@@ -42,12 +51,17 @@ private:
 public:
 	~Input();
 
-	HRESULT InitialiseDirectInput(HINSTANCE hInstance);
-	HRESULT InitialiseKeyboardInput(HWND hWND);
+	HRESULT InitialiseDirectInput(HINSTANCE hInstance, HWND hWND);
+	HRESULT InitialiseKeyboardInput(void);
 	// TODO: This is separate from initialize input since we need to recall this when changing screen size?
-	HRESULT InitialiseMouse(HWND hWND);
+	HRESULT InitialiseMouse(void);
 	void ReadInputStates(void);
 	bool IsKeyDown(unsigned char DI_keycode);
 	bool IsKeyPressed(unsigned char DI_keycode);
+	bool IsMouseLeftButtonDown(void);
 	long GetMousePositionChange(bool X);
+
+	POINT GetMousePosition(void);
+	float GetXMousePosition(void);
+	float GetYMousePosition(void);
 };

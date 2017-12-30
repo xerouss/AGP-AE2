@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Input.cpp
-//	Last Updated:	09/12/2017
+//	Last Updated:	30/12/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -36,12 +36,14 @@ Input::~Input()
 //####################################################################################
 // Start up direct input
 //####################################################################################
-HRESULT Input::InitialiseDirectInput(HINSTANCE hInstance)
+HRESULT Input::InitialiseDirectInput(HINSTANCE hInstance, HWND hWND)
 {
 	HRESULT hr = S_OK;
 
 	// Initialise direct input
 	hr = DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_pDirectInput, NULL);
+
+	m_window = hWND;
 
 	return hr; // Will return failed if set up failed
 }
@@ -49,7 +51,7 @@ HRESULT Input::InitialiseDirectInput(HINSTANCE hInstance)
 //####################################################################################
 // Start up the input for keyboard
 //####################################################################################
-HRESULT Input::InitialiseKeyboardInput(HWND hWND)
+HRESULT Input::InitialiseKeyboardInput(void)
 {
 	HRESULT hr = S_OK;
 
@@ -66,7 +68,7 @@ HRESULT Input::InitialiseKeyboardInput(HWND hWND)
 	// Set the behaviour so it can interact with other apps
 	// The foreground only gets input from active window
 	// While the nonexclusive will share the device with others
-	hr = m_pKeyboardDevice->SetCooperativeLevel(hWND, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+	hr = m_pKeyboardDevice->SetCooperativeLevel(m_window, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	if (FAILED(hr)) return hr;
 
 	// Start the keyboard device
@@ -77,7 +79,7 @@ HRESULT Input::InitialiseKeyboardInput(HWND hWND)
 //####################################################################################
 // Start up the mouse input
 //####################################################################################
-HRESULT Input::InitialiseMouse(HWND hWND)
+HRESULT Input::InitialiseMouse(void)
 {
 	HRESULT hr = S_OK;
 
@@ -92,11 +94,12 @@ HRESULT Input::InitialiseMouse(HWND hWND)
 	// Set the behaviour so it can interact with other apps
 	// The foreground only gets input from active window
 	// While the nonexclusive will share the device with others
-	hr = m_pMouseDevice->SetCooperativeLevel(hWND, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+	hr = m_pMouseDevice->SetCooperativeLevel(m_window, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	if (FAILED(hr)) return hr;
 
 	// Start the mouse device
 	hr = m_pMouseDevice->Acquire();
+
 	return hr; // Will return failed if mouse failed
 }
 
@@ -141,7 +144,9 @@ bool Input::IsKeyDown(unsigned char DI_keycode)
 	// Check for key input using bitwise compare
 	// Return constantly if the button is being held down
 	// & is a bitwise AND
-	return m_keyboardKeysState[DI_keycode] & 0x80;
+	// Using * with 0x80 returns the high order bit.
+	// If the bit is 1 the key is down while otherwise it is up
+	return m_keyboardKeysState[DI_keycode] & getHighOrderBit;
 }
 
 //####################################################################################
@@ -162,6 +167,14 @@ bool Input::IsKeyPressed(unsigned char DI_keycode)
 	}
 
 	return false;
+}
+
+//####################################################################################
+// Return if the left mouse button was pressed
+//####################################################################################
+bool Input::IsMouseLeftButtonDown(void)
+{
+	return m_mouseState.rgbButtons[leftMouseButton];
 }
 
 //####################################################################################
@@ -189,6 +202,45 @@ long Input::GetMousePositionChange(bool CheckXAxis)
 		m_previousMouseYPos = m_mouseState.lY; // Save position so it can be used in the next frame
 		return change;
 	}
+}
 
-	return 0;
+//####################################################################################
+// Get the current mouse position
+//####################################################################################
+POINT Input::GetMousePosition(void)
+{
+	// Get the mouse postion
+	POINT mousePosition;
+	GetCursorPos(&mousePosition);
+
+	// Convert the position from screen to the window
+	ScreenToClient(m_window, &mousePosition);
+
+	// Return the position
+	// Should return (0,0) if failed
+	return mousePosition;
+}
+
+//####################################################################################
+// Get the current X mouse position
+//####################################################################################
+float Input::GetXMousePosition(void)
+{
+	// Get the current mouse position
+	POINT mousePosition = GetMousePosition();
+
+	// Return the x value
+	return ((float)mousePosition.x);
+}
+
+//####################################################################################
+// Get the current Y mouse position
+//####################################################################################
+float Input::GetYMousePosition(void)
+{
+	// Get the current mouse position
+	POINT mousePosition = GetMousePosition();
+
+	// Return the y value
+	return ((float)mousePosition.y);
 }
