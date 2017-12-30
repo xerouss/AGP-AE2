@@ -87,6 +87,7 @@ HRESULT GameManager::InitialiseInput(HINSTANCE hInstance, HWND hWND)
 //####################################################################################
 void GameManager::InitialiseHUD(void)
 {
+	// Create the HUD
 	m_pHUD = new HUD(m_pD3Device, m_pImmediateContext);
 }
 
@@ -113,7 +114,7 @@ HRESULT GameManager::InitialiseLevel(void)
 //####################################################################################
 // Update any logic
 //####################################################################################
-void GameManager::Update(void)
+void GameManager::Update(HWND window)
 {
 	// Get inputs
 	m_pInput->ReadInputStates();
@@ -163,13 +164,14 @@ void GameManager::Update(void)
 			if (m_pPauseMenu->CheckResumeButtonIsPressed(m_pInput->GetXMousePosition(),
 				m_pInput->GetYMousePosition(), m_screenWidth, m_screenHeight))
 			{
+				// Un-pause the game
 				SetPauseActive();
 			}
 			else if (m_pPauseMenu->CheckExitButtonIsPressed(m_pInput->GetXMousePosition(),
 				m_pInput->GetYMousePosition(), m_screenWidth, m_screenHeight))
 			{
-				// TODO: ADD EXIT GAME
-				SetPauseActive();
+				// Close the window
+				DestroyWindow(window);
 			}
 		}
 	}
@@ -194,6 +196,8 @@ void GameManager::Render(void)
 	m_pLevel->Render();
 
 	// If the game is paused show the pause menu
+	// Don't want to render the HUD while paused because it will
+	// Clutter up the screen
 	if (m_currentGameState == PAUSED)
 	{
 		m_pPauseMenu->Render();
@@ -227,6 +231,8 @@ void GameManager::SetProjectionMatrix(float screenWidth, float screenHeight)
 {
 	// Screen width and height are passed as floats so a float value can be retrieved
 	// In the projection matrix when they are divided together
+	// This is only called when the screen width / height has been changed.
+	// This stops the projection matrix being worked out every frame
 
 	// Save the screen width and height for the user interface
 	m_screenWidth = screenWidth;

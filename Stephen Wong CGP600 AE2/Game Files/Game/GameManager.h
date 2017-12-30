@@ -78,7 +78,7 @@ public:
 	// Does not return HRESULT since there is nothing that can fail
 	void InitialiseHUD(void);
 
-	void Update(void);
+	void Update(HWND window);
 	void Render(void);
 
 	void SetZBuffer(ID3D11DepthStencilView* zbuffer);

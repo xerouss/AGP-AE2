@@ -133,7 +133,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 			// Update objects
-			pGameManager->Update();
+			pGameManager->Update(pWindow->GetWindow());
 
 			// Render graphics
 			pGameManager->Render();
