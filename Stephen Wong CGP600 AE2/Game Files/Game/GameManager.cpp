@@ -250,6 +250,7 @@ void GameManager::SetPauseActive()
 		// Change state and create the pause menu to show
 		m_currentGameState = PAUSED;
 		m_pPauseMenu = new PauseMenu(m_pD3Device, m_pImmediateContext);
+		m_pTime->StartPause(); // Pause the time
 	}
 	else
 	{
@@ -257,6 +258,7 @@ void GameManager::SetPauseActive()
 		m_currentGameState = PLAYING;
 		delete m_pPauseMenu;
 		m_pPauseMenu = NULL;
+		m_pTime->EndPause(); // Stop pausing the time
 	}
 }
 
