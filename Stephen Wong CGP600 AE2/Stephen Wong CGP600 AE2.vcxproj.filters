@@ -31,6 +31,12 @@
     <Filter Include="Header Files\User Interface">
       <UniqueIdentifier>{8f6cb97b-153e-4db7-a06f-6388b202f78d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{89ea04e2-06d3-4240-9c3a-46832b02d3fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model">
+      <UniqueIdentifier>{d2254a37-4868-4492-97ea-203927fd2bdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game Files\main.cpp">
@@ -46,12 +52,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game Files\Game\Level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game Files\Game\Game Objects\Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game Files\Game\Game Objects\ObjectFileModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game Files\Game\Input.cpp">
@@ -111,6 +111,18 @@
     <ClCompile Include="Game Files\Game\User Interface\Menu.cpp">
       <Filter>Source Files\User Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Game Files\Game\Model\Model.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Files\Game\Model\ObjectFileModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Files\Game\Model\BasicModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Files\Game\Model\Skybox.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game Files\Game\GameManager.h">
@@ -123,12 +135,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game Files\Game\Level.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game Files\Game\Game Objects\Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game Files\Game\Game Objects\ObjectFileModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game Files\Game\Input.h">
@@ -188,12 +194,27 @@
     <ClInclude Include="Game Files\Game\User Interface\Menu.h">
       <Filter>Header Files\User Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Game Files\Game\Model\Model.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Files\Game\Model\ObjectFileModel.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Files\Game\Model\BasicModel.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Files\Game\Model\Skybox.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Game Files\Game\Shaders\ModelShader.hlsl">
       <Filter>Resource Files</Filter>
     </FxCompile>
     <FxCompile Include="Game Files\Game\Shaders\Text2DShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </FxCompile>
+    <FxCompile Include="Game Files\Game\Shaders\SkyboxShader.hlsl">
       <Filter>Resource Files</Filter>
     </FxCompile>
   </ItemGroup>

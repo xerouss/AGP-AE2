@@ -9,7 +9,8 @@
 
 #pragma region Includes
 
-#include "Game Objects\Model.h"
+#include "Model\Model.h"
+#include "Model\Skybox.h"
 #include "Game Objects\StaticGameObject.h"
 #include "Game Objects\DynamicGameObject.h"
 #include "Game Objects\Camera.h"
@@ -27,6 +28,7 @@
 const float defaultWorldMatrixValue = 0.0f;
 const float defaultMovementSpeed = 0.001f;
 const float secondaryCameraRotation = 90;
+const float skyboxScale = 30;
 
 #pragma endregion
 
@@ -43,6 +45,7 @@ private:
 	Camera* m_pActiveCamera;
 
 	Model* m_pWallModel;
+	Skybox* m_pSkybox;
 	StaticGameObject* m_pRootGameObject;
 	DynamicGameObject* m_pWall1GameObject;
 	DynamicGameObject* m_pWall2GameObject;
@@ -75,6 +78,6 @@ public:
 	void SetWorldMatrix(float xPos, float yPos, float zPos,
 		float xRot, float yRot, float zRot, float scale);
 	void SetProjectionMatrix(XMMATRIX projection);
-
+	XMMATRIX GetSkyboxWorldMatrix(float scale);
 	int GetPlayerHealth(void);
 };

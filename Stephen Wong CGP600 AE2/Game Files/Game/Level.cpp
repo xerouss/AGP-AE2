@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.cpp
-//	Last Updated:	28/12/2017
+//	Last Updated:	02/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -28,6 +28,12 @@ Level::Level(ID3D11Device *device, ID3D11DeviceContext *immediateContext)
 //####################################################################################
 Level::~Level()
 {
+	if (m_pSkybox)
+	{
+		delete m_pSkybox;
+		m_pSkybox = NULL;
+	}
+
 	if (m_pPointLight1)
 	{
 		delete m_pPointLight1;
@@ -82,6 +88,35 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	// Set up world matrix
 	SetWorldMatrix(defaultWorldMatrixValue, defaultWorldMatrixValue, defaultWorldMatrixValue,
 		defaultWorldMatrixValue, defaultWorldMatrixValue, defaultWorldMatrixValue, 1);
+
+	// Create sky box
+	m_pSkybox = new Skybox(skyboxScale, m_pD3DDevice, m_pImmediateContext);
+	hr = m_pSkybox->LoadObjectModel("Assets/Models/cube.obj");
+	if (FAILED(hr)) return hr;
+
+	// Set up the skybox
+	hr = m_pSkybox->InitialiseSkybox();
+	if (FAILED(hr)) return hr;
+
+	// Create constant buffer for models
+	hr = m_pSkybox->CreateConstantBuffer();
+	if (FAILED(hr)) return hr;
+
+	// Add texture to the models
+	hr = m_pSkybox->AddTexture("Assets/Skyboxes/skybox02.dds");
+	if (FAILED(hr)) return hr;
+
+	// Create filter for the texture
+	hr = m_pSkybox->CreateSampler();
+	if (FAILED(hr)) return hr;
+
+	// Create vertex shader
+	hr = m_pSkybox->CreateVertexShader("Game Files/Game/Shaders/SkyboxShader.hlsl", "SkyboxVertexShader");
+	if (FAILED(hr)) return hr;
+
+	// Create pixel shader
+	hr = m_pSkybox->CreatePixelShader("Game Files/Game/Shaders/SkyboxShader.hlsl", "SkyboxPixelShader");
+	if (FAILED(hr)) return hr;
 
 	// Create the model and load it from the assets folder
 	m_pWallModel = new Model(m_pD3DDevice, m_pImmediateContext);
@@ -190,7 +225,6 @@ void Level::Render(void)
 {
 	// Only view is done here since we don't need to redo the world matrix unless it changes
 	// The same goes for projection matrix
-
 	XMMATRIX view;
 	
 	// Get the camera view
@@ -198,6 +232,9 @@ void Level::Render(void)
 
 	// Render all game objects in the level
 	m_pRootGameObject->Render(&m_worldMatrix, &view, &m_projectionMatrix);
+
+	// Render the skybox
+	m_pSkybox->Draw(&GetSkyboxWorldMatrix(m_pSkybox->GetScale()), &view, &m_projectionMatrix);
 }
 
 //####################################################################################
@@ -273,6 +310,23 @@ void Level::SetWorldMatrix(float xPos, float yPos, float zPos, float xRot, float
 void Level::SetProjectionMatrix(XMMATRIX projection)
 {
 	m_projectionMatrix = projection;
+}
+
+//####################################################################################
+// Get the world matrix for the skybox
+//####################################################################################
+XMMATRIX Level::GetSkyboxWorldMatrix(float scale)
+{
+	// Use the current world matrix
+	// Apply scaling first, then the translation
+	// No rotation because it is axis aligned
+	// We want to do that since we want the sky box at the same position of the camera
+	XMMATRIX skyBoxWorldMatrix = m_worldMatrix;
+	skyBoxWorldMatrix *= XMMatrixScaling(scale, scale, scale);
+	skyBoxWorldMatrix *= XMMatrixTranslation(m_pActiveCamera->GetXPos(),
+		m_pActiveCamera->GetYPos(), m_pActiveCamera->GetZPos());
+
+	return skyBoxWorldMatrix;
 }
 
 //####################################################################################

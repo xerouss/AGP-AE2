@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Model.h
-//	Last Updated:	24/12/2017
+//	Last Updated:	02/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -9,23 +9,13 @@
 
 #pragma region Includes
 
-#include "ObjectFileModel.h"
+#include "BasicModel.h"
 
 #pragma endregion
 
-class Model
+class Model: public BasicModel
 {
 private:
-	ID3D11Device* m_pD3DDevice;
-	ID3D11DeviceContext* m_pImmediateContext;
-	ObjectFileModel* m_pObject;
-	ID3D11VertexShader* m_pVertexShader;
-	ID3D11PixelShader* m_pPixelShader;
-	ID3D11InputLayout* m_pInputLayer;
-	ID3D11Buffer* m_pConstantBuffer;
-	ID3D11SamplerState* m_pSamplerState0;
-	ID3D11ShaderResourceView* m_pTexture0;
-
 	#pragma region Lights
 		XMVECTOR m_ambientLightColour;
 		XMVECTOR m_directionalLightShinesFrom;
@@ -48,15 +38,9 @@ private:
 
 public:
 	Model(ID3D11Device* device, ID3D11DeviceContext* immediateContext);
-	~Model();
-	int LoadObjectModel(char* filename);
-	HRESULT CreateVertexShader(char* shaderFileName, char* vertexShaderFunctionName);
-	HRESULT CreatePixelShader(char* shaderFileName, char* pixelShaderFunctionName);
-	HRESULT CreateInputLayout(ID3DBlob *vertexShader);
 	HRESULT CreateConstantBuffer();
-	HRESULT AddTexture(char* textureFileName);
-	HRESULT CreateSampler(void);
-	void Draw(XMMATRIX* world, XMMATRIX* view, XMMATRIX* projection);
+	void SetConstantBufferValues(XMMATRIX* world, XMMATRIX* view, XMMATRIX* projection);
+	int LoadObjectModel(char* filename);
 
 #pragma region Set Methods
 

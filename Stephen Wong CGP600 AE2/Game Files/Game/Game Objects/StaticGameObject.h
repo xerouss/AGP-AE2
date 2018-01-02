@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			StaticGameObject.h
-//	Last Updated:	23/12/2017
+//	Last Updated:	02/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -14,7 +14,7 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
-#include "Model.h"
+#include "../Model/Model.h"
 
 using namespace DirectX;
 using namespace DirectX::PackedVector;

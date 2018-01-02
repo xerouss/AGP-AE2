@@ -23,9 +23,7 @@
     <ClCompile Include="Game Files\Game\Game Objects\Camera.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\Collectible.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\DynamicGameObject.cpp" />
-    <ClCompile Include="Game Files\Game\Game Objects\Model.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\Enemy.cpp" />
-    <ClCompile Include="Game Files\Game\Game Objects\ObjectFileModel.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\PushableGameObject.cpp" />
     <ClCompile Include="Game Files\Game\Game Objects\StaticGameObject.cpp" />
     <ClCompile Include="Game Files\Game\GameManager.cpp" />
@@ -35,6 +33,10 @@
     <ClCompile Include="Game Files\Game\Lights\Light.cpp" />
     <ClCompile Include="Game Files\Game\Lights\PointLight.cpp" />
     <ClCompile Include="Game Files\Game\Lights\PositionalLight.cpp" />
+    <ClCompile Include="Game Files\Game\Model\BasicModel.cpp" />
+    <ClCompile Include="Game Files\Game\Model\Model.cpp" />
+    <ClCompile Include="Game Files\Game\Model\ObjectFileModel.cpp" />
+    <ClCompile Include="Game Files\Game\Model\Skybox.cpp" />
     <ClCompile Include="Game Files\Game\Time.cpp" />
     <ClCompile Include="Game Files\Game\User Interface\Button.cpp" />
     <ClCompile Include="Game Files\Game\User Interface\GameOverMenu.cpp" />
@@ -51,9 +53,7 @@
     <ClInclude Include="Game Files\Game\Game Objects\Camera.h" />
     <ClInclude Include="Game Files\Game\Game Objects\Collectible.h" />
     <ClInclude Include="Game Files\Game\Game Objects\DynamicGameObject.h" />
-    <ClInclude Include="Game Files\Game\Game Objects\Model.h" />
     <ClInclude Include="Game Files\Game\Game Objects\Enemy.h" />
-    <ClInclude Include="Game Files\Game\Game Objects\ObjectFileModel.h" />
     <ClInclude Include="Game Files\Game\Game Objects\PushableGameObject.h" />
     <ClInclude Include="Game Files\Game\Game Objects\StaticGameObject.h" />
     <ClInclude Include="Game Files\Game\GameManager.h" />
@@ -63,6 +63,10 @@
     <ClInclude Include="Game Files\Game\Lights\Light.h" />
     <ClInclude Include="Game Files\Game\Lights\PointLight.h" />
     <ClInclude Include="Game Files\Game\Lights\PositionalLight.h" />
+    <ClInclude Include="Game Files\Game\Model\BasicModel.h" />
+    <ClInclude Include="Game Files\Game\Model\Model.h" />
+    <ClInclude Include="Game Files\Game\Model\ObjectFileModel.h" />
+    <ClInclude Include="Game Files\Game\Model\Skybox.h" />
     <ClInclude Include="Game Files\Game\Time.h" />
     <ClInclude Include="Game Files\Game\User Interface\Button.h" />
     <ClInclude Include="Game Files\Game\User Interface\GameOverMenu.h" />
@@ -75,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Game Files\Game\Shaders\ModelShader.hlsl" />
+    <FxCompile Include="Game Files\Game\Shaders\SkyboxShader.hlsl" />
     <FxCompile Include="Game Files\Game\Shaders\Text2DShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
