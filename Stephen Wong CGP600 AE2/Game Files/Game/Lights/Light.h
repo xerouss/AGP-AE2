@@ -22,7 +22,7 @@ using namespace DirectX::PackedVector;
 
 #pragma region Constants
 
-const int DefaultColourWValue = 1;
+const float DefaultColourWValue = 1;
 
 #pragma endregion
 

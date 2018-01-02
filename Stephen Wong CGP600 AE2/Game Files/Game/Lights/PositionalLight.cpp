@@ -18,7 +18,7 @@
 // Constructor
 //####################################################################################
 PositionalLight::PositionalLight(float red, float green, float blue, 
-	float x, float y, float z, int range):
+	float x, float y, float z, float range):
 	Light(red, green, blue)
 {
 	SetPosition(x, y, z);

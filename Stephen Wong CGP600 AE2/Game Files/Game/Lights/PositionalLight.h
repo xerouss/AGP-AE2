@@ -15,7 +15,7 @@
 
 #pragma region Constants
 
-const int DefaultPositionWValue = 1;
+const float DefaultPositionWValue = 1;
 
 #pragma endregion
 
@@ -28,7 +28,7 @@ protected:
 	XMVECTOR m_position;
 
 public:
-	PositionalLight(float red, float green, float blue, float x, float y, float z, int range);
+	PositionalLight(float red, float green, float blue, float x, float y, float z, float range);
 
 	bool IsPositionInLightRange(float xPos, float yPos, float zPos);
 
