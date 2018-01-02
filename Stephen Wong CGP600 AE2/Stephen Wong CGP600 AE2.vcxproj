@@ -36,6 +36,7 @@
     <ClCompile Include="Game Files\Game\Model\BasicModel.cpp" />
     <ClCompile Include="Game Files\Game\Model\Model.cpp" />
     <ClCompile Include="Game Files\Game\Model\ObjectFileModel.cpp" />
+    <ClCompile Include="Game Files\Game\Model\ReflectiveModel.cpp" />
     <ClCompile Include="Game Files\Game\Model\Skybox.cpp" />
     <ClCompile Include="Game Files\Game\Time.cpp" />
     <ClCompile Include="Game Files\Game\User Interface\Button.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="Game Files\Game\Model\BasicModel.h" />
     <ClInclude Include="Game Files\Game\Model\Model.h" />
     <ClInclude Include="Game Files\Game\Model\ObjectFileModel.h" />
+    <ClInclude Include="Game Files\Game\Model\ReflectiveModel.h" />
     <ClInclude Include="Game Files\Game\Model\Skybox.h" />
     <ClInclude Include="Game Files\Game\Time.h" />
     <ClInclude Include="Game Files\Game\User Interface\Button.h" />
@@ -79,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Game Files\Game\Shaders\ModelShader.hlsl" />
+    <FxCompile Include="Game Files\Game\Shaders\ReflectShader.hlsl" />
     <FxCompile Include="Game Files\Game\Shaders\SkyboxShader.hlsl" />
     <FxCompile Include="Game Files\Game\Shaders\Text2DShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>

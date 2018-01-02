@@ -11,6 +11,7 @@
 
 #include "Model\Model.h"
 #include "Model\Skybox.h"
+#include "Model\ReflectiveModel.h"
 #include "Game Objects\StaticGameObject.h"
 #include "Game Objects\DynamicGameObject.h"
 #include "Game Objects\Camera.h"
@@ -46,6 +47,7 @@ private:
 
 	Model* m_pWallModel;
 	Skybox* m_pSkybox;
+	ReflectiveModel* m_pReflectiveSphere;
 	StaticGameObject* m_pRootGameObject;
 	DynamicGameObject* m_pWall1GameObject;
 	DynamicGameObject* m_pWall2GameObject;

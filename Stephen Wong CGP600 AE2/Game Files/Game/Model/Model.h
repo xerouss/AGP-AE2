@@ -38,8 +38,8 @@ private:
 
 public:
 	Model(ID3D11Device* device, ID3D11DeviceContext* immediateContext);
-	HRESULT CreateConstantBuffer();
-	void SetConstantBufferValues(XMMATRIX* world, XMMATRIX* view, XMMATRIX* projection);
+	virtual HRESULT CreateConstantBuffer();
+	virtual void SetConstantBufferValues(XMMATRIX* world, XMMATRIX* view, XMMATRIX* projection);
 	int LoadObjectModel(char* filename);
 
 #pragma region Set Methods

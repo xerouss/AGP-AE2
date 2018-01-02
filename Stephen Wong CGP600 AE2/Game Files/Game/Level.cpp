@@ -143,6 +143,31 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	hr = m_pWallModel->CreatePixelShader("Game Files/Game/Shaders/ModelShader.hlsl", "ModelPixelShader");
 	if (FAILED(hr)) return hr;
 
+	// Create the model and load it from the assets folder
+	m_pReflectiveSphere = new ReflectiveModel(m_pD3DDevice, m_pImmediateContext);
+	hr = m_pReflectiveSphere->LoadObjectModel("Assets/Models/sphere.obj");
+	if (FAILED(hr)) return hr;
+
+	// Create constant buffer for models
+	hr = m_pReflectiveSphere->CreateConstantBuffer();
+	if (FAILED(hr)) return hr;
+
+	// Add texture to the models
+	hr = m_pReflectiveSphere->AddTexture("Assets/Skyboxes/skybox02.dds");
+	if (FAILED(hr)) return hr;
+
+	// Create filter for the texture
+	hr = m_pReflectiveSphere->CreateSampler();
+	if (FAILED(hr)) return hr;
+
+	// Create vertex shader
+	hr = m_pReflectiveSphere->CreateVertexShader("Game Files/Game/Shaders/ReflectShader.hlsl", "ReflectVertexShader");
+	if (FAILED(hr)) return hr;
+
+	// Create pixel shader
+	hr = m_pReflectiveSphere->CreatePixelShader("Game Files/Game/Shaders/ReflectShader.hlsl", "ReflectPixelShader");
+	if (FAILED(hr)) return hr;
+
 	// Create the game objects
 	m_pRootGameObject = new StaticGameObject();
 	m_pWall1GameObject = new DynamicGameObject(defaultMovementSpeed, -5, 0, 2);
@@ -178,7 +203,7 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	// Set the models
 	m_pWall1GameObject->SetModel(m_pWallModel);
 	m_pWall2GameObject->SetModel(m_pWallModel);
-	m_pWall3GameObject->SetModel(m_pWallModel);
+	m_pWall3GameObject->SetModel(m_pReflectiveSphere);
 	m_pCollectible1->SetModel(m_pWallModel);
 	m_pPushableGameObject1->SetModel(m_pWallModel);
 	m_pPrimaryCamera->SetModel(m_pWallModel);
