@@ -24,7 +24,6 @@ private:
 	ID3D11InputLayout* m_pInputLayer;
 	ID3D11Buffer* m_pConstantBuffer;
 	ID3D11SamplerState* m_pSamplerState0;
-	// TODO: Add more textures?
 	ID3D11ShaderResourceView* m_pTexture0;
 
 	#pragma region Lights

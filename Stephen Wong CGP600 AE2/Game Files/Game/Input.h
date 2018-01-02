@@ -53,7 +53,6 @@ public:
 
 	HRESULT InitialiseDirectInput(HINSTANCE hInstance, HWND hWND);
 	HRESULT InitialiseKeyboardInput(void);
-	// TODO: This is separate from initialize input since we need to recall this when changing screen size?
 	HRESULT InitialiseMouse(void);
 	void ReadInputStates(void);
 	bool IsKeyDown(unsigned char DI_keycode);

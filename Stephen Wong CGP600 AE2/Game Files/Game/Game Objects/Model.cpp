@@ -282,8 +282,6 @@ HRESULT Model::AddTexture(char* textureFileName)
 //####################################################################################
 HRESULT Model::CreateSampler(void)
 {
-	// TODO: Change this to allow different filtering?
-
 	HRESULT hr = S_OK;
 
 	// Set Filter using sample states

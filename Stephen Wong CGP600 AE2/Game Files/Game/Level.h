@@ -34,10 +34,6 @@ const float secondaryCameraRotation = 90;
 class Level
 {
 private:
-	// TODO: ADD THESE:
-	// Lights
-	// Particles
-
 	// Need the device and context for the models
 	ID3D11Device* m_pD3DDevice;
 	ID3D11DeviceContext* m_pImmediateContext;

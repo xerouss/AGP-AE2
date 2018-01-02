@@ -136,7 +136,6 @@ void StaticGameObject::Render(XMMATRIX *world, XMMATRIX* view, XMMATRIX* project
 	localWorld *= *world;
 
 	// Draw if model is attached
-	// TODO MOVE THIS TO A RENDER METHOD?
 	if (m_pModel) m_pModel->Draw(&localWorld, view, projection);
 
 	// Go through all the child nodes and pass the world matrix
