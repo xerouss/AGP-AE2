@@ -21,6 +21,7 @@ const float defaultDeltaPos = 0;
 const float DegreesToRadians = 0.01745329251f;
 const int defaultMaxHealth = 100;
 const int timeBetweenHits = 2;
+const int damage = 10;
 
 #pragma endregion
 

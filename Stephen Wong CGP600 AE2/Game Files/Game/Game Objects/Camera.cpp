@@ -142,11 +142,9 @@ void Camera::ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, 
 		// Make sure time has passed between hits or the player will lose all of their health
 		if (m_pTime->GetSecondsSinceStartOfGame() - m_timeAtCollision >= timeBetweenHits)
 		{
-			m_currentHealth -= 10;
+			m_currentHealth -= damage;
 
 			if (m_currentHealth < 0) m_currentHealth = 0;
-
-			// TODO: DEATH
 
 			// Save the time the collision happened
 			m_timeAtCollision = m_pTime->GetSecondsSinceStartOfGame();

@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.h
-//	Last Updated:	27/12/2017
+//	Last Updated:	02/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -29,8 +29,6 @@ const float defaultMovementSpeed = 0.001f;
 const float secondaryCameraRotation = 90;
 
 #pragma endregion
-
-
 
 
 class Level

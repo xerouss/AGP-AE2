@@ -37,7 +37,9 @@
     <ClCompile Include="Game Files\Game\Lights\PositionalLight.cpp" />
     <ClCompile Include="Game Files\Game\Time.cpp" />
     <ClCompile Include="Game Files\Game\User Interface\Button.cpp" />
+    <ClCompile Include="Game Files\Game\User Interface\GameOverMenu.cpp" />
     <ClCompile Include="Game Files\Game\User Interface\HUD.cpp" />
+    <ClCompile Include="Game Files\Game\User Interface\Menu.cpp" />
     <ClCompile Include="Game Files\Game\User Interface\PauseMenu.cpp" />
     <ClCompile Include="Game Files\Game\User Interface\Text2D.cpp" />
     <ClCompile Include="Game Files\Game\User Interface\UserInterface.cpp" />
@@ -63,7 +65,9 @@
     <ClInclude Include="Game Files\Game\Lights\PositionalLight.h" />
     <ClInclude Include="Game Files\Game\Time.h" />
     <ClInclude Include="Game Files\Game\User Interface\Button.h" />
+    <ClInclude Include="Game Files\Game\User Interface\GameOverMenu.h" />
     <ClInclude Include="Game Files\Game\User Interface\HUD.h" />
+    <ClInclude Include="Game Files\Game\User Interface\Menu.h" />
     <ClInclude Include="Game Files\Game\User Interface\PauseMenu.h" />
     <ClInclude Include="Game Files\Game\User Interface\Text2D.h" />
     <ClInclude Include="Game Files\Game\User Interface\UserInterface.h" />

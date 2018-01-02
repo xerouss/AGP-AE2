@@ -15,6 +15,7 @@
 #include "User Interface\HUD.h"
 #include "User Interface\PauseMenu.h"
 #include "Time.h"
+#include "User Interface\GameOverMenu.h"
 
 #pragma endregion
 
@@ -53,6 +54,7 @@ private:
 	HUD* m_pHUD;
 	Time* m_pTime;
 	PauseMenu* m_pPauseMenu;
+	GameOverMenu* m_pGameOverMenu;
 	int m_score = 0;
 	// Save the screen width and height for the user interface
 	float m_screenWidth;
@@ -84,5 +86,12 @@ public:
 	void SetZBuffer(ID3D11DepthStencilView* zbuffer);
 	void SetProjectionMatrix(float screenWidth, float screenHeight);
 	void SetPauseActive(void);
+
+	void CheckPlayingInput(void);
+	void CheckPauseMenuInput(HWND window);
+	void CheckGameOverMenuInput(HWND window);
+	void CheckExitButton(Menu* menu, HWND window);
+	void RecreateLevel(void);
+	void GameOver(void);
 };
 

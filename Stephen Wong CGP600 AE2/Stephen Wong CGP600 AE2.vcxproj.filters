@@ -105,6 +105,12 @@
     <ClCompile Include="Game Files\Game\User Interface\Button.cpp">
       <Filter>Source Files\User Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Game Files\Game\User Interface\GameOverMenu.cpp">
+      <Filter>Source Files\User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Files\Game\User Interface\Menu.cpp">
+      <Filter>Source Files\User Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game Files\Game\GameManager.h">
@@ -174,6 +180,12 @@
       <Filter>Header Files\User Interface</Filter>
     </ClInclude>
     <ClInclude Include="Game Files\Game\User Interface\Button.h">
+      <Filter>Header Files\User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Files\Game\User Interface\GameOverMenu.h">
+      <Filter>Header Files\User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Files\Game\User Interface\Menu.h">
       <Filter>Header Files\User Interface</Filter>
     </ClInclude>
   </ItemGroup>

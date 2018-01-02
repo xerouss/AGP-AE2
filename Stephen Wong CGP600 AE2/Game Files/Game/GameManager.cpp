@@ -122,29 +122,23 @@ void GameManager::Update(HWND window)
 	// Only check inputs and move object if the player is playing the game
 	if (m_currentGameState == PLAYING)
 	{
-		if (m_pInput->IsKeyDown(DIK_W)) m_pLevel->MoveCameraForward(movementAmount);
-		if (m_pInput->IsKeyDown(DIK_S)) m_pLevel->MoveCameraForward(-movementAmount);
-		if (m_pInput->IsKeyDown(DIK_A)) m_pLevel->StrafeCamera(-movementAmount);
-		if (m_pInput->IsKeyDown(DIK_D)) m_pLevel->StrafeCamera(movementAmount);
-		if (m_pInput->IsKeyPressed(DIK_SPACE)) m_pLevel->ChangeActiveCamera();
-
-		// Get x mouse change
-		float mouseChangeAmount = (float)m_pInput->GetMousePositionChange(true);
-		// If change has happened rotate the camera on X and Z
-		// The amount is divided by an amount to prevent the rotation being super fast
-		if (mouseChangeAmount != 0) m_pLevel->ChangeCameraXAndZDirection(mouseChangeAmount / convertFromScreenToWorldAmount);
-
-		// Get y mouse change
-		mouseChangeAmount = (float)m_pInput->GetMousePositionChange(false);
-		// If change has happened rotate the camera on Y
-		// The amount is divided by an amount to prevent the rotation being super fast
-		if (mouseChangeAmount != 0) m_pLevel->ChangeCameraYDirection(-mouseChangeAmount / convertFromScreenToWorldAmount);
+		// Check if the player has done anything
+		CheckPlayingInput();
 
 		// Update the level objects
 		m_pLevel->Update();
 	}
+	// IF the game is paused
+	else if (m_currentGameState == PAUSED)
+	{
+		CheckPauseMenuInput(window);
+	}
+	else if (m_currentGameState == GAMEOVER)
+	{
+		CheckGameOverMenuInput(window);
+	}
 
-	// If not paused
+	// If not game over
 	if (m_currentGameState != GAMEOVER)
 	{
 		// PAUSE/UNPAUSE GAME
@@ -153,27 +147,14 @@ void GameManager::Update(HWND window)
 			SetPauseActive();
 		}
 	}
-
-	// IF the game is paused
-	if (m_currentGameState == PAUSED)
+	
+	// Check the player's health
+	// Have to check if the game over menu is null otherwise it will
+	// Create the game over menu every frame
+	if (m_pLevel->GetPlayerHealth() == 0 && m_pGameOverMenu == NULL)
 	{
-		// If the player pressed his left mouse button
-		if (m_pInput->IsMouseLeftButtonDown())
-		{
-			// Check if the player's mouse if over any of the buttons
-			if (m_pPauseMenu->CheckResumeButtonIsPressed(m_pInput->GetXMousePosition(),
-				m_pInput->GetYMousePosition(), m_screenWidth, m_screenHeight))
-			{
-				// Un-pause the game
-				SetPauseActive();
-			}
-			else if (m_pPauseMenu->CheckExitButtonIsPressed(m_pInput->GetXMousePosition(),
-				m_pInput->GetYMousePosition(), m_screenWidth, m_screenHeight))
-			{
-				// Close the window
-				DestroyWindow(window);
-			}
-		}
+		// The player has died
+		GameOver();
 	}
 }
 
@@ -210,6 +191,10 @@ void GameManager::Render(void)
 		m_pHUD->SetHealthText(to_string(m_pLevel->GetPlayerHealth()), healthHUDXPos, healthHUDYPos, healthHUDTextSize);
 		m_pHUD->SetTimerText(m_pTime->GetTimeSinceStartOfGameFormatted(), timerHUDXPos, timerHUDYPos, timerHUDTextSize);
 		m_pHUD->Render();
+	}
+	else if (m_currentGameState == GAMEOVER)
+	{
+		m_pGameOverMenu->Render();
 	}
 
 	// Display what has just been rendered
@@ -266,5 +251,119 @@ void GameManager::SetPauseActive()
 		m_pPauseMenu = NULL;
 		m_pTime->EndPause(); // Stop pausing the time
 	}
+}
+
+//####################################################################################
+// Check to see if the player has done anything while playing the game
+//####################################################################################
+void GameManager::CheckPlayingInput(void)
+{
+	if (m_pInput->IsKeyDown(DIK_W)) m_pLevel->MoveCameraForward(movementAmount);
+	if (m_pInput->IsKeyDown(DIK_S)) m_pLevel->MoveCameraForward(-movementAmount);
+	if (m_pInput->IsKeyDown(DIK_A)) m_pLevel->StrafeCamera(-movementAmount);
+	if (m_pInput->IsKeyDown(DIK_D)) m_pLevel->StrafeCamera(movementAmount);
+	if (m_pInput->IsKeyPressed(DIK_SPACE)) m_pLevel->ChangeActiveCamera();
+
+	// Get x mouse change
+	float mouseChangeAmount = (float)m_pInput->GetMousePositionChange(true);
+	// If change has happened rotate the camera on X and Z
+	// The amount is divided by an amount to prevent the rotation being super fast
+	if (mouseChangeAmount != 0) m_pLevel->ChangeCameraXAndZDirection(mouseChangeAmount / convertFromScreenToWorldAmount);
+
+	// Get y mouse change
+	mouseChangeAmount = (float)m_pInput->GetMousePositionChange(false);
+	// If change has happened rotate the camera on Y
+	// The amount is divided by an amount to prevent the rotation being super fast
+	if (mouseChangeAmount != 0) m_pLevel->ChangeCameraYDirection(-mouseChangeAmount / convertFromScreenToWorldAmount);
+}
+
+//####################################################################################
+// Check to see if the player has done anything on the pause menu
+//####################################################################################
+void GameManager::CheckPauseMenuInput(HWND window)
+{
+	// If the player pressed his left mouse button
+	if (m_pInput->IsMouseLeftButtonDown())
+	{
+		// Check if the player's mouse if over any of the buttons
+		if (m_pPauseMenu->CheckResumeButtonIsPressed(m_pInput->GetXMousePosition(),
+			m_pInput->GetYMousePosition(), m_screenWidth, m_screenHeight))
+		{
+			// Un-pause the game
+			SetPauseActive();
+		}
+		else CheckExitButton(m_pPauseMenu, window);
+	}
+}
+
+//####################################################################################
+// Check to see if the player has  has done anything on the game over menu
+//####################################################################################
+void GameManager::CheckGameOverMenuInput(HWND window)
+{
+	// If the player pressed his left mouse button
+	if (m_pInput->IsMouseLeftButtonDown())
+	{
+		// Check if the player's mouse if over any of the buttons
+		if (m_pGameOverMenu->CheckRetryButtonIsPressed(m_pInput->GetXMousePosition(),
+			m_pInput->GetYMousePosition(), m_screenWidth, m_screenHeight))
+		{
+			// Un-pause the game
+			RecreateLevel();
+		}
+		else CheckExitButton(m_pGameOverMenu, window);
+	}
+}
+
+//####################################################################################
+// Check to see if the player has pressed the exit button on a menu
+//####################################################################################
+void GameManager::CheckExitButton(Menu* menu, HWND window)
+{
+	// Check if the exit button has been pressed
+	if (menu->CheckExitButtonIsPressed(m_pInput->GetXMousePosition(),
+		m_pInput->GetYMousePosition(), m_screenWidth, m_screenHeight))
+	{
+		// Close the window
+		DestroyWindow(window);
+	}
+}
+
+//####################################################################################
+// Remake the level
+//####################################################################################
+void GameManager::RecreateLevel(void)
+{
+	// Delete the level
+	delete m_pLevel;
+	m_pLevel = NULL;
+
+	// Delete the time
+	delete m_pTime;
+	m_pTime = NULL;
+
+	// Re-create both the time and level
+	InitialiseLevel();
+
+	// Re-create the projection matrix
+	SetProjectionMatrix(m_screenWidth, m_screenHeight);
+
+	m_currentGameState = PLAYING;
+
+	// Delete the game over menu
+	delete m_pGameOverMenu;
+	m_pGameOverMenu = NULL;
+}
+
+//####################################################################################
+// Game over, the player has died
+//####################################################################################
+void GameManager::GameOver(void)
+{
+	// Change state of the game
+	m_currentGameState = GAMEOVER;
+	
+	// Create the game over menu
+	m_pGameOverMenu = new GameOverMenu(m_pD3Device, m_pImmediateContext);
 }
 
