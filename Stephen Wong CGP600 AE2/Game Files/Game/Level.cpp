@@ -52,6 +52,18 @@ Level::~Level()
 		m_pAmbientLight = NULL;
 	}
 
+	if (m_pSpecularModel)
+	{
+		delete m_pSpecularModel;
+		m_pSpecularModel = NULL;
+	}
+
+	if (m_pReflectiveSphere)
+	{
+		delete m_pReflectiveSphere;
+		m_pReflectiveSphere = NULL;
+	}
+
 	if (m_pWallModel)
 	{
 		delete m_pWallModel;
@@ -168,6 +180,31 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	hr = m_pReflectiveSphere->CreatePixelShader("Game Files/Game/Shaders/ReflectShader.hlsl", "ReflectPixelShader");
 	if (FAILED(hr)) return hr;
 
+	// Create the model and load it from the assets folder
+	m_pSpecularModel = new SpecularModel(m_pD3DDevice, m_pImmediateContext);
+	hr = m_pSpecularModel->LoadObjectModel("Assets/Models/sphere.obj");
+	if (FAILED(hr)) return hr;
+
+	// Create constant buffer for models
+	hr = m_pSpecularModel->CreateConstantBuffer();
+	if (FAILED(hr)) return hr;
+
+	// Add texture to the models
+	hr = m_pSpecularModel->AddTexture("Assets/Textures/glass1.png");
+	if (FAILED(hr)) return hr;
+
+	// Create filter for the texture
+	hr = m_pSpecularModel->CreateSampler();
+	if (FAILED(hr)) return hr;
+
+	// Create vertex shader
+	hr = m_pSpecularModel->CreateVertexShader("Game Files/Game/Shaders/SpecularShader.hlsl", "SpecularVertexShader");
+	if (FAILED(hr)) return hr;
+
+	// Create pixel shader
+	hr = m_pSpecularModel->CreatePixelShader("Game Files/Game/Shaders/SpecularShader.hlsl", "SpecularPixelShader");
+	if (FAILED(hr)) return hr;
+
 	// Create the game objects
 	m_pRootGameObject = new StaticGameObject();
 	m_pWall1GameObject = new DynamicGameObject(defaultMovementSpeed, -5, 0, 2);
@@ -202,7 +239,7 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 
 	// Set the models
 	m_pWall1GameObject->SetModel(m_pWallModel);
-	m_pWall2GameObject->SetModel(m_pWallModel);
+	m_pWall2GameObject->SetModel(m_pSpecularModel);
 	m_pWall3GameObject->SetModel(m_pReflectiveSphere);
 	m_pCollectible1->SetModel(m_pWallModel);
 	m_pPushableGameObject1->SetModel(m_pWallModel);
@@ -223,6 +260,10 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	// TODO: Check range
 	m_pWallModel->SetDirectionalLight(m_pDirectionalLight1->GetShineFromVector(), m_pDirectionalLight1->GetLightColour());
 	m_pWallModel->SetPointLight(m_pPointLight1->GetShineFromVector(m_worldMatrix), m_pPointLight1->GetLightColour());
+
+	m_pSpecularModel->SetAmbientLight(m_pAmbientLight->GetLightColour());
+	m_pSpecularModel->SetSpecularLight(m_pDirectionalLight1->GetShineFromVector(), m_pDirectionalLight1->GetLightColour(), 8);
+	m_pSpecularModel->SetDirectionalLight(m_pDirectionalLight1->GetShineFromVector(), m_pDirectionalLight1->GetLightColour());
 
 	return hr; // Should return S_OK if nothing fails
 }

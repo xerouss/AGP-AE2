@@ -38,6 +38,7 @@
     <ClCompile Include="Game Files\Game\Model\ObjectFileModel.cpp" />
     <ClCompile Include="Game Files\Game\Model\ReflectiveModel.cpp" />
     <ClCompile Include="Game Files\Game\Model\Skybox.cpp" />
+    <ClCompile Include="Game Files\Game\Model\SpecularModel.cpp" />
     <ClCompile Include="Game Files\Game\Time.cpp" />
     <ClCompile Include="Game Files\Game\User Interface\Button.cpp" />
     <ClCompile Include="Game Files\Game\User Interface\GameOverMenu.cpp" />
@@ -69,6 +70,7 @@
     <ClInclude Include="Game Files\Game\Model\ObjectFileModel.h" />
     <ClInclude Include="Game Files\Game\Model\ReflectiveModel.h" />
     <ClInclude Include="Game Files\Game\Model\Skybox.h" />
+    <ClInclude Include="Game Files\Game\Model\SpecularModel.h" />
     <ClInclude Include="Game Files\Game\Time.h" />
     <ClInclude Include="Game Files\Game\User Interface\Button.h" />
     <ClInclude Include="Game Files\Game\User Interface\GameOverMenu.h" />
@@ -83,6 +85,7 @@
     <FxCompile Include="Game Files\Game\Shaders\ModelShader.hlsl" />
     <FxCompile Include="Game Files\Game\Shaders\ReflectShader.hlsl" />
     <FxCompile Include="Game Files\Game\Shaders\SkyboxShader.hlsl" />
+    <FxCompile Include="Game Files\Game\Shaders\SpecularShader.hlsl" />
     <FxCompile Include="Game Files\Game\Shaders\Text2DShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>

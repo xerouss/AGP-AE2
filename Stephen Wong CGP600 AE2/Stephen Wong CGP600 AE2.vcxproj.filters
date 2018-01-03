@@ -126,6 +126,9 @@
     <ClCompile Include="Game Files\Game\Model\ReflectiveModel.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Game Files\Game\Model\SpecularModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game Files\Game\GameManager.h">
@@ -212,6 +215,9 @@
     <ClInclude Include="Game Files\Game\Model\ReflectiveModel.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Game Files\Game\Model\SpecularModel.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Game Files\Game\Shaders\ModelShader.hlsl">
@@ -224,6 +230,9 @@
       <Filter>Resource Files</Filter>
     </FxCompile>
     <FxCompile Include="Game Files\Game\Shaders\ReflectShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </FxCompile>
+    <FxCompile Include="Game Files\Game\Shaders\SpecularShader.hlsl">
       <Filter>Resource Files</Filter>
     </FxCompile>
   </ItemGroup>

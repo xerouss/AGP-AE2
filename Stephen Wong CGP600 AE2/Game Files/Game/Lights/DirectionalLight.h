@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			DirectionalLight.h
-//	Last Updated:	24/12/2017
+//	Last Updated:	03/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -22,7 +22,7 @@ private:
 
 public:
 	DirectionalLight(float red, float green, float blue, 
-		float x, float y, float z, int range,
+		float x, float y, float z, float range,
 		float xRotation, float yRotation, float zRotation);
 
 	XMVECTOR GetShineFromVector(void);

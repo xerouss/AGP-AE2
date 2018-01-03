@@ -13,16 +13,14 @@
 
 #pragma endregion
 
-class Model: public BasicModel
+class Model : public BasicModel
 {
 private:
-	#pragma region Lights
-		XMVECTOR m_ambientLightColour;
-		XMVECTOR m_directionalLightShinesFrom;
-		XMVECTOR m_directionalLightColour;
-		XMVECTOR m_pointLightPosition;
-		XMVECTOR m_pointLightColour;
-	#pragma endregion
+#pragma region Lights
+	XMVECTOR m_directionalLightShinesFrom;
+	XMVECTOR m_pointLightPosition;
+	XMVECTOR m_pointLightColour;
+#pragma endregion
 
 #pragma region Bounding Sphere Collision
 	float m_boundingSphereCentreX;
@@ -35,6 +33,10 @@ private:
 	void CalculateBoundingSphereRadius(void);
 	float GetMidPointFromTwoFloats(float point1, float point2);
 #pragma endregion
+
+protected:
+	XMVECTOR m_ambientLightColour;
+	XMVECTOR m_directionalLightColour;
 
 public:
 	Model(ID3D11Device* device, ID3D11DeviceContext* immediateContext);

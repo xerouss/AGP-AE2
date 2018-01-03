@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.h
-//	Last Updated:	02/01/2018
+//	Last Updated:	03/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -12,6 +12,7 @@
 #include "Model\Model.h"
 #include "Model\Skybox.h"
 #include "Model\ReflectiveModel.h"
+#include "Model\SpecularModel.h"
 #include "Game Objects\StaticGameObject.h"
 #include "Game Objects\DynamicGameObject.h"
 #include "Game Objects\Camera.h"
@@ -48,6 +49,8 @@ private:
 	Model* m_pWallModel;
 	Skybox* m_pSkybox;
 	ReflectiveModel* m_pReflectiveSphere;
+	SpecularModel* m_pSpecularModel;
+
 	StaticGameObject* m_pRootGameObject;
 	DynamicGameObject* m_pWall1GameObject;
 	DynamicGameObject* m_pWall2GameObject;
@@ -55,6 +58,7 @@ private:
 	Collectible* m_pCollectible1;
 	PushableGameObject* m_pPushableGameObject1;
 	Enemy* m_pEnemy1;
+
 	Light* m_pAmbientLight;
 	DirectionalLight* m_pDirectionalLight1;
 	PointLight* m_pPointLight1;
