@@ -22,6 +22,7 @@
 #include "Lights\Light.h"
 #include "Lights\DirectionalLight.h"
 #include "Lights\PointLight.h"
+#include "Lights\\SpecularLight.h"
 
 #pragma endregion
 
@@ -62,6 +63,7 @@ private:
 	Light* m_pAmbientLight;
 	DirectionalLight* m_pDirectionalLight1;
 	PointLight* m_pPointLight1;
+	SpecularLight* m_pSpecularLight;
 
 	XMMATRIX m_projectionMatrix;
 	XMMATRIX m_worldMatrix;

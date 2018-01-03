@@ -33,6 +33,7 @@
     <ClCompile Include="Game Files\Game\Lights\Light.cpp" />
     <ClCompile Include="Game Files\Game\Lights\PointLight.cpp" />
     <ClCompile Include="Game Files\Game\Lights\PositionalLight.cpp" />
+    <ClCompile Include="Game Files\Game\Lights\SpecularLight.cpp" />
     <ClCompile Include="Game Files\Game\Model\BasicModel.cpp" />
     <ClCompile Include="Game Files\Game\Model\Model.cpp" />
     <ClCompile Include="Game Files\Game\Model\ObjectFileModel.cpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="Game Files\Game\Lights\Light.h" />
     <ClInclude Include="Game Files\Game\Lights\PointLight.h" />
     <ClInclude Include="Game Files\Game\Lights\PositionalLight.h" />
+    <ClInclude Include="Game Files\Game\Lights\SpecularLight.h" />
     <ClInclude Include="Game Files\Game\Model\BasicModel.h" />
     <ClInclude Include="Game Files\Game\Model\Model.h" />
     <ClInclude Include="Game Files\Game\Model\ObjectFileModel.h" />

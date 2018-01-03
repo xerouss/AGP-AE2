@@ -6,8 +6,10 @@
 // *********************************************************
 
 // Used both of these to implement this:
-// http://www.rastertek.com/dx11tut10.html (Rastertek, n.d.) Last viewed: 03/01/2018
 // https://www.3dgep.com/texturing-lighting-directx-11/#Specular (Oosten 2014) Last viewed: 03/01/2018
+// Used some of the code from here for the pixel shader part: 
+// http://www.rastertek.com/dx11tut10.html (Rastertek, n.d.) Last viewed: 03/01/2018
+
 
 //####################################################################################
 // Constant buffer
@@ -68,20 +70,20 @@ float3 eyeVector : EYEVECTOR) : SV_TARGET
 {
     float4 colour = ambientLightColour;
     // Calculate the intensity of the light
-    float lightIntesity = saturate(dot(normal, float3(specularLightVector.xyz)));
+    float lightIntensity = saturate(dot(normal, float3(specularLightVector.xyz)));
     float4 specular = float4(0, 0, 0, 0);
 
     // Prevents doing the calculation if there is no light on it
-    if (lightIntesity > 0.0f)
+    if (lightIntensity > 0.0f)
     {
         // Add the directional Light colour
-        colour += (directionalLightColour * lightIntesity);
+        colour += (directionalLightColour * lightIntensity);
 
         // Saturate it
         colour = saturate(colour);
 
         // Work out the reflection and the specular
-        float3 reflection = normalize(2 * lightIntesity * normal - float3(specularLightVector.xyz));
+        float3 reflection = normalize(2 * lightIntensity * normal - float3(specularLightVector.xyz));
         specular = pow(saturate(dot(reflection, eyeVector)), specularIntensity);
 
     }

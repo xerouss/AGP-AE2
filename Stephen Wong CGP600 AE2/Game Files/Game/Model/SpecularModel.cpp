@@ -91,9 +91,9 @@ void SpecularModel::SetConstantBufferValues(XMMATRIX * world, XMMATRIX * view, X
 //####################################################################################
 // Set the specular light attributes
 //####################################################################################
-void SpecularModel::SetSpecularLight(XMVECTOR pos, XMVECTOR colour, float intesity)
+void SpecularModel::SetSpecularLight(XMVECTOR pos, XMVECTOR colour, float intensity)
 {
 	m_specularLightShinesFrom = pos;
 	m_specularLightColour = colour;
-	m_specularLightIntestity = intesity;
+	m_specularLightIntestity = intensity;
 }

@@ -24,5 +24,5 @@ public:
 	virtual HRESULT CreateConstantBuffer();
 	virtual void SetConstantBufferValues(XMMATRIX* world, XMMATRIX* view, XMMATRIX* projection);
 
-	void SetSpecularLight(XMVECTOR pos, XMVECTOR colour, float intesity);
+	void SetSpecularLight(XMVECTOR pos, XMVECTOR colour, float intensity);
 };

@@ -34,6 +34,12 @@ Level::~Level()
 		m_pSkybox = NULL;
 	}
 
+	if (m_pSpecularLight)
+	{
+		delete m_pSpecularLight;
+		m_pSpecularLight = NULL;
+	}
+
 	if (m_pPointLight1)
 	{
 		delete m_pPointLight1;
@@ -182,7 +188,7 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 
 	// Create the model and load it from the assets folder
 	m_pSpecularModel = new SpecularModel(m_pD3DDevice, m_pImmediateContext);
-	hr = m_pSpecularModel->LoadObjectModel("Assets/Models/sphere.obj");
+	hr = m_pSpecularModel->LoadObjectModel("Assets/Models/cube.obj");
 	if (FAILED(hr)) return hr;
 
 	// Create constant buffer for models
@@ -227,6 +233,7 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	m_pAmbientLight = new Light(0.1f, 0.1f, 0.1f);
 	m_pDirectionalLight1 = new DirectionalLight(0.1f, 0.1f, 1, 0, 0, -1, 10, 0, 0, 1);
 	m_pPointLight1 = new PointLight(0.1f, 1, 0.1f, -5, 0, 0, 10);
+	m_pSpecularLight = new SpecularLight(64, 1, 0.1f, 0.1f, 0.1f, 0.1f, 1, 0, 0, -1, 10, 0, 0, 1);
 
 	// Set the children, models and positions
 	m_pRootGameObject->AddChildNode(m_pWall1GameObject);
@@ -262,8 +269,8 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	m_pWallModel->SetPointLight(m_pPointLight1->GetShineFromVector(m_worldMatrix), m_pPointLight1->GetLightColour());
 
 	m_pSpecularModel->SetAmbientLight(m_pAmbientLight->GetLightColour());
-	m_pSpecularModel->SetSpecularLight(m_pDirectionalLight1->GetShineFromVector(), m_pDirectionalLight1->GetLightColour(), 8);
-	m_pSpecularModel->SetDirectionalLight(m_pDirectionalLight1->GetShineFromVector(), m_pDirectionalLight1->GetLightColour());
+	m_pSpecularModel->SetSpecularLight(m_pSpecularLight->GetShineFromVector(), m_pSpecularLight->GetSpecularLightColour(), m_pSpecularLight->GetIntensity());
+	m_pSpecularModel->SetDirectionalLight(m_pSpecularLight->GetShineFromVector(), m_pSpecularLight->GetLightColour());
 
 	return hr; // Should return S_OK if nothing fails
 }

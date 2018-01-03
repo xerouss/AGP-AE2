@@ -129,6 +129,9 @@
     <ClCompile Include="Game Files\Game\Model\SpecularModel.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Game Files\Game\Lights\SpecularLight.cpp">
+      <Filter>Source Files\Lights</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game Files\Game\GameManager.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="Game Files\Game\Model\SpecularModel.h">
       <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Files\Game\Lights\SpecularLight.h">
+      <Filter>Header Files\Lights</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

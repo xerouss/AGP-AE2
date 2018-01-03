@@ -1,6 +1,6 @@
 // *********************************************************
 //	Name:			Stephen Wong
-//	File:			DirectionalLight.h
+//	File:			DirectionalLight.cpp
 //	Last Updated:	03/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
