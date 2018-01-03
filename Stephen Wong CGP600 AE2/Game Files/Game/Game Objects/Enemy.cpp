@@ -93,6 +93,10 @@ void Enemy::Update(StaticGameObject* rootNode, Camera* player)
 		!m_isChasingPlayer)
 		SetNewTargetPosition(m_startXPos, m_startZPos);
 
+	// Look at the player while chasing
+	// Call it here since the player will move about
+	if(m_isChasingPlayer) 	LookAtXYZ(m_targetXPos,0, m_targetZPos);
+
 	MoveForward(m_movementSpeed, rootNode);
 }
 

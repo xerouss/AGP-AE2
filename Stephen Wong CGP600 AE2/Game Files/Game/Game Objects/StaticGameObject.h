@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			StaticGameObject.h
-//	Last Updated:	02/01/2018
+//	Last Updated:	03/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 #pragma once
@@ -27,6 +27,9 @@ using namespace DirectX::PackedVector;
 const float defaultScale = 1.0f;
 const float defaultAxisPos = 0.0f;
 const float defaultAxisRotation = 0.0f;
+const int powerOfTwo = 2;
+const float defaultW = 0.0f;
+const float defaultVectorValue = 0.0f;
 
 #pragma endregion
 
@@ -78,7 +81,7 @@ public:
 	StaticGameObject(float xPos, float yPos, float zPos);
 	StaticGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
 	StaticGameObject(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
-	// TODO: MAKE THIS VIRTUAL AND USE IT IN INHERITED OBJECTS
+
 	void SetDefaultProperties(float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
 	virtual ~StaticGameObject();
 

@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Model.cpp
-//	Last Updated:	02/01/2018
+//	Last Updated:	03/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -204,34 +204,9 @@ void Model::SetPointLight(XMVECTOR pos, XMVECTOR colour)
 //////////////////////////////////////////////////////////////////////////////////////
 #pragma region Get Methods
 
-//XMVECTOR Model::GetAmbientLightColour(void)
-//{
-//	return m_ambientLightColour;
-//}
-//
-//XMVECTOR Model::GetDirectionalLightPos(void)
-//{
-//	return m_directionalLightShinesFrom;
-//}
-//
-//XMVECTOR Model::GetDirectionalLightColour(void)
-//{
-//	return m_directionalLightColour;
-//}
-//
-//XMVECTOR Model::GetPointLightPos(void)
-//{
-//	return m_pointLightPosition;
-//}
-//
-//XMVECTOR Model::GetPointLightColour(void)
-//{
-//	return m_pointLightColour;
-//}
-
 float Model::GetBoundingSphereRadius(void)
 {
-	return m_boundingSphereRadius; // *m_scale;
+	return m_boundingSphereRadius;
 }
 
 float Model::GetBoundingSphereX(void)

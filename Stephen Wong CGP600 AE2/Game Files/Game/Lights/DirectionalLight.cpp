@@ -29,7 +29,8 @@ DirectionalLight::DirectionalLight(float red, float green, float blue, float x, 
 XMVECTOR DirectionalLight::GetShineFromVector(void)
 {
 	// Apply rotations
-	XMMATRIX transformMatrix = XMMatrixRotationRollPitchYaw(m_xRotation, m_yRotation, m_zRotation);
+	XMMATRIX transformMatrix = XMMatrixIdentity();
+	transformMatrix *= XMMatrixRotationRollPitchYaw(m_xRotation, m_yRotation, m_zRotation);
 	transformMatrix = XMMatrixTranspose(transformMatrix); // Transpose so it rotates the correct way
 
 	// Get the vector for the matrix for the shine direction

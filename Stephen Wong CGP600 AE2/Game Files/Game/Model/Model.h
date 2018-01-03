@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Model.h
-//	Last Updated:	02/01/2018
+//	Last Updated:	03/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -28,7 +28,7 @@ private:
 	float m_boundingSphereCentreZ;
 	float m_boundingSphereRadius;
 
-	// These methods are private since they are called internerally when the object model is loaded
+	// These methods are private since they are called internally when the object model is loaded
 	void CalculateModelCentrePoint(void);
 	void CalculateBoundingSphereRadius(void);
 	float GetMidPointFromTwoFloats(float point1, float point2);
@@ -54,13 +54,6 @@ public:
 #pragma endregion
 
 #pragma region Get Methods
-
-	//Lights
-	//XMVECTOR GetAmbientLightColour(void);
-	//XMVECTOR GetDirectionalLightPos(void);
-	//XMVECTOR GetDirectionalLightColour(void);
-	//XMVECTOR GetPointLightPos(void);
-	//XMVECTOR GetPointLightColour(void);
 
 	// Collision
 	float GetBoundingSphereRadius(void);

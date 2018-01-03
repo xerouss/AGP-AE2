@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			StaticGameObject.cpp
-//	Last Updated:	23/12/2017
+//	Last Updated:	03/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -62,8 +62,7 @@ void StaticGameObject::SetDefaultProperties(float xPos, float yPos, float zPos, 
 //####################################################################################
 StaticGameObject::~StaticGameObject()
 {
-	// Delete all pointers in the array
-	// TODO: CHANGE THIS?
+	// Delete all pointers in the vector
 	for (size_t i = 0; i < m_pChildren.size(); i++)
 	{
 		if (m_pChildren[i])
@@ -72,13 +71,8 @@ StaticGameObject::~StaticGameObject()
 			m_pChildren[i] = NULL;
 		}
 	}
-	m_pChildren.clear(); // Clear out the array
 
-						 //if (m_pModel)
-						 //{
-						 //	delete m_pModel;
-						 //	m_pModel = NULL;
-						 //}
+	m_pChildren.clear(); // Clear out the vector
 }
 
 //####################################################################################
@@ -124,9 +118,9 @@ void StaticGameObject::Render(XMMATRIX *world, XMMATRIX* view, XMMATRIX* project
 	localWorld = XMMatrixScaling(m_scale, m_scale, m_scale);
 
 	// Rotation
-	localWorld *= XMMatrixRotationX(XMConvertToRadians(m_xAngle));
-	localWorld *= XMMatrixRotationY(XMConvertToRadians(m_yAngle));
-	localWorld *= XMMatrixRotationZ(XMConvertToRadians(m_zAngle));
+	localWorld *= XMMatrixRotationX(m_xAngle);
+	localWorld *= XMMatrixRotationY(m_yAngle);
+	localWorld *= XMMatrixRotationZ(m_zAngle);
 
 	// Translation
 	localWorld *= XMMatrixTranslation(m_xPos, m_yPos, m_zPos);
@@ -157,9 +151,9 @@ void StaticGameObject::UpdateCollisionTree(XMMATRIX * world, float scale)
 	localWorld = XMMatrixScaling(m_scale, m_scale, m_scale);
 
 	// Rotation
-	localWorld *= XMMatrixRotationX(XMConvertToRadians(m_xAngle));
-	localWorld *= XMMatrixRotationY(XMConvertToRadians(m_yAngle));
-	localWorld *= XMMatrixRotationZ(XMConvertToRadians(m_zAngle));
+	localWorld *= XMMatrixRotationX(m_xAngle);
+	localWorld *= XMMatrixRotationY(m_yAngle);
+	localWorld *= XMMatrixRotationZ(m_zAngle);
 
 	// Translation
 	localWorld *= XMMatrixTranslation(m_xPos, m_yPos, m_zPos);
@@ -178,9 +172,11 @@ void StaticGameObject::UpdateCollisionTree(XMMATRIX * world, float scale)
 	{
 		vector = XMVectorSet(m_pModel->GetBoundingSphereX(),
 			m_pModel->GetBoundingSphereY(),
-			m_pModel->GetBoundingSphereZ(), 0.0f);
+			m_pModel->GetBoundingSphereZ(), defaultW);
 	}
-	else vector = XMVectorSet(0, 0, 0, 0); // No model so default to 0
+	// No model so default to 0
+	else vector = XMVectorSet(defaultVectorValue, defaultVectorValue, defaultVectorValue, defaultVectorValue); 
+	
 
 	// Get and store world space bounding sphere centre
 	vector = XMVector3Transform(vector, localWorld);
@@ -232,10 +228,9 @@ StaticGameObject* StaticGameObject::CheckCollision(StaticGameObject* compareTree
 		float dz = z1 - z2;
 
 		// Check bounding sphere collision
-		// TODO: INSTEAD OF SQRT, POW THE OTHER SIDE?
-		if (sqrt(dx*dx + dy * dy + dz * dz) <
-			(compareTree->m_pModel->GetBoundingSphereRadius() * compareTree->m_worldScale) +
-			(this->m_pModel->GetBoundingSphereRadius() * m_worldScale))
+		if (dx*dx + dy * dy + dz * dz <
+			pow((compareTree->m_pModel->GetBoundingSphereRadius() * compareTree->m_worldScale) +
+			(this->m_pModel->GetBoundingSphereRadius() * m_worldScale), powerOfTwo))
 		{
 			return compareTree; // Collision
 		}

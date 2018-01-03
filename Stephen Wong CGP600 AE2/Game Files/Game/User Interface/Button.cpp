@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Button.cpp
-//	Last Updated:	30/12/2017
+//	Last Updated:	03/01/2017
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -59,7 +59,6 @@ Button::~Button()
 void Button::Render(void)
 {
 	// Have to add text every frame since it deletes it after rendering it
-	// TODO: CHECK THIS
 	m_pText->AddText(m_buttonText, m_xPosition, m_yPosition, m_size);
 	m_pText->RenderText();
 }

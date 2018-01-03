@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Camera.cpp
-//	Last Updated:	27/12/2017
+//	Last Updated:	03/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -53,6 +53,8 @@ void Camera::InitialiseCamera(Time* time)
 	m_gameObjectType = CAMERA;
 
 	m_up = XMVectorSet(0, 1.0f, 0, 0);
+
+	// Set default delta values
 	m_deltaXPos = (float)sin(0);
 	m_deltaYPos = (float)tan(0);
 	m_deltaZPos = (float)cos(0);
@@ -88,18 +90,15 @@ void Camera::Strafe(float distance, StaticGameObject* rootNode)
 	UpdateTransformAndCheckCollision(oldZPos, m_zPos, rootNode);
 }
 
-//void Camera::MoveForwardIncludingY(float distance)
-//{
-//}
-//
-
 //####################################################################################
 // Increase x angle
 //####################################################################################
 bool Camera::IncrementXAngle(float increaseAmount, StaticGameObject * rootNode)
 {
+	// Check if the camera will collide with an object when it rotates
 	bool collision = DynamicGameObject::IncrementXAngle(increaseAmount, rootNode);
 
+	// Don't change the angle if it collides with something
 	if (collision) return true;
 
 	m_deltaXPos = sin(m_xAngle * DegreesToRadians);
@@ -111,8 +110,10 @@ bool Camera::IncrementXAngle(float increaseAmount, StaticGameObject * rootNode)
 //####################################################################################
 bool Camera::IncrementYAngle(float increaseAmount, StaticGameObject * rootNode)
 {
+	// Check if the camera will collide with an object when it rotates
 	bool collision = DynamicGameObject::IncrementYAngle(increaseAmount, rootNode);
 
+	// Don't change the angle if it collides with something
 	if (collision) return true;
 
 	m_deltaYPos = tan(m_yAngle * DegreesToRadians);
@@ -124,8 +125,10 @@ bool Camera::IncrementYAngle(float increaseAmount, StaticGameObject * rootNode)
 //####################################################################################
 bool Camera::IncrementZAngle(float increaseAmount, StaticGameObject * rootNode)
 {
+	// Check if the camera will collide with an object when it rotates
 	bool collision = DynamicGameObject::IncrementZAngle(increaseAmount, rootNode);
 
+	// Don't change the angle if it collides with something
 	if (collision) return true;
 
 	m_deltaZPos = cos(m_zAngle * DegreesToRadians);
@@ -144,6 +147,7 @@ void Camera::ObjectCollidesWithThis(float oldValue, float &valueThatWasChanged, 
 		{
 			m_currentHealth -= damage;
 
+			// Make the lowest amount 0 for the HUD as well as for health checks
 			if (m_currentHealth < 0) m_currentHealth = 0;
 
 			// Save the time the collision happened

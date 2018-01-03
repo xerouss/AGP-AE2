@@ -20,7 +20,6 @@
 #pragma endregion
 
 #pragma region Constants
-// TODO: MOVE TO HUD???
 const float scoreHUDXPos = -1;
 const float scoreHUDYPos = 1;
 const float scoreHUDTextSize = 0.2f;

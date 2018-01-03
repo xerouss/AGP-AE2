@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.cpp
-//	Last Updated:	02/01/2018
+//	Last Updated:	03/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -40,16 +40,16 @@ Level::~Level()
 		m_pSpecularLight = NULL;
 	}
 
-	if (m_pPointLight1)
+	if (m_pPointLight)
 	{
-		delete m_pPointLight1;
-		m_pPointLight1 = NULL;
+		delete m_pPointLight;
+		m_pPointLight = NULL;
 	}
 
-	if (m_pDirectionalLight1)
+	if (m_pDirectionalLight)
 	{
-		delete m_pDirectionalLight1;
-		m_pDirectionalLight1 = NULL;
+		delete m_pDirectionalLight;
+		m_pDirectionalLight = NULL;
 	}
 
 	if (m_pAmbientLight)
@@ -70,11 +70,55 @@ Level::~Level()
 		m_pReflectiveSphere = NULL;
 	}
 
-	if (m_pWallModel)
+	// Delete all pointers in the array
+	for (int i = 0; i < ARRAYSIZE(m_pCollectibleModels); i++)
 	{
-		delete m_pWallModel;
-		m_pWallModel = NULL;
+		if (m_pCollectibleModels[i])
+		{
+			delete m_pCollectibleModels[i];
+			m_pCollectibleModels[i] = NULL;
+		}
 	}
+
+	if (m_pMovingModel)
+	{
+		delete m_pMovingModel;
+		m_pMovingModel = NULL;
+	}
+
+	// Delete all pointers in the array
+	for (int i = 0; i < ARRAYSIZE(m_pPushableGameObjectModel); i++)
+	{
+		if (m_pPushableGameObjectModel[i])
+		{
+			delete m_pPushableGameObjectModel[i];
+			m_pPushableGameObjectModel[i] = NULL;
+		}
+	}
+
+	if (m_pEnemyBody)
+	{
+		delete m_pEnemyBody;
+		m_pEnemyBody = NULL;
+	}
+
+	if (m_pEnemyHead)
+	{
+		delete m_pEnemyHead;
+		m_pEnemyHead = NULL;
+	}
+
+	// Delete all pointers in the array
+	for (int i = 0; i < ARRAYSIZE(m_pWallModels); i++)
+	{
+		if (m_pWallModels[i])
+		{
+			delete m_pWallModels[i];
+			m_pWallModels[i] = NULL;
+		}
+	}
+
+	//m_pWallModel.clear(); // Clear out the array
 
 	// Only delete the root node since the nodes attached to it will be deleted
 	if (m_pRootGameObject)
@@ -107,170 +151,224 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	SetWorldMatrix(defaultWorldMatrixValue, defaultWorldMatrixValue, defaultWorldMatrixValue,
 		defaultWorldMatrixValue, defaultWorldMatrixValue, defaultWorldMatrixValue, 1);
 
+	/////////////////////////////////////////////////////////////////////////////
 	// Create sky box
 	m_pSkybox = new Skybox(skyboxScale, m_pD3DDevice, m_pImmediateContext);
-	hr = m_pSkybox->LoadObjectModel("Assets/Models/cube.obj");
+	hr = CreateSkybox(m_pSkybox, "Assets/Models/cube.obj", "Assets/Skyboxes/skybox02.dds",
+		"Game Files/Game/Shaders/SkyboxShader.hlsl", "SkyboxVertexShader", "SkyboxPixelShader");
 	if (FAILED(hr)) return hr;
 
-	// Set up the skybox
 	hr = m_pSkybox->InitialiseSkybox();
 	if (FAILED(hr)) return hr;
+	/////////////////////////////////////////////////////////////////////////////
 
-	// Create constant buffer for models
-	hr = m_pSkybox->CreateConstantBuffer();
+	/////////////////////////////////////////////////////////////////////////////
+	// Create wall models
+	for (int i = 0; i < ARRAYSIZE(m_pWallModels); i++)
+	{
+		m_pWallModels[i] = new Model(m_pD3DDevice, m_pImmediateContext);
+		hr = CreateModel(m_pWallModels[i], "Assets/Models/cube.obj", "Assets/Textures/bricks.jpg",
+			"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
+		if (FAILED(hr)) return hr;
+	}
+	/////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Create enemy models
+	// Body
+	m_pEnemyBody = new Model(m_pD3DDevice, m_pImmediateContext);
+	hr = CreateModel(m_pEnemyBody, "Assets/Models/cube.obj", "Assets/Textures/Metal.png",
+		"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
 	if (FAILED(hr)) return hr;
 
-	// Add texture to the models
-	hr = m_pSkybox->AddTexture("Assets/Skyboxes/skybox02.dds");
+	m_pEnemyHead = new Model(m_pD3DDevice, m_pImmediateContext);
+	hr = CreateModel(m_pEnemyHead, "Assets/Models/PointySphere.obj", "Assets/Textures/Metal.png",
+		"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
 	if (FAILED(hr)) return hr;
+	/////////////////////////////////////////////////////////////////////////////
 
-	// Create filter for the texture
-	hr = m_pSkybox->CreateSampler();
+	/////////////////////////////////////////////////////////////////////////////
+	// Create pushable game object models
+	for (int i = 0; i < ARRAYSIZE(m_pPushableGameObjectModel); i++)
+	{
+		m_pPushableGameObjectModel[i] = new Model(m_pD3DDevice, m_pImmediateContext);
+		hr = CreateModel(m_pPushableGameObjectModel[i], "Assets/Models/cube.obj", "Assets/Textures/stone.jpg",
+			"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
+		if (FAILED(hr)) return hr;
+	}
+	/////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Moving circle model
+	m_pMovingModel = new Model(m_pD3DDevice, m_pImmediateContext);
+	hr = CreateModel(m_pMovingModel, "Assets/Models/cube.obj", "Assets/Textures/crate0_diffuse.png",
+		"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
 	if (FAILED(hr)) return hr;
+	/////////////////////////////////////////////////////////////////////////////
 
-	// Create vertex shader
-	hr = m_pSkybox->CreateVertexShader("Game Files/Game/Shaders/SkyboxShader.hlsl", "SkyboxVertexShader");
-	if (FAILED(hr)) return hr;
+	/////////////////////////////////////////////////////////////////////////////
+	// Create pushable game object models
+	for (int i = 0; i < ARRAYSIZE(m_pCollectibleModels); i++)
+	{
+		m_pCollectibleModels[i] = new Model(m_pD3DDevice, m_pImmediateContext);
+		hr = CreateModel(m_pCollectibleModels[i], "Assets/Models/sphere.obj", "Assets/Textures/gold.jpg",
+			"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
+		if (FAILED(hr)) return hr;
+	}
+	/////////////////////////////////////////////////////////////////////////////
 
-	// Create pixel shader
-	hr = m_pSkybox->CreatePixelShader("Game Files/Game/Shaders/SkyboxShader.hlsl", "SkyboxPixelShader");
-	if (FAILED(hr)) return hr;
-
-	// Create the model and load it from the assets folder
-	m_pWallModel = new Model(m_pD3DDevice, m_pImmediateContext);
-	hr = m_pWallModel->LoadObjectModel("Assets/Models/cube.obj");
-	if (FAILED(hr)) return hr;
-
-	// Create constant buffer for models
-	hr = m_pWallModel->CreateConstantBuffer();
-	if (FAILED(hr)) return hr;
-
-	// Add texture to the models
-	hr = m_pWallModel->AddTexture("Assets/Textures/crate0_diffuse.png");
-	if (FAILED(hr)) return hr;
-
-	// Create filter for the texture
-	hr = m_pWallModel->CreateSampler();
-	if (FAILED(hr)) return hr;
-
-	// Create vertex shader
-	hr = m_pWallModel->CreateVertexShader("Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader");
-	if (FAILED(hr)) return hr;
-
-	// Create pixel shader
-	hr = m_pWallModel->CreatePixelShader("Game Files/Game/Shaders/ModelShader.hlsl", "ModelPixelShader");
-	if (FAILED(hr)) return hr;
-
-	// Create the model and load it from the assets folder
+	/////////////////////////////////////////////////////////////////////////////
+	// Create reflective sphere
 	m_pReflectiveSphere = new ReflectiveModel(m_pD3DDevice, m_pImmediateContext);
-	hr = m_pReflectiveSphere->LoadObjectModel("Assets/Models/sphere.obj");
+	hr = CreateModel(m_pReflectiveSphere, "Assets/Models/sphere.obj", "Assets/Skyboxes/skybox02.dds",
+		"Game Files/Game/Shaders/ReflectShader.hlsl", "ReflectVertexShader", "ReflectPixelShader");
 	if (FAILED(hr)) return hr;
+	/////////////////////////////////////////////////////////////////////////////
 
-	// Create constant buffer for models
-	hr = m_pReflectiveSphere->CreateConstantBuffer();
-	if (FAILED(hr)) return hr;
-
-	// Add texture to the models
-	hr = m_pReflectiveSphere->AddTexture("Assets/Skyboxes/skybox02.dds");
-	if (FAILED(hr)) return hr;
-
-	// Create filter for the texture
-	hr = m_pReflectiveSphere->CreateSampler();
-	if (FAILED(hr)) return hr;
-
-	// Create vertex shader
-	hr = m_pReflectiveSphere->CreateVertexShader("Game Files/Game/Shaders/ReflectShader.hlsl", "ReflectVertexShader");
-	if (FAILED(hr)) return hr;
-
-	// Create pixel shader
-	hr = m_pReflectiveSphere->CreatePixelShader("Game Files/Game/Shaders/ReflectShader.hlsl", "ReflectPixelShader");
-	if (FAILED(hr)) return hr;
-
-	// Create the model and load it from the assets folder
+	/////////////////////////////////////////////////////////////////////////////
+	// Create the specular model
 	m_pSpecularModel = new SpecularModel(m_pD3DDevice, m_pImmediateContext);
-	hr = m_pSpecularModel->LoadObjectModel("Assets/Models/cube.obj");
+	hr = CreateModel(m_pSpecularModel, "Assets/Models/cube.obj", "Assets/Textures/glass1.png",
+		"Game Files/Game/Shaders/SpecularShader.hlsl", "SpecularVertexShader", "SpecularPixelShader");
 	if (FAILED(hr)) return hr;
+	/////////////////////////////////////////////////////////////////////////////
 
-	// Create constant buffer for models
-	hr = m_pSpecularModel->CreateConstantBuffer();
-	if (FAILED(hr)) return hr;
-
-	// Add texture to the models
-	hr = m_pSpecularModel->AddTexture("Assets/Textures/glass1.png");
-	if (FAILED(hr)) return hr;
-
-	// Create filter for the texture
-	hr = m_pSpecularModel->CreateSampler();
-	if (FAILED(hr)) return hr;
-
-	// Create vertex shader
-	hr = m_pSpecularModel->CreateVertexShader("Game Files/Game/Shaders/SpecularShader.hlsl", "SpecularVertexShader");
-	if (FAILED(hr)) return hr;
-
-	// Create pixel shader
-	hr = m_pSpecularModel->CreatePixelShader("Game Files/Game/Shaders/SpecularShader.hlsl", "SpecularPixelShader");
-	if (FAILED(hr)) return hr;
-
-	// Create the game objects
+	// Create root game object
 	m_pRootGameObject = new StaticGameObject();
-	m_pWall1GameObject = new DynamicGameObject(defaultMovementSpeed, -5, 0, 2);
-	m_pWall2GameObject = new DynamicGameObject(defaultMovementSpeed, 0, 0, 5);
-	m_pWall3GameObject = new DynamicGameObject(defaultMovementSpeed, 5, 0, 2);
-	m_pPushableGameObject1 = new PushableGameObject(m_pRootGameObject, defaultMovementSpeed, 0, 0, -20);
-	m_pCollectible1 = new Collectible(scoreSaveLocation, 5, 0, 0);
 
+	/////////////////////////////////////////////////////////////////////////////
+	// Lights
+	m_pAmbientLight = new Light(ambientRGBColour, ambientRGBColour, ambientRGBColour);
+	m_pDirectionalLight = new DirectionalLight(directionalRGColour, directionalRGColour, directionalBlueColour,
+		zeroPosition, zeroPosition, directionalLightZPos, lightRange, zeroRotation, zeroRotation, directionalLightZRotation);
+	m_pPointLight = new PointLight(pointLightRBColour, pointLightGColour, pointLightRBColour,
+		zeroPosition, zeroPosition, pointLightZ, lightRange);
+	m_pSpecularLight = new SpecularLight(specularLightIntensity, specularRGColour, specularRGColour,
+		specularBlueColour, zeroPosition, zeroPosition, specularLightZPos, lightRange, zeroRotation, zeroRotation, specularLightZRotation);
+	/////////////////////////////////////////////////////////////////////////////
+
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Specular Model
+
+	m_pSpecularGameObject = new StaticGameObject(specularGameObjectX, zeroPosition, specularGameObjectZ);
+
+	SetUpModelForGameObject(m_pSpecularModel, m_pSpecularGameObject, m_pRootGameObject);
+	m_pSpecularModel->SetSpecularLight(m_pSpecularLight->GetShineFromVector(), m_pSpecularLight->GetLightColour(), m_pSpecularLight->GetIntensity());
+	/////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Reflection game object
+	m_pReflectiveGameObject = new StaticGameObject(reflectiveGameObjectX, zeroPosition, camera1Z);
+
+	// Don't call set up model for game object because it doesn't use lighting
+	m_pReflectiveGameObject->SetModel(m_pReflectiveSphere);
+	m_pRootGameObject->AddChildNode(m_pReflectiveGameObject);
+
+	/////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Collectibles
+	for (int i = 0; i < ARRAYSIZE(m_pCollectibles); i++)
+	{
+		m_pCollectibles[i] = new Collectible(scoreSaveLocation);
+
+		// Set up model, parent node and lighting
+		SetUpModelForGameObject(m_pCollectibleModels[i], m_pCollectibles[i], m_pRootGameObject);
+
+		// Scale down because its a bit big
+		m_pCollectibles[i]->SetScale(collectibleScale);
+	}
+
+	// Set collectible positions
+	m_pCollectibles[0]->SetXPos(10);
+	m_pCollectibles[1]->SetZPos(-20);
+	m_pCollectibles[2]->SetXPos(-10);
+	m_pCollectibles[4]->SetZPos(5);
+	/////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Moving game object
+	m_pMovingGameObject = new DynamicGameObject(defaultMovementSpeed, zeroPosition, zeroPosition, movingZPos);
+	// Set up model, parent node and lighting
+	SetUpModelForGameObject(m_pMovingModel, m_pMovingGameObject, m_pRootGameObject);
+	/////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////
 	// Cameras
-	m_pPrimaryCamera = new Camera(time, defaultMovementSpeed, 0.0f, 0.0f, -15.0f);
-	m_pSecondaryCamera = new Camera(time, defaultMovementSpeed, -30, 0, 0);
-
+	m_pPrimaryCamera = new Camera(time, defaultMovementSpeed, zeroPosition, zeroPosition, camera1Z);
+	m_pSecondaryCamera = new Camera(time, defaultMovementSpeed, camera2X, zeroRotation, camera2Z);
 	m_pActiveCamera = m_pPrimaryCamera;
 
-	// Enemies
-	m_pEnemy1 = new Enemy(25, defaultMovementSpeed / 2, 0, 0, 0);
+	// Set up model, parent node and lighting
+	SetUpModelForGameObject(m_pWallModels[1], m_pPrimaryCamera, m_pRootGameObject);
+	SetUpModelForGameObject(m_pWallModels[1], m_pSecondaryCamera, m_pRootGameObject);
 
-	// Lights
-	// TODO: REMOVE MAGIC NUMBERS
-	m_pAmbientLight = new Light(0.1f, 0.1f, 0.1f);
-	m_pDirectionalLight1 = new DirectionalLight(0.1f, 0.1f, 1, 0, 0, -1, 10, 0, 0, 1);
-	m_pPointLight1 = new PointLight(0.1f, 1, 0.1f, -5, 0, 0, 10);
-	m_pSpecularLight = new SpecularLight(64, 1, 0.1f, 0.1f, 0.1f, 0.1f, 1, 0, 0, -1, 10, 0, 0, 1);
-
-	// Set the children, models and positions
-	m_pRootGameObject->AddChildNode(m_pWall1GameObject);
-	m_pRootGameObject->AddChildNode(m_pWall2GameObject);
-	m_pRootGameObject->AddChildNode(m_pWall3GameObject);
-	m_pRootGameObject->AddChildNode(m_pCollectible1);
-	m_pRootGameObject->AddChildNode(m_pPushableGameObject1);
-	m_pRootGameObject->AddChildNode(m_pPrimaryCamera);
-	m_pRootGameObject->AddChildNode(m_pEnemy1);
-
-	// Set the models
-	m_pWall1GameObject->SetModel(m_pWallModel);
-	m_pWall2GameObject->SetModel(m_pSpecularModel);
-	m_pWall3GameObject->SetModel(m_pReflectiveSphere);
-	m_pCollectible1->SetModel(m_pWallModel);
-	m_pPushableGameObject1->SetModel(m_pWallModel);
-	m_pPrimaryCamera->SetModel(m_pWallModel);
-	m_pSecondaryCamera->SetModel(m_pWallModel);
-	m_pEnemy1->SetModel(m_pWallModel);
-
-	// Transformations
+	// Rotate second camera
 	// Have to attach the secondary camera for the rotation to be applied correctly
 	// It is removed afterwards since we don't want to render it and have collisions with it
-	m_pRootGameObject->AddChildNode(m_pSecondaryCamera);
 	m_pSecondaryCamera->IncrementXAngle(secondaryCameraRotation, m_pRootGameObject);
 	m_pSecondaryCamera->IncrementZAngle(secondaryCameraRotation, m_pRootGameObject);
 	m_pRootGameObject->DetachNode(m_pSecondaryCamera);
+	/////////////////////////////////////////////////////////////////////////////
 
-	// Set Lighting
-	m_pWallModel->SetAmbientLight(m_pAmbientLight->GetLightColour());
-	// TODO: Check range
-	m_pWallModel->SetDirectionalLight(m_pDirectionalLight1->GetShineFromVector(), m_pDirectionalLight1->GetLightColour());
-	m_pWallModel->SetPointLight(m_pPointLight1->GetShineFromVector(m_worldMatrix), m_pPointLight1->GetLightColour());
+	/////////////////////////////////////////////////////////////////////////////
+	// Enemies
+	m_pEnemy = new Enemy(enemyAggroRange, defaultMovementSpeed / enemySpeedChange, enemyXPos, enemyYPos, enemyZPos);
+	m_pEnemyHeadObject = new StaticGameObject(enemyXPos, enemyYPos + enemyPositionHeadOffset, zeroPosition, zeroRotation,
+		zeroRotation, zeroRotation, enemyHeadScale);
 
-	m_pSpecularModel->SetAmbientLight(m_pAmbientLight->GetLightColour());
-	m_pSpecularModel->SetSpecularLight(m_pSpecularLight->GetShineFromVector(), m_pSpecularLight->GetSpecularLightColour(), m_pSpecularLight->GetIntensity());
-	m_pSpecularModel->SetDirectionalLight(m_pSpecularLight->GetShineFromVector(), m_pSpecularLight->GetLightColour());
+	// Set up model, parent node and lighting
+	SetUpModelForGameObject(m_pEnemyHead, m_pEnemyHeadObject, m_pEnemy);
+
+	// Set up model, parent node and lighting
+	SetUpModelForGameObject(m_pEnemyBody, m_pEnemy, m_pRootGameObject);
+	/////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Pushable Game Objects
+	m_pPushableGameObjects[0] = new PushableGameObject(m_pRootGameObject, defaultMovementSpeed,
+		pushableGameObjectX, zeroPosition, pushableGameObject1Z);
+	m_pPushableGameObjects[1] = new PushableGameObject(m_pRootGameObject, defaultMovementSpeed,
+		pushableGameObjectX, zeroPosition, pushableGameObject2Z);
+
+	// Add to root node and add models
+	for (int i = 0; i < ARRAYSIZE(m_pPushableGameObjects); i++)
+	{
+		// Set up model, parent node and lighting
+		SetUpModelForGameObject(m_pPushableGameObjectModel[i], m_pPushableGameObjects[i], m_pRootGameObject);
+	}
+	/////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Wall Game Objects
+	for (int i = 0; i < ARRAYSIZE(m_pWallGameObjects); i++)
+	{
+		m_pWallGameObjects[i] = new StaticGameObject();
+
+		// Set up model, parent node and lighting
+		SetUpModelForGameObject(m_pWallModels[i], m_pWallGameObjects[i], m_pRootGameObject);
+	}
+
+	// Set Wall positions
+	m_pWallGameObjects[0]->SetZPos(enemyRoomWallBackZ);
+	m_pWallGameObjects[0]->SetScale(bigWallScale);
+	m_pWallGameObjects[1]->SetZPos(enemyRoomWallSideZ);
+	m_pWallGameObjects[1]->SetXPos(enemyRoomWallRightX);
+	m_pWallGameObjects[1]->SetScale(bigWallScale);
+	m_pWallGameObjects[2]->SetZPos(enemyRoomWallSideZ);
+	m_pWallGameObjects[2]->SetXPos(enemyRoomWallLeftX);
+	m_pWallGameObjects[2]->SetScale(bigWallScale);
+
+	m_pWallGameObjects[3]->SetZPos(enemyZPos + enemyTrappingWallOffset);
+	m_pWallGameObjects[4]->SetZPos(enemyZPos);
+	m_pWallGameObjects[4]->SetXPos(enemyXPos + enemyTrappingWallOffset);
+	m_pWallGameObjects[5]->SetZPos(enemyZPos);
+	m_pWallGameObjects[5]->SetXPos(enemyXPos - enemyTrappingWallOffset);
+
+	m_pWallGameObjects[6]->SetXPos(zeroPosition);
+	m_pWallGameObjects[6]->SetZPos(pointLightZ);
+	/////////////////////////////////////////////////////////////////////////////
 
 	return hr; // Should return S_OK if nothing fails
 }
@@ -280,15 +378,33 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 //####################################################################################
 void Level::Update(void)
 {
-	//m_pPrimaryCamera->IncrementYAngle(0.001f, m_pRootWallGameObject);
-	//m_pWall3GameObject->IncrementZPos(m_pWall3GameObject->GetMovementSpeed(), m_pRootGameObject);
+	// Update the enemy and the lighting on it
+	m_pEnemy->Update(m_pRootGameObject, m_pActiveCamera);
+	// Lighting does not seem to update and just shines from the front
+	m_pEnemyBody->SetDirectionalLight(-m_pDirectionalLight->GetShineFromVector(), m_pDirectionalLight->GetLightColour());
+	m_pEnemyHead->SetDirectionalLight(-m_pDirectionalLight->GetShineFromVector(), m_pDirectionalLight->GetLightColour());
 
-	m_pEnemy1->Update(m_pRootGameObject, m_pActiveCamera);
-	m_pPointLight1->SetPosition(m_pPointLight1->GetPosition().vector4_f32[0] + 0.001f, 0, 0);
-	m_pWallModel->SetPointLight(m_pPointLight1->GetShineFromVector(m_worldMatrix), m_pPointLight1->GetLightColour());
-	m_pWall1GameObject->SetXPos(m_pPointLight1->GetPosition().vector4_f32[0]);
-	m_pWall1GameObject->SetYPos(m_pPointLight1->GetPosition().vector4_f32[1]);
-	m_pWall1GameObject->SetZPos(m_pPointLight1->GetPosition().vector4_f32[2]);
+	// Move the game object along the x parallel with the point light
+	m_pMovingGameObject->SetXPos(m_pMovingGameObject->GetXPos() + (defaultMovementSpeed * m_pointLightMovementDirection));
+
+
+	// Get point light x
+	float pointLightXPos = m_pPointLight->GetPosition().vector4_f32[x];
+
+	// If above the light range, move back
+	if (pointLightXPos > m_pPointLight->GetLightRange())
+		m_pointLightMovementDirection = moveBackwards;
+	// Else move forward
+	else if (pointLightXPos < -m_pPointLight->GetLightRange())
+		m_pointLightMovementDirection = moveForward;
+
+	// Move the point light on the x
+	m_pPointLight->SetPosition(m_pPointLight->GetPosition().vector4_f32[x] + (defaultMovementSpeed * m_pointLightMovementDirection),
+		zeroPosition, pointLightZ);
+
+	// Add the new point light info the model
+	m_pWallModels[6]->SetPointLight(m_pPointLight->GetShineFromVector(m_worldMatrix), m_pPointLight->GetLightColour());
+
 }
 
 //####################################################################################
@@ -299,7 +415,7 @@ void Level::Render(void)
 	// Only view is done here since we don't need to redo the world matrix unless it changes
 	// The same goes for projection matrix
 	XMMATRIX view;
-	
+
 	// Get the camera view
 	view = m_pActiveCamera->GetViewMatrix();
 
@@ -308,6 +424,72 @@ void Level::Render(void)
 
 	// Render the skybox
 	m_pSkybox->Draw(&GetSkyboxWorldMatrix(m_pSkybox->GetScale()), &view, &m_projectionMatrix);
+}
+
+//####################################################################################
+// Set up the model
+//####################################################################################
+HRESULT Level::CreateModel(Model* model, char*  objectFileName, char*  textureFileName,
+	char*  shaderFileName, char*  vertexShaderName, char*  pixelShaderName)
+{
+	HRESULT hr = S_OK;
+
+	// Create constant buffer for models
+	hr = model->CreateConstantBuffer();
+	if (FAILED(hr)) return hr;
+
+	hr = SetModelSettings(model, objectFileName, textureFileName, shaderFileName, vertexShaderName, pixelShaderName);
+	return hr;
+}
+
+//####################################################################################
+// Set up the sky box
+// This is the same as create model but in different methods because the basic model
+// Which they inherit from, the constant buffer takes a UINT parameter which is the
+// Constant buffer size so they can't be one method which takes a basic model since
+// We would have to pass a size we don't know. We also don't need to store the constant
+// Buffer size too.
+//####################################################################################
+HRESULT Level::CreateSkybox(Skybox * model, char * objectFileName, char * textureFileName,
+	char * shaderFileName, char * vertexShaderName, char * pixelShaderName)
+{
+	HRESULT hr = S_OK;
+
+	// Create constant buffer for models
+	hr = model->CreateConstantBuffer();
+	if (FAILED(hr)) return hr;
+
+	hr = SetModelSettings(model, objectFileName, textureFileName, shaderFileName, vertexShaderName, pixelShaderName);
+	return hr;
+}
+
+//####################################################################################
+// Set up the model setting (shaders, textures, models, etc)
+//####################################################################################
+HRESULT Level::SetModelSettings(BasicModel* model, char*  objectFileName, char*  textureFileName,
+	char* shaderFileName, char*  vertexShaderName, char*  pixelShaderName)
+{
+	HRESULT hr = S_OK;
+
+	hr = model->LoadObjectModel(objectFileName);
+	if (FAILED(hr)) return hr;
+
+	// Add texture to the models
+	hr = model->AddTexture(textureFileName);
+	if (FAILED(hr)) return hr;
+
+	// Create filter for the texture
+	hr = model->CreateSampler();
+	if (FAILED(hr)) return hr;
+
+	// Create vertex shader
+	hr = model->CreateVertexShader(shaderFileName, vertexShaderName);
+	if (FAILED(hr)) return hr;
+
+	// Create pixel shader
+	hr = model->CreatePixelShader(shaderFileName, pixelShaderName);
+
+	return hr;
 }
 
 //####################################################################################
@@ -408,4 +590,24 @@ XMMATRIX Level::GetSkyboxWorldMatrix(float scale)
 int Level::GetPlayerHealth(void)
 {
 	return m_pActiveCamera->GetCurrentHealth();
+}
+
+//####################################################################################
+// Set directional and ambient light to a model
+//####################################################################################
+void Level::SetUpModelForGameObject(Model* model, StaticGameObject* gameObject, StaticGameObject* root)
+{
+	// Add game object to root for collision and rendering
+	root->AddChildNode(gameObject);
+
+	// Set model
+	gameObject->SetModel(model);
+
+	XMVECTOR ambientLightColour = m_pAmbientLight->GetLightColour();
+	XMVECTOR directionalLightPos = m_pDirectionalLight->GetShineFromVector();
+	XMVECTOR directionalLightColour = m_pDirectionalLight->GetLightColour();
+
+	// Add lighting to them
+	model->SetDirectionalLight(directionalLightPos, directionalLightColour);
+	model->SetAmbientLight(ambientLightColour);
 }
