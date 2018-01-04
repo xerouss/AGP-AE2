@@ -64,10 +64,16 @@ Level::~Level()
 		m_pPointLightWallModel;
 	}
 
-	if (m_pSpecularModel)
+	if (m_pSpecularModelCube)
 	{
-		delete m_pSpecularModel;
-		m_pSpecularModel = NULL;
+		delete m_pSpecularModelCube;
+		m_pSpecularModelCube = NULL;
+	}
+
+	if (m_pSpecularModelSphere)
+	{
+		delete m_pSpecularModelSphere;
+		m_pSpecularModelSphere = NULL;
 	}
 
 	if (m_pReflectiveSphere)
@@ -216,8 +222,16 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 
 	/////////////////////////////////////////////////////////////////////////////
 	// Create the specular model
-	m_pSpecularModel = new SpecularModel(m_pD3DDevice, m_pImmediateContext);
-	hr = CreateModel(m_pSpecularModel, "Assets/Models/cube.obj", "Assets/Textures/glass1.png",
+	m_pSpecularModelCube = new SpecularModel(m_pD3DDevice, m_pImmediateContext);
+	hr = CreateModel(m_pSpecularModelCube, "Assets/Models/cube.obj", "Assets/Textures/glass1.png",
+		"Game Files/Game/Shaders/SpecularShader.hlsl", "SpecularVertexShader", "SpecularPixelShader");
+	if (FAILED(hr)) return hr;
+	/////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Create the specular model
+	m_pSpecularModelSphere = new SpecularModel(m_pD3DDevice, m_pImmediateContext);
+	hr = CreateModel(m_pSpecularModelSphere, "Assets/Models/sphere.obj", "Assets/Textures/glass1.png",
 		"Game Files/Game/Shaders/SpecularShader.hlsl", "SpecularVertexShader", "SpecularPixelShader");
 	if (FAILED(hr)) return hr;
 	/////////////////////////////////////////////////////////////////////////////
@@ -248,10 +262,16 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	/////////////////////////////////////////////////////////////////////////////
 	// Specular Model
 
-	m_pSpecularGameObject = new StaticGameObject(specularGameObjectX, zeroPosition, specularGameObjectZ);
+	m_pSpecularGameObjectCube = new StaticGameObject(specularGameObjectX, zeroPosition, specularGameObjectZ);
 
-	SetUpModelForGameObject(m_pSpecularModel, m_pSpecularGameObject, m_pRootGameObject);
-	m_pSpecularModel->SetSpecularLight(m_pSpecularLight->GetShineFromVector(), m_pSpecularLight->GetLightColour(), m_pSpecularLight->GetIntensity());
+	SetUpModelForGameObject(m_pSpecularModelCube, m_pSpecularGameObjectCube, m_pRootGameObject);
+	m_pSpecularModelCube->SetSpecularLight(m_pSpecularLight->GetShineFromVector(m_worldMatrix), m_pSpecularLight->GetLightColour(), m_pSpecularLight->GetIntensity());
+
+	m_pSpecularGameObjectSphere = new StaticGameObject(specularGameObjectX * 2, zeroPosition, specularGameObjectZ);
+	m_pSpecularGameObjectSphere->SetScale(collectibleScale);
+	SetUpModelForGameObject(m_pSpecularModelSphere, m_pSpecularGameObjectSphere, m_pRootGameObject);
+	m_pSpecularModelSphere->SetSpecularLight(m_pSpecularLight->GetShineFromVector(m_worldMatrix), m_pSpecularLight->GetLightColour(), m_pSpecularLight->GetIntensity());
+
 	/////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -293,8 +313,8 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 
 	/////////////////////////////////////////////////////////////////////////////
 	// Cameras
-	m_pPrimaryCamera = new Camera(time, defaultMovementSpeed, zeroPosition, zeroPosition, camera1Z);
-	m_pSecondaryCamera = new Camera(time, defaultMovementSpeed, camera2X, zeroRotation, camera2Z);
+	m_pPrimaryCamera = new Camera(time, defaultMovementSpeed * 2, zeroPosition, zeroPosition, camera1Z);
+	m_pSecondaryCamera = new Camera(time, defaultMovementSpeed * 2, camera2X, zeroRotation, camera2Z);
 	m_pActiveCamera = m_pPrimaryCamera;
 
 	// Set up model, parent node and lighting
@@ -380,12 +400,20 @@ void Level::Update(void)
 {
 	// Update the enemy and the lighting on it
 	m_pEnemy->Update(m_pRootGameObject, m_pActiveCamera);
+
+	// Pass the enemy world rotation to the directional light so it the faces facing the directional light
+	// Without this it would just light up the fron of the model even if it was facing away from the light
+	XMMATRIX enemyWorldRotation = XMMatrixIdentity();
+	enemyWorldRotation *= XMMatrixRotationX(m_pEnemy->GetXRotation());
+	enemyWorldRotation *= XMMatrixRotationY(m_pEnemy->GetYRotation());
+	enemyWorldRotation *= XMMatrixRotationZ(m_pEnemy->GetZRotation());
+
 	// Lighting does not seem to update and just shines from the front
-	m_pEnemyBody->SetDirectionalLight(-m_pDirectionalLight->GetShineFromVector(), m_pDirectionalLight->GetLightColour());
-	m_pEnemyHead->SetDirectionalLight(-m_pDirectionalLight->GetShineFromVector(), m_pDirectionalLight->GetLightColour());
+	m_pEnemyBody->SetDirectionalLight(m_pDirectionalLight->GetShineFromVector(enemyWorldRotation), m_pDirectionalLight->GetLightColour());
+	m_pEnemyHead->SetDirectionalLight(m_pDirectionalLight->GetShineFromVector(enemyWorldRotation), m_pDirectionalLight->GetLightColour());
 
 	// Move the game object along the x parallel with the point light
-	m_pMovingGameObject->SetXPos(m_pMovingGameObject->GetXPos() + (defaultMovementSpeed * m_pointLightMovementDirection));
+	m_pMovingGameObject->MoveForward(m_pMovingGameObject->GetMovementSpeed() * m_pointLightMovementDirection, m_pRootGameObject);
 
 
 	// Get point light x
@@ -604,7 +632,7 @@ void Level::SetUpModelForGameObject(Model* model, StaticGameObject* gameObject, 
 	gameObject->SetModel(model);
 
 	XMVECTOR ambientLightColour = m_pAmbientLight->GetLightColour();
-	XMVECTOR directionalLightPos = m_pDirectionalLight->GetShineFromVector();
+	XMVECTOR directionalLightPos = m_pDirectionalLight->GetShineFromVector(m_worldMatrix);
 	XMVECTOR directionalLightColour = m_pDirectionalLight->GetLightColour();
 
 	// Add lighting to them

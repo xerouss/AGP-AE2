@@ -26,10 +26,10 @@ DirectionalLight::DirectionalLight(float red, float green, float blue, float x, 
 //####################################################################################
 // Get where the directional Light is shining from
 //####################################################################################
-XMVECTOR DirectionalLight::GetShineFromVector(void)
+XMVECTOR DirectionalLight::GetShineFromVector(XMMATRIX worldMatrix)
 {
 	// Apply rotations
-	XMMATRIX transformMatrix = XMMatrixIdentity();
+	XMMATRIX transformMatrix = worldMatrix;
 	transformMatrix *= XMMatrixRotationRollPitchYaw(m_xRotation, m_yRotation, m_zRotation);
 	transformMatrix = XMMatrixTranspose(transformMatrix); // Transpose so it rotates the correct way
 

@@ -25,7 +25,7 @@ public:
 		float x, float y, float z, float range,
 		float xRotation, float yRotation, float zRotation);
 
-	XMVECTOR GetShineFromVector(void);
+	XMVECTOR GetShineFromVector(XMMATRIX worldMatrix);
 
 	// Set Methods
 	void SetRotation(float x, float y, float z);

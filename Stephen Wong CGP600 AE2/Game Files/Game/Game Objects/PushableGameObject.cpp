@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			PushableGameObject.cpp
-//	Last Updated:	23/12/2017
+//	Last Updated:	04/04/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -64,7 +64,11 @@ void PushableGameObject::ObjectCollidesWithThis(float oldValue, float &valueThat
 	float dz = (m_zPos - object->GetZPos()) * pushSpeed;
 
 	// Move the object in the same direction it is being pushed in
-	IncrementXPos(dx, m_pWorldRootGameObject);
-	IncrementYPos(dy, m_pWorldRootGameObject);
-	IncrementZPos(dz, m_pWorldRootGameObject);
+	bool XCollision = IncrementXPos(dx, m_pWorldRootGameObject);
+	bool YCollision = IncrementYPos(dy, m_pWorldRootGameObject);
+	bool ZCollision = IncrementZPos(dz, m_pWorldRootGameObject);
+
+	// If the object collides with something in the direction it's getting pushed
+	// Make sure the game object doesn't go into the object
+	if (XCollision && YCollision && ZCollision) DynamicGameObject::ObjectCollidesWithThis(oldValue, valueThatWasChanged, object);
 }

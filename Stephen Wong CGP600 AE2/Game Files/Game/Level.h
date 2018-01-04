@@ -126,8 +126,10 @@ private:
 	StaticGameObject* m_pReflectiveGameObject;
 
 	// Specular object
-	SpecularModel* m_pSpecularModel;
-	StaticGameObject* m_pSpecularGameObject;
+	SpecularModel* m_pSpecularModelCube;
+	StaticGameObject* m_pSpecularGameObjectCube;
+	SpecularModel* m_pSpecularModelSphere;
+	StaticGameObject* m_pSpecularGameObjectSphere;
 
 	//Point Light
 	Model* m_pPointLightWallModel;
