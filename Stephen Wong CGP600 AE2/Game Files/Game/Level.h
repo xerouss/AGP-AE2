@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.h
-//	Last Updated:	03/01/2018
+//	Last Updated:	04/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -115,7 +115,7 @@ private:
 	Camera* m_pActiveCamera;
 
 	// Walls
-	Model* m_pWallModels[6];
+	Model* m_pWallModels;
 	StaticGameObject* m_pWallGameObjects[6];
 
 	// Skybox
@@ -139,11 +139,11 @@ private:
 
 	// Collectibles
 	Collectible* m_pCollectibles[4];
-	Model* m_pCollectibleModels[4];
+	Model* m_pCollectibleModels;
 
 	// Pushable Game Objects
 	PushableGameObject* m_pPushableGameObjects[2];
-	Model* m_pPushableGameObjectModel[2];
+	Model* m_pPushableGameObjectModel;
 
 	// Enemy
 	Enemy* m_pEnemy;

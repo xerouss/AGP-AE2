@@ -77,14 +77,12 @@ Level::~Level()
 	}
 
 	// Delete all pointers in the array
-	for (int i = 0; i < ARRAYSIZE(m_pCollectibleModels); i++)
+	if (m_pCollectibleModels)
 	{
-		if (m_pCollectibleModels[i])
-		{
-			delete m_pCollectibleModels[i];
-			m_pCollectibleModels[i] = NULL;
-		}
+		delete m_pCollectibleModels;
+		m_pCollectibleModels = NULL;
 	}
+
 
 	if (m_pMovingModel)
 	{
@@ -93,13 +91,10 @@ Level::~Level()
 	}
 
 	// Delete all pointers in the array
-	for (int i = 0; i < ARRAYSIZE(m_pPushableGameObjectModel); i++)
+	if (m_pPushableGameObjectModel)
 	{
-		if (m_pPushableGameObjectModel[i])
-		{
-			delete m_pPushableGameObjectModel[i];
-			m_pPushableGameObjectModel[i] = NULL;
-		}
+		delete m_pPushableGameObjectModel;
+		m_pPushableGameObjectModel = NULL;
 	}
 
 	if (m_pEnemyBody)
@@ -115,13 +110,10 @@ Level::~Level()
 	}
 
 	// Delete all pointers in the array
-	for (int i = 0; i < ARRAYSIZE(m_pWallModels); i++)
+	if (m_pWallModels)
 	{
-		if (m_pWallModels[i])
-		{
-			delete m_pWallModels[i];
-			m_pWallModels[i] = NULL;
-		}
+		delete m_pWallModels;
+		m_pWallModels = NULL;
 	}
 
 	//m_pWallModel.clear(); // Clear out the array
@@ -170,13 +162,10 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 
 	/////////////////////////////////////////////////////////////////////////////
 	// Create wall models
-	for (int i = 0; i < ARRAYSIZE(m_pWallModels); i++)
-	{
-		m_pWallModels[i] = new Model(m_pD3DDevice, m_pImmediateContext);
-		hr = CreateModel(m_pWallModels[i], "Assets/Models/cube.obj", "Assets/Textures/bricks.jpg",
-			"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
-		if (FAILED(hr)) return hr;
-	}
+	m_pWallModels = new Model(m_pD3DDevice, m_pImmediateContext);
+	hr = CreateModel(m_pWallModels, "Assets/Models/cube.obj", "Assets/Textures/bricks.jpg",
+		"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
+	if (FAILED(hr)) return hr;
 	/////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -195,13 +184,10 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 
 	/////////////////////////////////////////////////////////////////////////////
 	// Create pushable game object models
-	for (int i = 0; i < ARRAYSIZE(m_pPushableGameObjectModel); i++)
-	{
-		m_pPushableGameObjectModel[i] = new Model(m_pD3DDevice, m_pImmediateContext);
-		hr = CreateModel(m_pPushableGameObjectModel[i], "Assets/Models/cube.obj", "Assets/Textures/stone.jpg",
-			"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
-		if (FAILED(hr)) return hr;
-	}
+	m_pPushableGameObjectModel = new Model(m_pD3DDevice, m_pImmediateContext);
+	hr = CreateModel(m_pPushableGameObjectModel, "Assets/Models/cube.obj", "Assets/Textures/stone.jpg",
+		"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
+	if (FAILED(hr)) return hr;
 	/////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -214,13 +200,10 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 
 	/////////////////////////////////////////////////////////////////////////////
 	// Create pushable game object models
-	for (int i = 0; i < ARRAYSIZE(m_pCollectibleModels); i++)
-	{
-		m_pCollectibleModels[i] = new Model(m_pD3DDevice, m_pImmediateContext);
-		hr = CreateModel(m_pCollectibleModels[i], "Assets/Models/sphere.obj", "Assets/Textures/gold.jpg",
-			"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
-		if (FAILED(hr)) return hr;
-	}
+	m_pCollectibleModels = new Model(m_pD3DDevice, m_pImmediateContext);
+	hr = CreateModel(m_pCollectibleModels, "Assets/Models/sphere.obj", "Assets/Textures/gold.jpg",
+		"Game Files/Game/Shaders/ModelShader.hlsl", "ModelVertexShader", "ModelPixelShader");
+	if (FAILED(hr)) return hr;
 	/////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -288,7 +271,7 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 		m_pCollectibles[i] = new Collectible(scoreSaveLocation);
 
 		// Set up model, parent node and lighting
-		SetUpModelForGameObject(m_pCollectibleModels[i], m_pCollectibles[i], m_pRootGameObject);
+		SetUpModelForGameObject(m_pCollectibleModels, m_pCollectibles[i], m_pRootGameObject);
 
 		// Scale down because its a bit big
 		m_pCollectibles[i]->SetScale(collectibleScale);
@@ -315,8 +298,8 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	m_pActiveCamera = m_pPrimaryCamera;
 
 	// Set up model, parent node and lighting
-	SetUpModelForGameObject(m_pWallModels[1], m_pPrimaryCamera, m_pRootGameObject);
-	SetUpModelForGameObject(m_pWallModels[1], m_pSecondaryCamera, m_pRootGameObject);
+	SetUpModelForGameObject(m_pWallModels, m_pPrimaryCamera, m_pRootGameObject);
+	SetUpModelForGameObject(m_pWallModels, m_pSecondaryCamera, m_pRootGameObject);
 
 	// Rotate second camera
 	// Have to attach the secondary camera for the rotation to be applied correctly
@@ -350,7 +333,7 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	for (int i = 0; i < ARRAYSIZE(m_pPushableGameObjects); i++)
 	{
 		// Set up model, parent node and lighting
-		SetUpModelForGameObject(m_pPushableGameObjectModel[i], m_pPushableGameObjects[i], m_pRootGameObject);
+		SetUpModelForGameObject(m_pPushableGameObjectModel, m_pPushableGameObjects[i], m_pRootGameObject);
 	}
 	/////////////////////////////////////////////////////////////////////////////
 
@@ -361,7 +344,7 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 		m_pWallGameObjects[i] = new StaticGameObject();
 
 		// Set up model, parent node and lighting
-		SetUpModelForGameObject(m_pWallModels[i], m_pWallGameObjects[i], m_pRootGameObject);
+		SetUpModelForGameObject(m_pWallModels, m_pWallGameObjects[i], m_pRootGameObject);
 	}
 
 	// Set Wall positions
