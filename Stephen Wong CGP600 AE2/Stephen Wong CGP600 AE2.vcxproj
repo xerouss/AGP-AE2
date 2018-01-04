@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Game Files\Game\Shaders\ModelShader.hlsl" />
+    <FxCompile Include="Game Files\Game\Shaders\PointLightShader.hlsl" />
     <FxCompile Include="Game Files\Game\Shaders\ReflectShader.hlsl" />
     <FxCompile Include="Game Files\Game\Shaders\SkyboxShader.hlsl" />
     <FxCompile Include="Game Files\Game\Shaders\SpecularShader.hlsl" />

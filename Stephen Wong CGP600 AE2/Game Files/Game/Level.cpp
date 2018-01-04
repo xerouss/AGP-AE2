@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Level.cpp
-//	Last Updated:	03/01/2018
+//	Last Updated:	04/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -56,6 +56,12 @@ Level::~Level()
 	{
 		delete m_pAmbientLight;
 		m_pAmbientLight = NULL;
+	}
+
+	if (m_pPointLightWallModel)
+	{
+		delete m_pPointLightWallModel;
+		m_pPointLightWallModel;
 	}
 
 	if (m_pSpecularModel)
@@ -233,6 +239,14 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	if (FAILED(hr)) return hr;
 	/////////////////////////////////////////////////////////////////////////////
 
+	/////////////////////////////////////////////////////////////////////////////
+	// Create the point light model model
+	m_pPointLightWallModel = new Model(m_pD3DDevice, m_pImmediateContext);
+	hr = CreateModel(m_pPointLightWallModel, "Assets/Models/cube.obj", "Assets/Textures/bricks.jpg",
+		"Game Files/Game/Shaders/PointLightShader.hlsl", "PointLightVertexShader", "PointLightPixelShader");
+	if (FAILED(hr)) return hr;
+	/////////////////////////////////////////////////////////////////////////////
+
 	// Create root game object
 	m_pRootGameObject = new StaticGameObject();
 
@@ -281,10 +295,10 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	}
 
 	// Set collectible positions
-	m_pCollectibles[0]->SetXPos(10);
-	m_pCollectibles[1]->SetZPos(-20);
-	m_pCollectibles[2]->SetXPos(-10);
-	m_pCollectibles[4]->SetZPos(5);
+	m_pCollectibles[0]->SetXPos(collectible1XPos);
+	m_pCollectibles[1]->SetZPos(collectible2ZPos);
+	m_pCollectibles[2]->SetXPos(collectible3XPos);
+	m_pCollectibles[4]->SetZPos(collectible4ZPos);
 	/////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -365,9 +379,12 @@ HRESULT Level::SetUpLevel(int* scoreSaveLocation, Time* time)
 	m_pWallGameObjects[4]->SetXPos(enemyXPos + enemyTrappingWallOffset);
 	m_pWallGameObjects[5]->SetZPos(enemyZPos);
 	m_pWallGameObjects[5]->SetXPos(enemyXPos - enemyTrappingWallOffset);
+	/////////////////////////////////////////////////////////////////////////////
 
-	m_pWallGameObjects[6]->SetXPos(zeroPosition);
-	m_pWallGameObjects[6]->SetZPos(pointLightZ);
+	/////////////////////////////////////////////////////////////////////////////
+	// Point Light Game Object
+	m_pPointLightWallGameObject = new StaticGameObject(zeroPosition, zeroPosition, pointLightZ);
+	SetUpModelForGameObject(m_pPointLightWallModel, m_pPointLightWallGameObject, m_pRootGameObject);
 	/////////////////////////////////////////////////////////////////////////////
 
 	return hr; // Should return S_OK if nothing fails
@@ -403,7 +420,7 @@ void Level::Update(void)
 		zeroPosition, pointLightZ);
 
 	// Add the new point light info the model
-	m_pWallModels[6]->SetPointLight(m_pPointLight->GetShineFromVector(m_worldMatrix), m_pPointLight->GetLightColour());
+	m_pPointLightWallModel->SetPointLight(m_pPointLight->GetShineFromVector(m_worldMatrix), m_pPointLight->GetLightColour());
 
 }
 

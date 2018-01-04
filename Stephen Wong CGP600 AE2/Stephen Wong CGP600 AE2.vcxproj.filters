@@ -241,5 +241,8 @@
     <FxCompile Include="Game Files\Game\Shaders\SpecularShader.hlsl">
       <Filter>Resource Files</Filter>
     </FxCompile>
+    <FxCompile Include="Game Files\Game\Shaders\PointLightShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

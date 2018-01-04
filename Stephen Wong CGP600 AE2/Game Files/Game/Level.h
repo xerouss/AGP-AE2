@@ -63,9 +63,13 @@ const float camera2Z = -5;
 const float movingZPos = -10;
 
 const float collectibleScale = 0.3f;
+const float collectible1XPos = 10;
+const float collectible2ZPos = -25;
+const float collectible3XPos = -10;
+const float collectible4ZPos = 5;
 
 const float specularGameObjectX = -3;
-const float specularGameObjectZ = -10;
+const float specularGameObjectZ = -8;
 
 const float reflectiveGameObjectX = -10;
 
@@ -87,6 +91,7 @@ const float specularLightZPos = -1;
 const float pointLightRBColour = 0.1f;
 const float pointLightGColour = 1;
 const float pointLightZ = -20;
+const int pointLightWallIndex = 6;
 
 const int x = 0;
 const int moveForward = 1;
@@ -110,8 +115,8 @@ private:
 	Camera* m_pActiveCamera;
 
 	// Walls
-	Model* m_pWallModels[7];
-	StaticGameObject* m_pWallGameObjects[7];
+	Model* m_pWallModels[6];
+	StaticGameObject* m_pWallGameObjects[6];
 
 	// Skybox
 	Skybox* m_pSkybox;
@@ -123,6 +128,10 @@ private:
 	// Specular object
 	SpecularModel* m_pSpecularModel;
 	StaticGameObject* m_pSpecularGameObject;
+
+	//Point Light
+	Model* m_pPointLightWallModel;
+	StaticGameObject* m_pPointLightWallGameObject;
 
 	// Moving game object
 	DynamicGameObject* m_pMovingGameObject;
