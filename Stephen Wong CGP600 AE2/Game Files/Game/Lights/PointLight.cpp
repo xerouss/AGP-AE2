@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			PointLight.cpp
-//	Last Updated:	03/01/2018
+//	Last Updated:	03401/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -30,6 +30,8 @@ PointLight::PointLight(float red, float green, float blue,
 XMVECTOR PointLight::GetShineFromVector(XMMATRIX worldMatrix)
 {
 	XMVECTOR determinant; // Inverse function returns this but is not needed
+	// Use inverse because it the correct position and rotation
+	// While transpose only returns the correct rotation
 	XMMATRIX inverse = XMMatrixInverse(&determinant, worldMatrix);
 	XMVECTOR pointLightPos = XMVector3Transform(m_position, inverse);
 

@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Direct3D.h
-//	Last Updated:	20/12/2017
+//	Last Updated:	04/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -26,7 +26,6 @@ private:
 	UINT m_descCount; // Store the swap chain desc count
 
 public:
-	//Direct3D();
 	~Direct3D();
 
 	HRESULT InitialiseD3D(HWND hWindow);

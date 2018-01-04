@@ -164,8 +164,7 @@ void GameManager::Update(HWND window)
 void GameManager::Render(void)
 {
 	// Clear the back buffer
-	float rgba_clear_colour[4] = { 0.1f, 1.0f, 0.1f, 1.0f };
-	m_pImmediateContext->ClearRenderTargetView(m_pBackBuffer, rgba_clear_colour);
+	m_pImmediateContext->ClearRenderTargetView(m_pBackBuffer, m_clearColour);
 
 	// Clear zbuffer
 	m_pImmediateContext->ClearDepthStencilView(m_pZBuffer, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);

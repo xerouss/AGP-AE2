@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Camera.h
-//	Last Updated:	27/12/2017
+//	Last Updated:	04/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -45,13 +45,11 @@ public:
 	Camera(Time* time, float speed, float xPos, float yPos, float zPos);
 	Camera(Time* time, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
 	Camera(Time* time, float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
-	// ~Camera();
 
 	void InitialiseCamera(Time* time);
 
 	virtual void SetNewForwardPosition(float distance);
 	void Strafe(float distance, StaticGameObject* rootNode);
-	//void MoveForwardIncludingY(float distance);
 
 	bool IncrementXAngle(float increaseAmount, StaticGameObject* rootNode);
 	bool IncrementYAngle(float increaseAmount, StaticGameObject* rootNode);

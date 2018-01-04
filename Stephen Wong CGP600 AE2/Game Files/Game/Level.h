@@ -160,7 +160,7 @@ private:
 	XMMATRIX m_projectionMatrix;
 	XMMATRIX m_worldMatrix;
 
-	int m_pointLightMovementDirection = 1;
+	int m_pointLightMovementDirection = moveForward;
 public:
 	Level(ID3D11Device* device, ID3D11DeviceContext* immediateContext);
 	~Level();

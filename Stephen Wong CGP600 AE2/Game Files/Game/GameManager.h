@@ -59,6 +59,7 @@ private:
 	float m_screenWidth;
 	float m_screenHeight;
 	GameStates m_currentGameState;
+	float m_clearColour[4] = { 0.1f, 1.0f, 0.1f, 1.0f };
 
 	// Don't delete these since they are passed from another class
 	ID3D11Device* m_pD3Device;

@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			DynamicGameObject.cpp
-//	Last Updated:	21/12/2017
+//	Last Updated:	04/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -20,7 +20,7 @@
 DynamicGameObject::DynamicGameObject() : StaticGameObject()
 {
 	// Call static game object's constructor
-	InitialiseDynamicGameObject(0);
+	InitialiseDynamicGameObject(defaultSpeed);
 }
 
 DynamicGameObject::DynamicGameObject(float speed, float xPos, float yPos, float zPos):
@@ -44,6 +44,9 @@ DynamicGameObject::DynamicGameObject(float speed, float xPos, float yPos, float 
 	InitialiseDynamicGameObject(speed);
 }
 
+//####################################################################################
+// Set up the dynamic object
+//####################################################################################
 void DynamicGameObject::InitialiseDynamicGameObject(float speed)
 {
 	SetGameObjectType(DYNAMIC);
@@ -94,6 +97,7 @@ void DynamicGameObject::MoveForward(float distance, StaticGameObject * rootNode)
 
 	SetNewForwardPosition(distance);
 
+	// Check collisions
 	UpdateTransformAndCheckCollision(oldXPos, m_xPos, rootNode);
 	UpdateTransformAndCheckCollision(oldZPos, m_zPos, rootNode);
 }
@@ -103,6 +107,7 @@ void DynamicGameObject::MoveForward(float distance, StaticGameObject * rootNode)
 //####################################################################################
 void DynamicGameObject::SetNewForwardPosition(float distance)
 {
+	// Use sin/cos because it's a rearranged trig equation
 	m_xPos += sin(m_yAngle) * distance;
 	m_zPos += cos(m_yAngle) * distance;
 }
@@ -113,7 +118,7 @@ void DynamicGameObject::SetNewForwardPosition(float distance)
 //####################################################################################
 void DynamicGameObject::MoveForwardIncludingY(float distance)
 {
-	//TODO: COMMENT THIS
+	// Move forward but include the y rotation
 	float cosXAngle = cos(m_xAngle);
 	m_xPos += sin(m_yAngle) * distance * cosXAngle;
 	m_yPos += -sin(m_xAngle) * distance;

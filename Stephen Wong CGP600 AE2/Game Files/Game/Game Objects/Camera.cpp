@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			Camera.cpp
-//	Last Updated:	03/01/2018
+//	Last Updated:	04/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -52,6 +52,7 @@ void Camera::InitialiseCamera(Time* time)
 	m_pTime = time;
 	m_gameObjectType = CAMERA;
 
+	// Vector facing up
 	m_up = XMVectorSet(0, 1.0f, 0, 0);
 
 	// Set default delta values
@@ -65,7 +66,7 @@ void Camera::InitialiseCamera(Time* time)
 //####################################################################################
 void Camera::SetNewForwardPosition(float distance)
 {
-	// TODO: COmment this
+	// Times by delta since they is where the camera is looking
 	m_xPos += distance * m_deltaXPos;
 	m_zPos += distance * m_deltaZPos;
 }
@@ -101,6 +102,7 @@ bool Camera::IncrementXAngle(float increaseAmount, StaticGameObject * rootNode)
 	// Don't change the angle if it collides with something
 	if (collision) return true;
 
+	// Use sin because it's a rearranged trig equation
 	m_deltaXPos = sin(m_xAngle * DegreesToRadians);
 	return false;
 }
@@ -116,6 +118,7 @@ bool Camera::IncrementYAngle(float increaseAmount, StaticGameObject * rootNode)
 	// Don't change the angle if it collides with something
 	if (collision) return true;
 
+	// Use tan because it's a rearranged trig equation
 	m_deltaYPos = tan(m_yAngle * DegreesToRadians);
 	return false;
 }
@@ -131,6 +134,7 @@ bool Camera::IncrementZAngle(float increaseAmount, StaticGameObject * rootNode)
 	// Don't change the angle if it collides with something
 	if (collision) return true;
 
+	// Use cos because it's a rearranged trig equation
 	m_deltaZPos = cos(m_zAngle * DegreesToRadians);
 	return false;
 }

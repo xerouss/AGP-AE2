@@ -1,7 +1,7 @@
 // *********************************************************
 //	Name:			Stephen Wong
 //	File:			DynamicGameObject.h
-//	Last Updated:	21/12/2017
+//	Last Updated:	04/01/2018
 //	Project:		CGP600 AE2
 // *********************************************************
 
@@ -14,6 +14,8 @@
 
 #pragma endregion
 
+const float defaultSpeed = 0;
+
 class DynamicGameObject : public StaticGameObject
 {
 protected:
@@ -24,7 +26,6 @@ public:
 	DynamicGameObject(float speed, float xPos, float yPos, float zPos);
 	DynamicGameObject(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle);
 	DynamicGameObject(float speed, float xPos, float yPos, float zPos, float xAngle, float yAngle, float zAngle, float scale);
-	//~DynamicGameObject();
 
 	void InitialiseDynamicGameObject(float speed);
 	void LookAtXZ(float worldX, float worldZ);
