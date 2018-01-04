@@ -122,17 +122,9 @@ Level::~Level()
 		m_pWallModels = NULL;
 	}
 
-	//m_pWallModel.clear(); // Clear out the array
-
-	// Only delete the root node since the nodes attached to it will be deleted
-	if (m_pRootGameObject)
-	{
-		delete m_pRootGameObject;
-		m_pRootGameObject = NULL;
-	}
 
 	// Is an else statement because only one of these should be attached to the root game object
-	if (m_pSecondaryCamera != NULL)
+	if (m_pActiveCamera == m_pPrimaryCamera)
 	{
 		delete m_pSecondaryCamera;
 		m_pSecondaryCamera = NULL;
@@ -142,6 +134,15 @@ Level::~Level()
 		delete m_pPrimaryCamera;
 		m_pPrimaryCamera = NULL;
 	}
+
+	// Only delete the root node since the nodes attached to it will be deleted
+	if (m_pRootGameObject)
+	{
+		delete m_pRootGameObject;
+		m_pRootGameObject = NULL;
+	}
+
+
 }
 
 //####################################################################################

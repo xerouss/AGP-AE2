@@ -1,0 +1,1 @@
+At the top of visual studio, when running the code, make sure it is set to debug and x86 or it won't run.
